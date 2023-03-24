@@ -25,7 +25,9 @@ namespace MvvmCross.Base
 
         protected virtual void Run(Type type)
         {
-            ArgumentNullException.ThrowIfNull(type);
+            //ArgumentNullException.ThrowIfNull(type);
+            if(type == null)
+                throw new ArgumentNullException(nameof(type));
 
             try
             {
