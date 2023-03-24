@@ -7,51 +7,53 @@ using Microsoft.Extensions.Logging;
 using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 
-namespace MvvmCross.Views;
-
-public static class MvxViewExtensions
+namespace MvvmCross.Views
 {
-    public static void OnViewCreate(this IMvxView view, Func<IMvxViewModel?> viewModelLoader)
+    public static class MvxViewExtensions
     {
-        // note - we check the DataContent before the ViewModel to avoid casting errors
-        //       in the case of 'simple' binding code
-        if (view.DataContext != null)
-            return;
-
-        if (view.ViewModel != null)
-            return;
-
-        var viewModel = viewModelLoader();
-        if (viewModel == null)
+        public static void OnViewCreate(this IMvxView view, Func<IMvxViewModel?> viewModelLoader)
         {
-            MvxLogHost.Default?.Log(LogLevel.Warning, "ViewModel not loaded for view {ViewTypeName}", view.GetType().Name);
-            return;
+            // note - we check the DataContent before the ViewModel to avoid casting errors
+            //       in the case of 'simple' binding code
+            if (view.DataContext != null)
+                return;
+
+            if (view.ViewModel != null)
+                return;
+
+            var viewModel = viewModelLoader();
+            if (viewModel == null)
+            {
+                MvxLogHost.Default?.Log(LogLevel.Warning, "ViewModel not loaded for view {ViewTypeName}",
+                    view.GetType().Name);
+                return;
+            }
+
+            view.ViewModel = viewModel;
         }
 
-        view.ViewModel = viewModel;
-    }
+        public static void OnViewDestroy(this IMvxView view)
+        {
+            // nothing needed currently
+        }
 
-    public static void OnViewDestroy(this IMvxView view)
-    {
-        // nothing needed currently
-    }
+        public static Type? FindAssociatedViewModelTypeOrNull(this IMvxView view)
+        {
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
 
-    public static Type? FindAssociatedViewModelTypeOrNull(this IMvxView view)
-    {
-        if (view == null)
-            throw new ArgumentNullException(nameof(view));
+            if (Mvx.IoCProvider?.TryResolve(out IMvxViewModelTypeFinder associatedTypeFinder) == true)
+                return associatedTypeFinder.FindTypeOrNull(view.GetType());
 
-        if (Mvx.IoCProvider?.TryResolve(out IMvxViewModelTypeFinder associatedTypeFinder) == true)
-            return associatedTypeFinder.FindTypeOrNull(view.GetType());
+            MvxLogHost.Default?.Log(LogLevel.Trace,
+                "No view model type finder available - assuming we are looking for a splash screen - returning null");
+            return typeof(MvxNullViewModel);
+        }
 
-        MvxLogHost.Default?.Log(LogLevel.Trace,
-            "No view model type finder available - assuming we are looking for a splash screen - returning null");
-        return typeof(MvxNullViewModel);
-    }
-
-    public static IMvxBundle CreateSaveStateBundle(this IMvxView view)
-    {
-        var viewModel = view.ViewModel;
-        return viewModel == null ? new MvxBundle() : viewModel.SaveStateBundle();
+        public static IMvxBundle CreateSaveStateBundle(this IMvxView view)
+        {
+            var viewModel = view.ViewModel;
+            return viewModel == null ? new MvxBundle() : viewModel.SaveStateBundle();
+        }
     }
 }
