@@ -1,10 +1,10 @@
-using MvvmCross.Views;
 using MvxFramework.UnityEngine.Views;
+using Playground.ViewModels;
 
 namespace Playground.Views
 {
-    public class SplashScreenWindow 
+    public class SplashScreenWindow : MvxUnityWindow<SplashScreeViewModel>
     {
-        
+      
     }
 }

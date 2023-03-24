@@ -6,7 +6,7 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityView : IMvxView, IMvxBindingContextOwner
     {
-        MvxViewModelRequest Request { get; set; }
+        
     }
 
     public interface IMvxUnityView<TViewModel> : IMvxUnityView, IMvxView<TViewModel>
@@ -14,4 +14,5 @@ namespace MvxFramework.UnityEngine.Views
     {
         MvxFluentBindingDescriptionSet<IMvxUnityView<TViewModel>, TViewModel> CreateBindingSet();
     }
+
 }
