@@ -42,7 +42,17 @@ namespace MvxFramework.UnityEngine.Core
             => new MvxUnityViewDispatcher(Presenter, unitySynchronizationContext);
 
         protected override IMvxViewsContainer CreateViewsContainer(IMvxIoCProvider iocProvider)
-            => new MvxUnityViewsContainer();
+        {
+            var container = new MvxUnityViewsContainer();
+            RegisterUnityViewCreator(iocProvider, container);
+            return container;
+        }
+        protected virtual void RegisterUnityViewCreator(IMvxIoCProvider iocProvider, IMvxUnityViewsContainer container)
+        {
+            ValidateArguments(iocProvider);
+            iocProvider.RegisterSingleton<IMvxUnityViewCreator>(container);
+            //iocProvider.RegisterSingleton<IMvxCurrentRequest>(container);
+        }
     }
 
     public abstract class MvxUnitySetup<TApplication> : MvxUnitySetup where TApplication : class, IMvxApplication, new()
