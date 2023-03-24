@@ -26,6 +26,7 @@ namespace MvxFramework.UnityEngine.Views
             var component = gameObject.GetComponent(viewType);
             if (component is not IMvxUnityView view)
                 throw new MvxException($"View not loaded for {viewType}, gameObject:{gameObject}, component:{component}");
+            view.ViewLoaded();
             return view;
         }
 

@@ -1,10 +1,10 @@
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
-using UnityEngine.EventSystems;
+using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public class MvxUnityView : UIBehaviour, IMvxUnityView
+    public abstract class MvxUnityView : MvxEventSourceUIBehaviour, IMvxUnityView
     {
         public object DataContext
         {
@@ -18,6 +18,11 @@ namespace MvxFramework.UnityEngine.Views
         }
         
         public IMvxBindingContext BindingContext { get; set; }
+
+        public virtual void ViewLoaded()
+        {
+        }
+
     }
 
     public class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>
