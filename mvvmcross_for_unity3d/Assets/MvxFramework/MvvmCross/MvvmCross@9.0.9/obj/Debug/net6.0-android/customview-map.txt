@@ -1,6 +1,0 @@
-attr;obj/Debug/net6.0-android/res/values/mvxbindingattributes.xml
-declare-styleable;obj/Debug/net6.0-android/res/values/mvxbindingattributes.xml
-item;obj/Debug/net6.0-android/res/values/ids.xml
-item;obj/Debug/net6.0-android/res/values/mvxbindingattributes.xml
-resources;obj/Debug/net6.0-android/res/values/ids.xml
-resources;obj/Debug/net6.0-android/res/values/mvxbindingattributes.xml
