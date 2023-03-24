@@ -1,3 +1,16 @@
 {
-	"name": "MvxFramework.MvvmCross"
+    "name": "MvxFramework.MvvmCross",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ba399b7a60a464de8b4cf6d7579d3a46"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }
