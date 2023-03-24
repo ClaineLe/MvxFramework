@@ -1,6 +1,6 @@
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
-using MvxFramework.UnityEngine.Views;
+using Playground.ViewModels;
 
 namespace Playground
 {
@@ -13,7 +13,7 @@ namespace Playground
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
             //Mvx.IoCProvider?.RegisterSingleton<IMvxTextProvider>(new TextProviderBuilder().TextProvider);
-            //RegisterAppStart<TLoginViewModel>();
+            RegisterAppStart<SplashScreeViewModel>();
         }
     }
 }
