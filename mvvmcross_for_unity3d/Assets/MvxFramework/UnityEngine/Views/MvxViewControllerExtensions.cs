@@ -2,8 +2,6 @@ using MvvmCross;
 using MvvmCross.Exceptions;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
-using UnityEngine;
-
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -16,18 +14,6 @@ namespace MvxFramework.UnityEngine.Views
 
         private static IMvxViewModel LoadViewModel(this IMvxUnityView iosView)
         {
-            /*
-            if (iosView.Request == null)
-            {
-                MvxLogHost.Default?.LogTrace(
-                    "Request is null - assuming this is a TabBar type situation where ViewDidLoad is called during construction... patching the request now - but watch out for problems with virtual calls during construction");
-
-                iosView.Request = Mvx.IoCProvider.Resolve<IMvxCurrentRequest>().CurrentRequest;
-            }
-            */
-            
-            Debug.Log("iosView:" + iosView);
-            Debug.Log("iosView.Request:" + iosView.Request);
             if (iosView.Request is MvxViewModelInstanceRequest instanceRequest)
             {
                 return instanceRequest.ViewModelInstance;
