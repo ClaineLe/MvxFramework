@@ -15,6 +15,7 @@ namespace MvxFramework.UnityEngine.Views.Base
         protected override void Awake()
         {
             base.Awake();
+            this.AdaptForBinding();
             ViewAwakeCalled?.Raise(this);
         }
 
