@@ -4,7 +4,9 @@ using MvvmCross.Binding.Binders;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.Converters;
+using MvxFramework.UnityEngine.Binding.Target;
 using MvxFramework.UnityEngine.Binding.ValueConverters;
+using UnityEngine.UI;
 
 namespace MvxFramework.UnityEngine.Binding
 {
@@ -33,6 +35,10 @@ namespace MvxFramework.UnityEngine.Binding
         {
             base.FillTargetFactories(registry);
 
+            registry.RegisterCustomBindingFactory<Button>(
+                MvxUGUIPropertyBinding.Button_onClick,
+                view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
+            
             /*
             registry.RegisterCustomBindingFactory<UIControl>(
                 MvxIosPropertyBinding.UIControl_TouchDown,
@@ -243,6 +249,8 @@ namespace MvxFramework.UnityEngine.Binding
         protected override void FillDefaultBindingNames(IMvxBindingNameRegistry registry)
         {
             base.FillDefaultBindingNames(registry);
+            registry.AddOrOverwrite(typeof(Button), MvxUGUIPropertyBinding.Button_onClick);
+
             /*
             registry.AddOrOverwrite(typeof(Button), MvxIosPropertyBinding.UIControl_TouchUpInside);
             registry.AddOrOverwrite(typeof(UIBarButtonItem), nameof(UIBarButtonItem.Clicked));

@@ -8,7 +8,7 @@ namespace MvxFramework.UnityEngine.Views
         
     }
 
-    public abstract class MvxUnityWindow<TViewModel> : MvxUnityWindow, IMvxUnityWindow<TViewModel>
+    public abstract class MvxUnityWindow<TViewModel> : MvxUnityView, IMvxUnityWindow<TViewModel>
         where TViewModel : class, IMvxViewModel
     {
         public MvxFluentBindingDescriptionSet<IMvxUnityView<TViewModel>, TViewModel> CreateBindingSet()
