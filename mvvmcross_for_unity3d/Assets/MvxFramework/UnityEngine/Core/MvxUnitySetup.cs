@@ -48,6 +48,12 @@ namespace MvxFramework.UnityEngine.Core
         protected override IMvxViewDispatcher CreateViewDispatcher()
             => new MvxUnityViewDispatcher(Presenter, unitySynchronizationContext);
 
+        protected virtual IMvxUnityCameraLocator CreateCameraLocator()
+            => new MvxUnityUnityCameraLocator();
+
+        protected virtual IMvxUnityLayerLocator CreateLayerLocator()
+            => new MvxUGUILayerLocator();
+
         protected override IMvxViewsContainer CreateViewsContainer(IMvxIoCProvider iocProvider)
         {
             var container = new MvxUnityViewsContainer();
@@ -60,12 +66,32 @@ namespace MvxFramework.UnityEngine.Core
             iocProvider.RegisterSingleton<IMvxUnityViewCreator>(container);
             //iocProvider.RegisterSingleton<IMvxCurrentRequest>(container);
         }
-        
+
+        protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
+        {
+            base.InitializeFirstChance(iocProvider);
+            this.InitializeCameraLocator(iocProvider);
+            this.InitializeLayerLocator(iocProvider);
+        }
+
         protected override void InitializeLastChance(IMvxIoCProvider iocProvider)
         {
             InitializeBindingBuilder(iocProvider);
             base.InitializeLastChance(iocProvider);
         }
+
+        protected virtual void InitializeCameraLocator(IMvxIoCProvider iocProvider)
+        {
+            var cameraLocator = CreateCameraLocator();
+            iocProvider.RegisterSingleton(cameraLocator);
+        }
+
+        protected virtual void InitializeLayerLocator(IMvxIoCProvider iocProvider)
+        {
+            var layerLocator = CreateLayerLocator();
+            iocProvider.RegisterSingleton(layerLocator);
+        }
+
         protected virtual void InitializeBindingBuilder(IMvxIoCProvider iocProvider)
         {
             RegisterBindingBuilderCallbacks(iocProvider);
