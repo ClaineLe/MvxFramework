@@ -10,28 +10,48 @@ namespace MvxFramework.UnityEngine.Views
     public abstract class MvxUnityView : MvxEventSourceUIBehaviour, IMvxUnityView
     {
         private Canvas _canvas;
-        protected Canvas canvas => _canvas ??= GetComponent<Canvas>();
 
         private CanvasGroup _canvasGroup;
-        protected CanvasGroup canvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>();
+
+        protected Canvas canvas
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _canvas ??= GetComponent<Canvas>();
+            }
+        }
         
+        protected CanvasGroup canvasGroup
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _canvasGroup ??= GetComponent<CanvasGroup>();
+            }
+        }
+
+
         public object DataContext
         {
             get => BindingContext.DataContext;
             set => BindingContext.DataContext = value;
         }
+
         public IMvxViewModel ViewModel
         {
             get => DataContext as IMvxViewModel;
             set => DataContext = value;
         }
-        
+
         public IMvxBindingContext BindingContext { get; set; }
 
 
         void IMvxUnityView.ViewLoaded()
         {
-            this.OnViewCreate();//MvxUIBehaviourExtensions.OnViewCreate加载ViewModel
+            this.OnViewCreate(); //MvxUIBehaviourExtensions.OnViewCreate加载ViewModel
             ViewModel.ViewCreated();
             this.OnViewLoaded();
         }
@@ -40,7 +60,6 @@ namespace MvxFramework.UnityEngine.Views
 
 
         public MvxViewModelRequest Request { get; set; }
-
     }
 
     public abstract class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>
