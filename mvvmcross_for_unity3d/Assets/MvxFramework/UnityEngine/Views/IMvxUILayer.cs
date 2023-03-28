@@ -1,6 +1,4 @@
-using MvxFramework.UnityEngine.Views;
-
-namespace Playground.Views
+namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUILayer
     {

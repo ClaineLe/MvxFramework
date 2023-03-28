@@ -1,15 +1,11 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross;
-using MvvmCross.Navigation;
 using MvvmCross.Presenters;
 using MvvmCross.Presenters.Attributes;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Presenters.Attributes;
 using MvxFramework.UnityEngine.Views;
-using Playground.Views;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Presenters

@@ -1,6 +1,6 @@
 using MvvmCross.IoC;
-using MvvmCross.Navigation;
 using MvxFramework.UnityEngine.Core;
+using MvxFramework.UnityEngine.Views;
 using Playground.Views;
 
 namespace Playground
