@@ -22,7 +22,7 @@ namespace MvxFramework.UnityEngine.Views
 
         public override void EventSourceOnStartCalled(object sender, EventArgs e)
         {
-            unityView.OnViewCreate();
+            //unityView.OnViewCreate();
             base.EventSourceOnStartCalled(sender, e);
         }
 

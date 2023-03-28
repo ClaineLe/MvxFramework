@@ -1,6 +1,7 @@
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Views.Base;
+using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -21,6 +22,7 @@ namespace MvxFramework.UnityEngine.Views
 
         public virtual void ViewLoaded()
         {
+            this.OnViewCreate();
             ViewModel.ViewCreated();
         }
 
