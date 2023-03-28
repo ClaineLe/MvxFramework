@@ -1,7 +1,10 @@
+using System.Runtime.CompilerServices;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Views.Base;
 using UnityEngine;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 
 namespace MvxFramework.UnityEngine.Views
@@ -9,6 +12,7 @@ namespace MvxFramework.UnityEngine.Views
     [RequireComponent(typeof(Canvas), typeof(CanvasGroup))]
     public abstract class MvxUnityView : MvxEventSourceUIBehaviour, IMvxUnityView
     {
+        protected ILogger log => MvxLogHost.GetLog(this.GetType().Name);
         private const bool useBlocksRaycastsInsteadOfInteractable = true;
         private Canvas _canvas;
 
@@ -77,6 +81,9 @@ namespace MvxFramework.UnityEngine.Views
                 this.gameObject.SetActive(value);
             }
         }
+
+        public IMvxAnimation EnterAnimation { get; set; }
+        public IMvxAnimation ExitAnimation { get; set; }
 
         public object DataContext
         {

@@ -11,6 +11,9 @@ namespace MvxFramework.UnityEngine.Views
         public bool Interactable { get; }
         public bool Visibility { get; }
 
+        public  IMvxAnimation EnterAnimation { get; set; }
+        public  IMvxAnimation ExitAnimation { get; set; }
+        
         internal void ViewLoaded();
         
         MvxViewModelRequest Request { get; set; }
