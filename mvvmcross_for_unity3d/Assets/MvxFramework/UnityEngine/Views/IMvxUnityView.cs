@@ -7,7 +7,7 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityView : IMvxView, IMvxEventSourceUIBehaviour, IMvxBindingContextOwner
     {
-        void ViewLoaded();
+        internal void ViewLoaded();
         
         MvxViewModelRequest Request { get; set; }
     }

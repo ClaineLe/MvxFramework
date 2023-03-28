@@ -20,17 +20,22 @@ namespace MvxFramework.UnityEngine.Views
         
         public IMvxBindingContext BindingContext { get; set; }
 
-        public virtual void ViewLoaded()
+
+        void IMvxUnityView.ViewLoaded()
         {
-            this.OnViewCreate();
+            this.OnViewCreate();//MvxUIBehaviourExtensions.OnViewCreate加载ViewModel
             ViewModel.ViewCreated();
+            this.OnViewLoaded();
         }
+
+        protected abstract void OnViewLoaded();
+        
 
         public MvxViewModelRequest Request { get; set; }
 
     }
 
-    public class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>
+    public abstract class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>
         where TViewModel : class, IMvxViewModel
     {
         public MvxFluentBindingDescriptionSet<IMvxUnityView<TViewModel>, TViewModel> CreateBindingSet()
