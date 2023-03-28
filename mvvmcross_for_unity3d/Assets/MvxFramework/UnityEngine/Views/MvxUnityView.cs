@@ -9,6 +9,7 @@ namespace MvxFramework.UnityEngine.Views
     [RequireComponent(typeof(Canvas), typeof(CanvasGroup))]
     public abstract class MvxUnityView : MvxEventSourceUIBehaviour, IMvxUnityView
     {
+        private const bool useBlocksRaycastsInsteadOfInteractable = true;
         private Canvas _canvas;
 
         private CanvasGroup _canvasGroup;
@@ -33,6 +34,35 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
 
+        public virtual float Alpha
+        {
+            get => !this.IsDestroyed() && this.gameObject != null ? this.canvasGroup.alpha : 0f;
+            set { if (!this.IsDestroyed() && this.gameObject != null) this.canvasGroup.alpha = value; }
+        }
+
+        public virtual bool Interactable
+        {
+            get
+            {
+                if (this.IsDestroyed() || this.gameObject == null)
+                    return false;
+
+                if (useBlocksRaycastsInsteadOfInteractable)
+                    return this.canvasGroup.blocksRaycasts;
+                return this.canvasGroup.interactable;
+            }
+            set
+            {
+                if (this.IsDestroyed() || this.gameObject == null)
+                    return;
+
+                if (useBlocksRaycastsInsteadOfInteractable)
+                    this.canvasGroup.blocksRaycasts = value;
+                else
+                    this.canvasGroup.interactable = value;
+            }
+        }
+        
 
         public object DataContext
         {
