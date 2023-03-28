@@ -7,6 +7,10 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityView : IMvxView, IMvxEventSourceUIBehaviour, IMvxBindingContextOwner
     {
+        public float Alpha { get; }
+        public bool Interactable { get; }
+        public bool Visibility { get; }
+
         internal void ViewLoaded();
         
         MvxViewModelRequest Request { get; set; }
