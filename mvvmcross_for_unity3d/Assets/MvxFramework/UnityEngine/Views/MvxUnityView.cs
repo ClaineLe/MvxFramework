@@ -3,10 +3,18 @@ using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Views.Base;
 using UnityEngine;
 
+
 namespace MvxFramework.UnityEngine.Views
 {
+    [RequireComponent(typeof(Canvas), typeof(CanvasGroup))]
     public abstract class MvxUnityView : MvxEventSourceUIBehaviour, IMvxUnityView
     {
+        private Canvas _canvas;
+        protected Canvas canvas => _canvas ??= GetComponent<Canvas>();
+
+        private CanvasGroup _canvasGroup;
+        protected CanvasGroup canvasGroup => _canvasGroup ??= GetComponent<CanvasGroup>();
+        
         public object DataContext
         {
             get => BindingContext.DataContext;
@@ -29,7 +37,7 @@ namespace MvxFramework.UnityEngine.Views
         }
 
         protected abstract void OnViewLoaded();
-        
+
 
         public MvxViewModelRequest Request { get; set; }
 

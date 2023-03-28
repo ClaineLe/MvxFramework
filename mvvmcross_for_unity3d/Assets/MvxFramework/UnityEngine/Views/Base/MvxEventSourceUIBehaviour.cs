@@ -1,6 +1,5 @@
 using System;
 using MvvmCross.Base;
-using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Views.Base
