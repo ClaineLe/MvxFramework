@@ -1,44 +1,55 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MvvmCross;
+using MvvmCross.Navigation;
 using MvvmCross.Presenters;
 using MvvmCross.Presenters.Attributes;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Presenters.Attributes;
 using MvxFramework.UnityEngine.Views;
+using Playground.Views;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Presenters
 {
-    public class MvxUnityViewPresenter :MvxAttributeViewPresenter, IMvxUnityViewPresenter
+    public class MvxUnityViewPresenter : MvxAttributeViewPresenter, IMvxUnityViewPresenter
     {
         private IMvxUnityViewCreator _viewCreator;
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
+
+        private IMvxUnityLayerLocator _layerLocator;
+
+        protected IMvxUnityLayerLocator layerLocator =>
+            _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
+
         public override void RegisterAttributeTypes()
         {
             AttributeTypesToActionsDictionary.Register<MvxWindowPresentationAttribute>(
                 async (_, attribute, request) =>
                 {
-                    var view = viewCreator.CreateView(request) as MvxUnityWindow;
-                    return await ShowWindow(view, attribute, request);
+                    var window = viewCreator.CreateView(request) as MvxUnityWindow;
+                    return await ShowWindow(window, attribute);
                 },
                 async (viewModel, _) => await CloseWindow(viewModel));
         }
 
         public override MvxBasePresentationAttribute CreatePresentationAttribute(Type viewModelType, Type viewType)
         {
-            var attribute = new MvxWindowPresentationAttribute
+            var attribute = new MvxWindowPresentationAttribute("Normal")
             {
                 ViewModelType = viewModelType,
                 ViewType = viewType
             };
             return attribute;
         }
-        
-        
-        
-        protected virtual async Task<bool> ShowWindow(MvxUnityWindow window, MvxWindowPresentationAttribute attribute, MvxViewModelRequest request)
+
+        protected virtual async Task<bool> ShowWindow(MvxUnityWindow window, MvxWindowPresentationAttribute attribute)
         {
+            var layer = layerLocator.GetLayer(attribute.LayerName);
+            layer.AddWindow(window);
+            //window.Show();
             return true;
         }
         

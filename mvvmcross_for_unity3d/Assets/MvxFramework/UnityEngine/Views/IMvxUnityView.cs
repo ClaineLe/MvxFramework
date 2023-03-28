@@ -1,12 +1,14 @@
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
+using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public interface IMvxUnityView : IMvxView, IMvxBindingContextOwner
+    public interface IMvxUnityView : IMvxView, IMvxEventSourceUIBehaviour, IMvxBindingContextOwner
     {
         void ViewLoaded();
+        
         MvxViewModelRequest Request { get; set; }
     }
 

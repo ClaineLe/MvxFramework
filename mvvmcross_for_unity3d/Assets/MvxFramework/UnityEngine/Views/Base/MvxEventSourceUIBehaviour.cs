@@ -1,5 +1,6 @@
 using System;
 using MvvmCross.Base;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Views.Base
@@ -15,7 +16,6 @@ namespace MvxFramework.UnityEngine.Views.Base
         protected override void Awake()
         {
             base.Awake();
-            this.AdaptForBinding();
             ViewAwakeCalled?.Raise(this);
         }
 
