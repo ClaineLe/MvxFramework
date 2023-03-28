@@ -63,6 +63,20 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
         
+        public virtual bool Visibility
+        {
+            get { return !this.IsDestroyed() && this.gameObject != null ? this.gameObject.activeSelf : false; }
+            set
+            {
+                if (this.IsDestroyed() || this.gameObject == null)
+                    return;
+
+                if (this.gameObject.activeSelf == value)
+                    return;
+
+                this.gameObject.SetActive(value);
+            }
+        }
 
         public object DataContext
         {
