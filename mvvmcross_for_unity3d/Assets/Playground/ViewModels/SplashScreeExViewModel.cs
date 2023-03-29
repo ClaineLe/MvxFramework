@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Playground.ViewModels
 {
-    public class SplashScreeViewModel : MvxNavigationViewModel
+    public class SplashScreeExViewModel : MvxNavigationViewModel
     {
         public IMvxAsyncCommand BtnCommand { get; }
         private string _counter;
@@ -16,14 +16,10 @@ namespace Playground.ViewModels
             set => SetProperty(ref _counter, value);
         }
 
-        public SplashScreeViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
+        public SplashScreeExViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
         {
-            BtnCommand = new MvxAsyncCommand(async () => 
-            {
-                Debug.Log(Counter);
+            BtnCommand = new MvxAsyncCommand(async () => {  Debug.Log(Counter);
                 Counter = "ClaineLe";
-                await navigationService.Navigate<SplashScreeExViewModel>();
-                await navigationService.Close(this);
             });
         }
     }
