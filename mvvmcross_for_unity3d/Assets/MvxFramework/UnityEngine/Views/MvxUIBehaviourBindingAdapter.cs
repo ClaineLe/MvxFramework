@@ -7,11 +7,11 @@ using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public class MvxBindingUIBehaviourAdapter : MvxBaseUIBehaviourAdapter
+    public class MvxUIBehaviourBindingAdapter : MvxBaseUIBehaviourAdapter
     {
         protected IMvxUnityView unityView => ViewController as IMvxUnityView;
 
-        public MvxBindingUIBehaviourAdapter(IMvxEventSourceUIBehaviour eventSource) : base(eventSource)
+        public MvxUIBehaviourBindingAdapter(IMvxEventSourceUIBehaviour eventSource) : base(eventSource)
         {
             if (eventSource is not IMvxUnityView)
                 throw new ArgumentException($"{nameof(eventSource)} should be a {nameof(IMvxUnityView)}", nameof(eventSource));
@@ -25,7 +25,7 @@ namespace MvxFramework.UnityEngine.Views
         {
             if (unityView == null)
             {
-                MvxLogHost.GetLog<MvxBindingUIBehaviourAdapter>()?.LogWarning(
+                MvxLogHost.GetLog<MvxUIBehaviourBindingAdapter>()?.LogWarning(
                     "{IosView} is null for clear-up of bindings", nameof(unityView));
                 return;
             }

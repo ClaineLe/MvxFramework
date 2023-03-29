@@ -9,7 +9,7 @@ namespace MvxFramework.UnityEngine.Views
         {
             Debug.Log("AdaptForBinding");
             var adapter = new MvxUIBehaviourAdapter(view);
-            var binding = new MvxBindingUIBehaviourAdapter(view);
+            var binding = new MvxUIBehaviourBindingAdapter(view);
         }
     }
 }
