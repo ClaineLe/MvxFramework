@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using MvvmCross.Binding.Parse.PropertyPath.PropertyTokens;
 using MvxFramework.UnityEngine.Views;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -44,14 +45,18 @@ namespace Playground.Views
         protected GameObject layerRootInstance;
         protected IMvxUnityCameraLocator cameraLocator;
 
+        protected EventSystem eventSystem;
+        protected StandaloneInputModule standaloneInputModule;
+
         private Dictionary<string, IMvxUILayer> _layerDict;
         public MvxUGUILayerLocator(IMvxUnityCameraLocator cameraLocator)
         {
             _layerDict = new Dictionary<string, IMvxUILayer>();
             
-            this.cameraLocator = cameraLocator;
-            const string ASSET_NAME = "LayerRoot"; 
-            layerRootInstance = new GameObject(ASSET_NAME);
+            this.cameraLocator = cameraLocator;  
+            layerRootInstance = new GameObject("LayerRoot");
+            this.eventSystem = layerRootInstance.AddComponent<EventSystem>();
+            this.standaloneInputModule = layerRootInstance.AddComponent<StandaloneInputModule>();
             GameObject.DontDestroyOnLoad(layerRootInstance);
             registerLayer("Normal");
             registerLayer("Plot");
