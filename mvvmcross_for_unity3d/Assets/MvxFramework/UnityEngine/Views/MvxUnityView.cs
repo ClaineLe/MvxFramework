@@ -4,19 +4,21 @@ using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Views.Base;
 using UnityEngine;
+using UnityEngine.UI;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 
 namespace MvxFramework.UnityEngine.Views
 {
-    [RequireComponent(typeof(Canvas), typeof(CanvasGroup))]
+    [RequireComponent(typeof(Canvas), typeof(CanvasGroup), typeof(GraphicRaycaster))]
     public abstract class MvxUnityView : MvxEventSourceUIBehaviour, IMvxUnityView
     {
         protected ILogger log => MvxLogHost.GetLog(this.GetType().Name);
-        private const bool useBlocksRaycastsInsteadOfInteractable = true;
         private Canvas _canvas;
 
         private CanvasGroup _canvasGroup;
+
+        private GraphicRaycaster _graphicRaycaster;
 
         protected Canvas canvas
         {
@@ -27,7 +29,7 @@ namespace MvxFramework.UnityEngine.Views
                 return _canvas ??= GetComponent<Canvas>();
             }
         }
-        
+
         protected CanvasGroup canvasGroup
         {
             get
@@ -38,10 +40,23 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
 
+        private GraphicRaycaster graphicRaycaster
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _graphicRaycaster ??= GetComponent<GraphicRaycaster>();
+            }
+        }
+
         public virtual float Alpha
         {
             get => !this.IsDestroyed() && this.gameObject != null ? this.canvasGroup.alpha : 0f;
-            set { if (!this.IsDestroyed() && this.gameObject != null) this.canvasGroup.alpha = value; }
+            set
+            {
+                if (!this.IsDestroyed() && this.gameObject != null) this.canvasGroup.alpha = value;
+            }
         }
 
         public virtual bool Interactable
@@ -51,25 +66,19 @@ namespace MvxFramework.UnityEngine.Views
                 if (this.IsDestroyed() || this.gameObject == null)
                     return false;
 
-                if (useBlocksRaycastsInsteadOfInteractable)
-                    return this.canvasGroup.blocksRaycasts;
-                return this.canvasGroup.interactable;
+                return graphicRaycaster.enabled;
             }
             set
             {
                 if (this.IsDestroyed() || this.gameObject == null)
                     return;
-
-                if (useBlocksRaycastsInsteadOfInteractable)
-                    this.canvasGroup.blocksRaycasts = value;
-                else
-                    this.canvasGroup.interactable = value;
+                graphicRaycaster.enabled = value;
             }
         }
-        
+
         public virtual bool Visibility
         {
-            get { return !this.IsDestroyed() && this.gameObject != null ? this.gameObject.activeSelf : false; }
+            get => !this.IsDestroyed() && this.gameObject != null && this.gameObject.activeSelf;
             set
             {
                 if (this.IsDestroyed() || this.gameObject == null)
