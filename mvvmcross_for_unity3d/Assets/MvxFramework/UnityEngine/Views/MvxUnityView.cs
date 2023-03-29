@@ -19,6 +19,7 @@ namespace MvxFramework.UnityEngine.Views
         private CanvasGroup _canvasGroup;
 
         private GraphicRaycaster _graphicRaycaster;
+        private bool _activated = false;
 
         protected Canvas canvas
         {
@@ -91,6 +92,25 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
 
+
+        public bool Activated
+        {
+            get => this._activated;
+            protected set
+            {
+                if (this._activated == value)
+                    return;
+
+                this._activated = value;
+                this.OnActivatedChanged();
+            }
+        }
+        
+        protected virtual void OnActivatedChanged()
+        {
+            this.Interactable = this.Activated;
+        }
+        
         public IMvxAnimation EnterAnimation { get; set; }
         public IMvxAnimation ExitAnimation { get; set; }
 
@@ -111,6 +131,8 @@ namespace MvxFramework.UnityEngine.Views
 
         void IMvxUnityView.ViewLoaded()
         {
+            this.Visibility = false;
+            this.Interactable = this.Activated;
             this.OnViewCreate(); //MvxUIBehaviourExtensions.OnViewCreate加载ViewModel
             ViewModel.ViewCreated();
             this.OnViewLoaded();

@@ -1,5 +1,4 @@
-using System;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
 
@@ -7,39 +6,26 @@ namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityWindow : MvxUnityWindowView, IMvxUnityWindow
     {
-        
-        private bool activated = false;
-        private EventHandler activatedChanged;
-
-        public bool Activated
+        public virtual async Task Activate(bool animated = true)
         {
-            get => this.activated;
-            protected set
-            {
-                if (this.activated == value)
-                    return;
-
-                this.activated = value;
-                this.OnActivatedChanged();
-                this.RaiseActivatedChanged();
-            }
+            this.Activated = true;
         }
-        
-        protected virtual void OnActivatedChanged()
+
+        public virtual async Task Passivate(bool animated = true)
         {
-            this.Interactable = this.Activated;
+            this.Activated = false;
         }
-        
-        protected void RaiseActivatedChanged()
+
+        public virtual async Task Show(bool animated = true)
         {
-            try
-            {
-                this.activatedChanged?.Invoke(this, EventArgs.Empty);
-            }
-            catch (Exception e)
-            {
-                log.LogWarning("{0}", e);
-            }
+            this.Visibility = true;
+            await this.Activate(animated);
+        }
+
+        public virtual async Task Hide(bool animated = true)
+        {
+            await this.Passivate(animated);
+            this.Visibility = false;
         }
     }
 
