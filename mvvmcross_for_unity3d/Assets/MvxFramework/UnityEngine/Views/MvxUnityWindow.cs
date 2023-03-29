@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
+using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -26,6 +27,12 @@ namespace MvxFramework.UnityEngine.Views
         {
             await this.Passivate(animated);
             this.Visibility = false;
+        }
+
+        public void Dismiss(bool animated = true)
+        {
+            if (!this.IsDestroyed() && this.gameObject != null)
+                GameObject.Destroy(this.gameObject);
         }
     }
 

@@ -10,7 +10,8 @@ namespace MvxFramework.UnityEngine.Views
         
         Task Show(bool animated = true);
         Task Hide(bool animated = true);
-        
+
+        void Dismiss(bool animated = true);
     }
     
     public interface IMvxUnityWindow<TViewModel> : IMvxUnityWindow, IMvxUnityView<TViewModel>

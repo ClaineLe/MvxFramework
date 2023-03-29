@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MvvmCross;
 using MvvmCross.Presenters;
@@ -6,6 +7,7 @@ using MvvmCross.Presenters.Attributes;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Presenters.Attributes;
 using MvxFramework.UnityEngine.Views;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Presenters
@@ -41,22 +43,30 @@ namespace MvxFramework.UnityEngine.Presenters
             return attribute;
         }
 
+        //private MvxUnityWindow currentWindow;
+
+        private Dictionary<IMvxViewModel, MvxUnityWindow> dict = new Dictionary<IMvxViewModel, MvxUnityWindow>();
         protected virtual async Task<bool> ShowWindow(MvxUnityWindow window, MvxWindowPresentationAttribute attribute)
         {
+            //currentWindow = window;
+            dict.Add(window.ViewModel, window);
             var layer = layerLocator.GetLayer(attribute.LayerName);
             layer.AddWindow(window);
             await window.Show();
-            //window.Show();
             return true;
         }
         
         
         protected virtual async Task<bool> CloseWindow(IMvxViewModel toClose)
         {
+            if(dict.TryGetValue(toClose, out var window) == false)
+            {
+                Debug.LogError($"无法关闭当前窗口.destVM:{toClose}");
+                return false;
+            }
+            window.Dismiss(true);
             return true;
         }
-        
-        
         
         private static void ValidateArguments(Type viewModelType, Type viewType)
         {
