@@ -45,6 +45,7 @@ namespace MvxFramework.UnityEngine.Presenters
         {
             var layer = layerLocator.GetLayer(attribute.LayerName);
             layer.AddWindow(window);
+            await window.Show();
             //window.Show();
             return true;
         }
