@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
-using UnityEngine;
 
 namespace Playground.ViewModels
 {
@@ -20,7 +19,6 @@ namespace Playground.ViewModels
         {
             BtnCommand = new MvxAsyncCommand(async () => 
             {
-                Debug.Log(Counter);
                 Counter = "ClaineLe";
                 await navigationService.Navigate<SplashScreeExViewModel>();
                 await navigationService.Close(this);
