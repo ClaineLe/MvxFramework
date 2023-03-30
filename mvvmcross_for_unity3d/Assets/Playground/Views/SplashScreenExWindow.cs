@@ -1,9 +1,11 @@
+using MvxFramework.UnityEngine.Presenters.Attributes;
 using MvxFramework.UnityEngine.Views;
 using Playground.ViewModels;
 using UnityEngine.UI;
 
 namespace Playground.Views
 {
+    [MvxWindowPresentation((int)LAYER.top)]
     public class SplashScreenExWindow : MvxUnityWindow<SplashScreeExViewModel>
     {
         public Button button;
