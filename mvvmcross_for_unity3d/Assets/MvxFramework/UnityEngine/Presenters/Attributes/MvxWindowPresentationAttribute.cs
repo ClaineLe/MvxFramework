@@ -4,11 +4,11 @@ namespace MvxFramework.UnityEngine.Presenters.Attributes
 {
     public class MvxWindowPresentationAttribute : MvxBasePresentationAttribute
     {
-        public string LayerName { get; }
+        public int sortingLayerId { get; }
 
-        public MvxWindowPresentationAttribute(string layerName)
+        public MvxWindowPresentationAttribute(int sortingLayerId)
         {
-            this.LayerName = layerName;
+            this.sortingLayerId = sortingLayerId;
         }
     }
 }

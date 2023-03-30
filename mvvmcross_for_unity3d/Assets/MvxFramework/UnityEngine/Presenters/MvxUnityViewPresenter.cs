@@ -35,7 +35,7 @@ namespace MvxFramework.UnityEngine.Presenters
 
         public override MvxBasePresentationAttribute CreatePresentationAttribute(Type viewModelType, Type viewType)
         {
-            var attribute = new MvxWindowPresentationAttribute("Normal")
+            var attribute = new MvxWindowPresentationAttribute(layerLocator.GetDefaultSortingLayerId())
             {
                 ViewModelType = viewModelType,
                 ViewType = viewType
@@ -50,7 +50,7 @@ namespace MvxFramework.UnityEngine.Presenters
         {
             //currentWindow = window;
             dict.Add(window.ViewModel, window);
-            var layer = layerLocator.GetLayer(attribute.LayerName);
+            var layer = layerLocator.GetLayer(attribute.sortingLayerId);
             layer.AddWindow(window);
             await window.Show();
             return true;
