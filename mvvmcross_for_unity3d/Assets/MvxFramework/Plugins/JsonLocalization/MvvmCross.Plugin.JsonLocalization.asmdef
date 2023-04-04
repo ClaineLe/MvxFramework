@@ -1,0 +1,17 @@
+{
+    "name": "MvvmCross.Plugin.JsonLocalization",
+    "rootNamespace": "",
+    "references": [
+        "MvxFramework.MvvmCross",
+        "MvvmCross.Plugin.ResourceLoader"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
