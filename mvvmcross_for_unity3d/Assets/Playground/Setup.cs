@@ -1,3 +1,4 @@
+using MvvmCross.Core;
 using MvvmCross.IoC;
 using MvxFramework.UnityEngine.Core;
 using MvxFramework.UnityEngine.Views;
@@ -19,6 +20,13 @@ namespace Playground
             iocProvider.RegisterSingleton(cameraLocator);
             
             return cameraLocator;
+        }
+
+        protected override IMvxSettings InitializeSettings(IMvxIoCProvider iocProvider)
+        {
+            var settings = base.InitializeSettings(iocProvider);
+            settings.ShouldLogInpc = true;
+            return settings;
         }
 
         protected virtual void InitializeLayerLocator(IMvxIoCProvider iocProvider, IMvxUnityCameraLocator cameraLocator)
