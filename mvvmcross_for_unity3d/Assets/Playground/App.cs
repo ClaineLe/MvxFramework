@@ -1,5 +1,9 @@
+using MvvmCross;
 using MvvmCross.IoC;
+using MvvmCross.Localization;
+using MvvmCross.Plugin.JsonLocalization;
 using MvvmCross.ViewModels;
+using Playground.Core.Services;
 using Playground.ViewModels;
 
 namespace Playground
@@ -12,8 +16,17 @@ namespace Playground
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
-            //Mvx.IoCProvider?.RegisterSingleton<IMvxTextProvider>(new TextProviderBuilder().TextProvider);
+            
+            InitializeText();
             RegisterAppStart<SplashScreeViewModel>();
+        }
+        
+        
+        private void InitializeText()
+        {
+            var builder = new TextProviderBuilder();
+            Mvx.IoCProvider?.RegisterSingleton<IMvxTextProviderBuilder>(builder);
+            Mvx.IoCProvider?.RegisterSingleton<IMvxTextProvider>(builder.TextProvider);
         }
     }
 }

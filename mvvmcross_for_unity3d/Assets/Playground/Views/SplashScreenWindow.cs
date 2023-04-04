@@ -1,3 +1,4 @@
+using MvvmCross.Binding.BindingContext;
 using MvxFramework.UnityEngine.Views;
 using Playground.ViewModels;
 using UnityEngine.UI;
@@ -6,16 +7,19 @@ namespace Playground.Views
 {
     public class SplashScreenWindow : MvxUnityWindow<SplashScreeViewModel>
     {
-        public Button button;
+        public Button BtnChinese;
+        public Button BtnEnglish;
+        public Button BtnRefresh;
 
-        public Text textXX;
-        public Text text;
+        public Text TxtContext;
 
         protected override void OnViewLoaded()
         {
             var setter = CreateBindingSet();
-            setter.Bind(this.button).For(v=>v.onClick).To(vm => vm.BtnCommand);
-            setter.Bind(this.textXX).For(v => v.text).To(vm => vm.Counter);
+            setter.Bind(this.BtnChinese).To(vm => vm.BtnChineseCommand);
+            setter.Bind(this.BtnEnglish).To(vm => vm.BtnEnglishCommand);
+            setter.Bind(this.BtnRefresh).To(vm => vm.BtnRefreshCommand);
+            this.BindLanguage(TxtContext, "text", "ExampleText");
             setter.Apply();
         }
     }
