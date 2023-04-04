@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "MvxFramework.MvvmCross",
-        "MvvmCross.Plugin.ResourceLoader"
+        "MvvmCross.Plugin.ResourceLoader",
+        "Microsoft.Extensions.Logging.Abstractions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

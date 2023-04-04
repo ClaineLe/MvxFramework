@@ -2,7 +2,8 @@
     "name": "MvvmCross.Plugin.Messenger",
     "rootNamespace": "",
     "references": [
-        "MvxFramework.MvvmCross"
+        "MvxFramework.MvvmCross",
+        "Microsoft.Extensions.Logging.Abstractions"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
