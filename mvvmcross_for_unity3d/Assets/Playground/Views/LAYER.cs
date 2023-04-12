@@ -2,11 +2,11 @@ namespace Playground.Views
 {
     public class LAYER
     {
-        public const int normal = 1;
-        public const int plot = 2;
-        public const int guide = 3;
-        public const int top = 4;
-        public const int loading = 5;
-        public const int system = 6;
+        public const string normal = "Normal";
+        public const string plot = "Plot";
+        public const string guide = "Guide";
+        public const string top = "Top";
+        public const string loading = "Loading";
+        public const string system = "System";
     }
 }

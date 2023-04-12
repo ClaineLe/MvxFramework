@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Playground.Views
 {
-    [MvxWindowPresentation((int)LAYER.top)]
+    [MvxWindowPresentation(LAYER.top)]
     public class SplashScreenExWindow : MvxUnityWindow<SplashScreeExViewModel>
     {
         public Button button;

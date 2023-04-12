@@ -10,7 +10,6 @@ namespace Playground.Views
         protected StandaloneInputModule standaloneInputModule;
         protected IMvxUnityCameraLocator cameraLocator;
 
-        private const int DefaultSortingLayerId = (int)LAYER.normal;
 
         public MvxUGUILayerLocator(IMvxUnityCameraLocator cameraLocator)
         {
@@ -18,21 +17,17 @@ namespace Playground.Views
             this.eventSystem = layerRootInstance.AddComponent<EventSystem>();
             this.standaloneInputModule = layerRootInstance.AddComponent<StandaloneInputModule>();
             
-            RegisterLayer("Normal", LAYER.normal);
-            RegisterLayer("Plot",LAYER.plot);
-            RegisterLayer("Guide",LAYER.guide);
-            RegisterLayer("Top",LAYER.top);
-            RegisterLayer("Loading",LAYER.loading);
-            RegisterLayer("System",LAYER.system);
+            RegisterLayer( LAYER.normal);
+            RegisterLayer(LAYER.plot);
+            RegisterLayer(LAYER.guide);
+            RegisterLayer(LAYER.top);
+            RegisterLayer(LAYER.loading);
+            RegisterLayer(LAYER.system);
         }
 
-        private void RegisterLayer(string layerName, int sortingLayerId)
-            => base.RegisterLayer(layerName, sortingLayerId);
+        public override string GetDefaultSortingLayerId() => LAYER.normal;
 
-        public override int GetDefaultSortingLayerId()
-            => DefaultSortingLayerId;
-
-        protected override IMvxUILayer CreateLayer(string layerName, int sortingLayerId, Transform layerRoot)
-            => MvxUnityLayer.Create(layerName, sortingLayerId, this.cameraLocator, layerRoot);
+        protected override IMvxUILayer CreateLayer(string layerName, Transform layerRoot)
+            => MvxUnityLayer.Create(layerName, this.cameraLocator, layerRoot);
     }
 }

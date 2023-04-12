@@ -12,7 +12,7 @@ namespace Playground.Views
         protected CanvasScaler canvasScaler;
         protected GraphicRaycaster graphicRaycaster;
 
-        public static MvxUnityLayer Create(string layerName, int sortingLayerId, IMvxUnityCameraLocator cameraLocator, Transform layerRoot)
+        public static MvxUnityLayer Create(string layerName, IMvxUnityCameraLocator cameraLocator, Transform layerRoot)
         {
             var layerInstance = new GameObject(layerName);
             layerInstance.transform.SetParent(layerRoot);
@@ -21,9 +21,10 @@ namespace Playground.Views
             layer.canvasScaler = layerInstance.GetComponent<CanvasScaler>();
             layer.graphicRaycaster = layerInstance.GetComponent<GraphicRaycaster>();
 
-            layer.canvas.sortingLayerID = sortingLayerId;
-            layer.canvas.worldCamera = cameraLocator.UI2DCamera;
             layer.canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            layer.canvas.worldCamera = cameraLocator.UI2DCamera;
+            layer.canvas.sortingLayerName = layerName;
+
             return layer;
         }
 

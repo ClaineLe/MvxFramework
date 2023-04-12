@@ -15,12 +15,13 @@ namespace MvxFramework.UnityEngine.Presenters
     public class MvxUnityViewPresenter : MvxAttributeViewPresenter, IMvxUnityViewPresenter
     {
         private IMvxUnityViewCreator _viewCreator;
+        private IMvxUnityLayerLocator _layerLocator;
+        private readonly Dictionary<IMvxViewModel, MvxUnityWindow> _windowDict = new ();
+
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
 
-        private IMvxUnityLayerLocator _layerLocator;
+        protected IMvxUnityLayerLocator layerLocator => _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
-        protected IMvxUnityLayerLocator layerLocator =>
-            _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
         public override void RegisterAttributeTypes()
         {
@@ -43,14 +44,10 @@ namespace MvxFramework.UnityEngine.Presenters
             return attribute;
         }
 
-        //private MvxUnityWindow currentWindow;
-
-        private Dictionary<IMvxViewModel, MvxUnityWindow> dict = new Dictionary<IMvxViewModel, MvxUnityWindow>();
         protected virtual async Task<bool> ShowWindow(MvxUnityWindow window, MvxWindowPresentationAttribute attribute)
         {
-            //currentWindow = window;
-            dict.Add(window.ViewModel, window);
-            var layer = layerLocator.GetLayer(attribute.sortingLayerId);
+            _windowDict.Add(window.ViewModel, window);
+            var layer = layerLocator.GetLayer(attribute.layerName);
             layer.AddWindow(window);
             await window.Show();
             return true;
@@ -59,7 +56,7 @@ namespace MvxFramework.UnityEngine.Presenters
         
         protected virtual async Task<bool> CloseWindow(IMvxViewModel toClose)
         {
-            if(dict.TryGetValue(toClose, out var window) == false)
+            if(_windowDict.TryGetValue(toClose, out var window) == false)
             {
                 Debug.LogError($"无法关闭当前窗口.destVM:{toClose}");
                 return false;

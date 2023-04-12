@@ -2,7 +2,7 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityLayerLocator
     {
-        int GetDefaultSortingLayerId();
-        IMvxUILayer GetLayer(int sortingLayerId);
+        string GetDefaultSortingLayerId();
+        IMvxUILayer GetLayer(string layerName);
     }
 }
