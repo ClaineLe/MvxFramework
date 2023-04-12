@@ -38,6 +38,14 @@ namespace MvxFramework.UnityEngine.Binding
             registry.RegisterCustomBindingFactory<Button>(
                 MvxUGUIPropertyBinding.Button_onClick,
                 view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
+ 
+            registry.RegisterCustomBindingFactory<Image>(
+                MvxUGUIPropertyBinding.Image_sprite,
+                image => new MvxUGUIImageSpriteTargetBinding(image));
+            
+            registry.RegisterCustomBindingFactory<RawImage>(
+                MvxUGUIPropertyBinding.RawImage_texture,
+                rawImage => new MvxUGUIImageTextureTargetBinding(rawImage));
             
             /*
             registry.RegisterCustomBindingFactory<UIControl>(
@@ -250,6 +258,8 @@ namespace MvxFramework.UnityEngine.Binding
         {
             base.FillDefaultBindingNames(registry);
             registry.AddOrOverwrite(typeof(Button), MvxUGUIPropertyBinding.Button_onClick);
+            registry.AddOrOverwrite(typeof(RawImage), MvxUGUIPropertyBinding.RawImage_texture);
+            registry.AddOrOverwrite(typeof(Image), MvxUGUIPropertyBinding.Image_sprite);
 
             /*
             registry.AddOrOverwrite(typeof(Button), MvxIosPropertyBinding.UIControl_TouchUpInside);
