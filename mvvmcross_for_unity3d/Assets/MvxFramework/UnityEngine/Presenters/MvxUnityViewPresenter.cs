@@ -36,7 +36,7 @@ namespace MvxFramework.UnityEngine.Presenters
 
         public override MvxBasePresentationAttribute CreatePresentationAttribute(Type viewModelType, Type viewType)
         {
-            var attribute = new MvxWindowPresentationAttribute(layerLocator.GetDefaultSortingLayerId())
+            var attribute = new MvxWindowPresentationAttribute(layerLocator.GetDefaultSortingLayerName())
             {
                 ViewModelType = viewModelType,
                 ViewType = viewType

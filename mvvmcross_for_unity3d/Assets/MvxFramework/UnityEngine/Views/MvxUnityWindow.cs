@@ -7,6 +7,15 @@ namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityWindow : MvxUnityWindowView, IMvxUnityWindow
     {
+        public string SerialKey { get; protected set; }
+        public new IMvxUILayer ParentUI => layer;
+
+        protected IMvxUILayer layer;
+        public void SetLayer(IMvxUILayer layer)
+        {
+            this.layer = layer;
+        }
+
         public virtual async Task Activate(bool animated = true)
         {
             this.Activated = true;
@@ -34,6 +43,16 @@ namespace MvxFramework.UnityEngine.Views
             if (!this.IsDestroyed() && this.gameObject != null)
                 GameObject.Destroy(this.gameObject);
         }
+
+        protected override void OnActivatedChanged()
+        {
+            base.OnActivatedChanged();
+            if (canvas.overrideSorting == false)
+            {
+                canvas.overrideSorting = true;
+                canvas.sortingLayerID = this.layer.sortingLayerID;
+            }
+        }
     }
 
     public abstract class MvxUnityWindow<TViewModel> : MvxUnityWindow, IMvxUnityWindow<TViewModel>
@@ -50,6 +69,4 @@ namespace MvxFramework.UnityEngine.Views
             set => base.ViewModel = value;
         }
     }
-
-
 }

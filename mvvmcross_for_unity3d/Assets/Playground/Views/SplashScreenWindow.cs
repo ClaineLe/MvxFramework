@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 namespace Playground.Views
 {
-    public class SplashScreenWindow : MvxUnityWindow<SplashScreeViewModel>
+    public class SplashScreenWindow : MvxUnityFullWindow<SplashScreeViewModel>
     {
+        public override int Priority => UIPriority.guide;
+        
         public Button BtnChinese;
         public Button BtnEnglish;
         public Button BtnRefresh;
@@ -31,8 +33,10 @@ namespace Playground.Views
             
             setter.Bind(this.ImgBoard).To(vm => vm.ImageAssetKey);
             setter.Bind(this.RawImgBoard).To(vm => vm.RawImageAssetKey);
+            this.BindLanguage(TxtContext, "text", "ExampleText");
             this.BindLanguage(TxtContext, "text", "ExampleText", bindingMode: MvxBindingMode.OneWay);
             setter.Apply();
         }
+
     }
 }

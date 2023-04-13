@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Playground.Views
 {
+    
     [RequireComponent(typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster))]
     public class MvxUnityLayer : UIBehaviour, IMvxUILayer
     {
@@ -12,31 +13,34 @@ namespace Playground.Views
         protected CanvasScaler canvasScaler;
         protected GraphicRaycaster graphicRaycaster;
 
-        public static MvxUnityLayer Create(string layerName, IMvxUnityCameraLocator cameraLocator, Transform layerRoot)
+        public void Initialize(IMvxUnityCameraLocator cameraLocator)
         {
-            var layerInstance = new GameObject(layerName);
-            layerInstance.transform.SetParent(layerRoot);
-            var layer = layerInstance.AddComponent<MvxUnityLayer>();
-            layer.canvas = layerInstance.GetComponent<Canvas>();
-            layer.canvasScaler = layerInstance.GetComponent<CanvasScaler>();
-            layer.graphicRaycaster = layerInstance.GetComponent<GraphicRaycaster>();
+            this.canvas = transform.GetComponent<Canvas>();
+            this.canvasScaler = transform.GetComponent<CanvasScaler>();
+            this.graphicRaycaster = transform.GetComponent<GraphicRaycaster>();
 
-            layer.canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            layer.canvas.worldCamera = cameraLocator.UI2DCamera;
-            layer.canvas.sortingLayerName = layerName;
-
-            return layer;
+            this.canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            this.canvas.worldCamera = cameraLocator.UI2DCamera;
+            this.canvas.sortingLayerName = name;
         }
 
-        public void AddWindow(MvxUnityView view)
+        public int sortingLayerID => canvas.sortingLayerID;
+
+        public IMvxUIUnit ParentUI => null;
+        
+        public void AddWindow(MvxUnityWindow window)
         {
-            var rectTransform = view.transform as RectTransform;
+            var rectTransform = window.transform as RectTransform;
+            if(rectTransform == null)
+                return;;
             rectTransform.SetParent(this.transform);
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.anchorMax = Vector2.one;
             rectTransform.localScale = Vector3.one;
             rectTransform.anchoredPosition3D = Vector3.zero;
             rectTransform.sizeDelta = Vector2.zero;
+            window.SetLayer(this);
         }
+
     }
 }

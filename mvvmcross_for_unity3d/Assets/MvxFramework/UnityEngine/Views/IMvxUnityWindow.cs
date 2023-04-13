@@ -5,6 +5,8 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityWindow : IMvxUnityView
     {
+        void SetLayer(IMvxUILayer layer);
+
         Task Activate(bool animated = true);
         Task Passivate(bool animated = true);
         

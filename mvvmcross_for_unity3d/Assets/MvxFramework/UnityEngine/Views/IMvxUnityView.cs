@@ -5,7 +5,7 @@ using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public interface IMvxUnityView : IMvxView, IMvxEventSourceUIBehaviour, IMvxBindingContextOwner
+    public interface IMvxUnityView : IMvxView,IMvxUIUnit, IMvxEventSourceUIBehaviour, IMvxBindingContextOwner
     {
         public float Alpha { get; }
         public bool Interactable { get; }

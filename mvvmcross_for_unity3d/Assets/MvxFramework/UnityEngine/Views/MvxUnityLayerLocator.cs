@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -10,8 +11,10 @@ namespace MvxFramework.UnityEngine.Views
 
         private readonly Dictionary<string, IMvxUILayer> _layerDict;
 
-        public abstract string GetDefaultSortingLayerId();
-        protected abstract IMvxUILayer CreateLayer(string layerName, Transform layerRoot);
+        public abstract string GetDefaultSortingLayerName();
+
+        protected abstract IMvxUILayer CreateLayer<TLayer>(string layerName, Transform layerRoot)
+            where TLayer : UIBehaviour, IMvxUILayer;
 
         protected MvxUnityLayerLocator()
         {
@@ -21,9 +24,9 @@ namespace MvxFramework.UnityEngine.Views
             GameObject.DontDestroyOnLoad(layerRootInstance);
         }
 
-        protected virtual void RegisterLayer(string layerName)
+        protected virtual void RegisterLayer<TLayer>(string layerName)where TLayer : UIBehaviour, IMvxUILayer
         {
-            var layer = CreateLayer(layerName, layerRootInstance.transform);
+            var layer = CreateLayer<TLayer>(layerName, layerRootInstance.transform);
             _layerDict.Add(layerName, layer);
         }
 

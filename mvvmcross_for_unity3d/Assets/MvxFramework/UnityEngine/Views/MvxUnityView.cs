@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Logging;
 using MvvmCross.ViewModels;
@@ -6,7 +5,6 @@ using MvxFramework.UnityEngine.Views.Base;
 using UnityEngine;
 using UnityEngine.UI;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -20,6 +18,11 @@ namespace MvxFramework.UnityEngine.Views
 
         private GraphicRaycaster _graphicRaycaster;
         private bool _activated = false;
+        public int SortingOrder
+        {
+            get => canvas.sortingOrder;
+            set => canvas.sortingOrder = value;
+        }
 
         protected Canvas canvas
         {
@@ -92,7 +95,6 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
 
-
         public bool Activated
         {
             get => this._activated;
@@ -128,7 +130,6 @@ namespace MvxFramework.UnityEngine.Views
 
         public IMvxBindingContext BindingContext { get; set; }
 
-
         void IMvxUnityView.ViewLoaded()
         {
             this.Visibility = false;
@@ -140,8 +141,9 @@ namespace MvxFramework.UnityEngine.Views
 
         protected abstract void OnViewLoaded();
 
-
         public MvxViewModelRequest Request { get; set; }
+        public IMvxUIUnit ParentUI { get; }
+        
     }
 
     public abstract class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>

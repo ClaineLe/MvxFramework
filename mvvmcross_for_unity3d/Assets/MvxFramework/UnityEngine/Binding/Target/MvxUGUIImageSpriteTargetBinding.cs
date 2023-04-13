@@ -2,7 +2,6 @@ using System;
 using Microsoft.Extensions.Logging;
 using MvvmCross.Binding.Bindings.Target;
 using MvvmCross.Logging;
-using UnityEditor.iOS;
 using UnityEngine;
 using UnityEngine.UI;
 
