@@ -4,6 +4,7 @@ namespace MvxFramework.UnityEngine.Views
     {
         public int sortingLayerID { get; }
         
-        public void AddView(IMvxUnityView window);
+        public void AddView(IMvxUnityView unityView);
+
     }
 }

@@ -25,27 +25,23 @@ namespace Playground.Views
 
         public int sortingLayerID => canvas.sortingLayerID;
 
-        //public IMvxUIUnit ParentUI { get; }
-        
-        //public void AddWindow(MvxUnityWindow window)
-        public void AddView(IMvxUnityView view)
+        public void AddView(IMvxUnityView unityView)
         {
-            if (view is MvxUnityViewController viewController)
-            //if (window is MvxUnityWindow viewController)
-            {
-                var rectTransform = viewController.transform as RectTransform;
-                if (rectTransform == null)
-                    return;
-                
-                rectTransform.SetParent(this.transform);
-                rectTransform.anchorMin = Vector2.zero;
-                rectTransform.anchorMax = Vector2.one;
-                rectTransform.localScale = Vector3.one;
-                rectTransform.anchoredPosition3D = Vector3.zero;
-                rectTransform.sizeDelta = Vector2.zero;
-                //window.SetLayer(this);
-            }
-        }
+            if (unityView is not MvxUnityViewController viewController) 
+                return;
+            
+            var rectTransform = viewController.transform as RectTransform;
+            if (rectTransform == null)
+                return;
+            
+            rectTransform.SetParent(this.transform);
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.localScale = Vector3.one;
+            rectTransform.anchoredPosition3D = Vector3.zero;
+            rectTransform.sizeDelta = Vector2.zero;
+            //window.SetLayer(this);
 
+        }
     }
 }
