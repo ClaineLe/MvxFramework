@@ -41,11 +41,13 @@ namespace Playground.ViewModels
 
         public SplashScreeViewModel()
         {
+            Debug.Log("SplashScreeViewModel");
             BtnRefreshCommand = new MvxCommand(() => RaisePropertyChanged(() => TextSource));
             BtnChineseCommand = new MvxCommand(() => PickLanguage(string.Empty));
             BtnEnglishCommand = new MvxCommand(() => PickLanguage("English"));
             BtnSpriteCommand = new MvxCommand(NextSprite);
             BtnTextureCommand = new MvxCommand(NextTexture);
+            Debug.Log("BtnChineseCommand:"+ BtnChineseCommand.CanExecute());
         }
  
         private void PickLanguage(string which)

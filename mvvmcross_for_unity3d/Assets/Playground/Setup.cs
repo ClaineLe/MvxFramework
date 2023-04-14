@@ -25,7 +25,7 @@ namespace Playground
         protected override IMvxSettings InitializeSettings(IMvxIoCProvider iocProvider)
         {
             var settings = base.InitializeSettings(iocProvider);
-            settings.ShouldLogInpc = true;
+            //settings.ShouldLogInpc = true;
             return settings;
         }
 

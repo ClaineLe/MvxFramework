@@ -1,8 +1,9 @@
 namespace MvxFramework.UnityEngine.Views
 {
-    public interface IMvxUILayer : IMvxUIUnit
+    public interface IMvxUILayer 
     {
         public int sortingLayerID { get; }
-        public void AddWindow(MvxUnityWindow window);
+        
+        public void AddView(IMvxUnityView window);
     }
 }

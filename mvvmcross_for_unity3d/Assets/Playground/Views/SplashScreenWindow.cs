@@ -2,14 +2,13 @@ using MvvmCross.Binding;
 using MvvmCross.Binding.BindingContext;
 using MvxFramework.UnityEngine.Views;
 using Playground.ViewModels;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Playground.Views
 {
-    public class SplashScreenWindow : MvxUnityFullWindow<SplashScreeViewModel>
+    public class SplashScreenWindow : MvxUnityView<SplashScreeViewModel>
     {
-        public override int Priority => UIPriority.guide;
-        
         public Button BtnChinese;
         public Button BtnEnglish;
         public Button BtnRefresh;
@@ -21,8 +20,10 @@ namespace Playground.Views
         
         public Text TxtContext;
 
+ 
         protected override void OnViewLoaded()
         {
+            Debug.Log("ViewDidLoad");
             var setter = CreateBindingSet();
             setter.Bind(this.BtnChinese).To(vm => vm.BtnChineseCommand);
             setter.Bind(this.BtnEnglish).To(vm => vm.BtnEnglishCommand);

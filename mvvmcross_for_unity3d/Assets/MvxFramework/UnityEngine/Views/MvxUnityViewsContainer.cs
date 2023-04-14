@@ -1,5 +1,4 @@
 using System;
-using MvvmCross;
 using MvvmCross.Exceptions;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
@@ -7,18 +6,28 @@ using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public class MvxUnityViewsContainer : MvxViewsContainer, IMvxUnityViewsContainer
+ 
+    public class MvxUnityViewsContainer : MvxViewsContainer, IMvxUnityViewCreator
     {
+        public MvxViewModelRequest CurrentRequest { get; private set; }
+
         public virtual IMvxUnityView CreateView(MvxViewModelRequest request)
         {
-            var viewType = GetViewType(request.ViewModelType);
-            if (viewType == null)
-                throw new MvxException("View Type not found for " + request.ViewModelType);
+            try
+            {
+                CurrentRequest = request;
+                var viewType = GetViewType(request.ViewModelType);
+                if (viewType == null)
+                    throw new MvxException("View Type not found for " + request.ViewModelType);
 
-            var view = CreateViewOfType(viewType, request);
-            view.Request = request;
-            view.ViewLoaded();
-            return view;
+                var view = CreateViewOfType(viewType, request);
+                view.Request = request;
+                return view;
+            }
+            finally
+            {
+                CurrentRequest = null;
+            }
         }
 
         public virtual IMvxUnityView CreateViewOfType(Type viewType, MvxViewModelRequest request)
@@ -29,7 +38,6 @@ namespace MvxFramework.UnityEngine.Views
             var component = gameObject.GetComponent(viewType);
             if (component is not IMvxUnityView view)
                 throw new MvxException($"View not loaded for {viewType}, gameObject:{gameObject}, component:{component}");
-            view.AdaptForBinding();
             return view;
         }
 
@@ -39,6 +47,5 @@ namespace MvxFramework.UnityEngine.Views
             var view = CreateView(request);
             return view;
         }
-
     }
 }

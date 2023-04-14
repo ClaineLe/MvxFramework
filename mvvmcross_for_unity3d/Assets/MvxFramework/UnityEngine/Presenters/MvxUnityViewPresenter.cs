@@ -16,7 +16,7 @@ namespace MvxFramework.UnityEngine.Presenters
     {
         private IMvxUnityViewCreator _viewCreator;
         private IMvxUnityLayerLocator _layerLocator;
-        private readonly Dictionary<IMvxViewModel, MvxUnityWindow> _windowDict = new ();
+        //private readonly Dictionary<IMvxViewModel, IMvxUnityWindow> _windowDict = new ();
 
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
 
@@ -26,11 +26,7 @@ namespace MvxFramework.UnityEngine.Presenters
         public override void RegisterAttributeTypes()
         {
             AttributeTypesToActionsDictionary.Register<MvxWindowPresentationAttribute>(
-                async (_, attribute, request) =>
-                {
-                    var window = viewCreator.CreateView(request) as MvxUnityWindow;
-                    return await ShowWindow(window, attribute);
-                },
+                async (_, attribute, request) => await ShowWindow(request, attribute),
                 async (viewModel, _) => await CloseWindow(viewModel));
         }
 
@@ -44,24 +40,29 @@ namespace MvxFramework.UnityEngine.Presenters
             return attribute;
         }
 
-        protected virtual async Task<bool> ShowWindow(MvxUnityWindow window, MvxWindowPresentationAttribute attribute)
+        protected virtual async Task<bool> ShowWindow(MvxViewModelRequest request, MvxWindowPresentationAttribute attribute)
         {
-            _windowDict.Add(window.ViewModel, window);
+            var view = viewCreator.CreateView(request);
+            //var view = viewCreator.CreateView(request) as MvxUnityWindow;
+            //_windowDict.Add(view.ViewModel, view);
             var layer = layerLocator.GetLayer(attribute.layerName);
-            layer.AddWindow(window);
-            await window.Show();
+            layer.AddView(view);
+            //layer.AddWindow(view);
+            //await view.Show();
             return true;
         }
         
         
         protected virtual async Task<bool> CloseWindow(IMvxViewModel toClose)
         {
+            /*
             if(_windowDict.TryGetValue(toClose, out var window) == false)
             {
                 Debug.LogError($"无法关闭当前窗口.destVM:{toClose}");
                 return false;
             }
             window.Dismiss(true);
+            */
             return true;
         }
         

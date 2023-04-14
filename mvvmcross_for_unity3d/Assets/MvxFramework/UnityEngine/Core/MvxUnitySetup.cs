@@ -51,14 +51,9 @@ namespace MvxFramework.UnityEngine.Core
         protected override IMvxViewsContainer CreateViewsContainer(IMvxIoCProvider iocProvider)
         {
             var container = new MvxUnityViewsContainer();
-            RegisterUnityViewCreator(iocProvider, container);
-            return container;
-        }
-        protected virtual void RegisterUnityViewCreator(IMvxIoCProvider iocProvider, IMvxUnityViewsContainer container)
-        {
-            ValidateArguments(iocProvider);
             iocProvider.RegisterSingleton<IMvxUnityViewCreator>(container);
-            //iocProvider.RegisterSingleton<IMvxCurrentRequest>(container);
+            iocProvider.RegisterSingleton<IMvxCurrentRequest>(container);
+            return container;
         }
 
         protected override void InitializeLastChance(IMvxIoCProvider iocProvider)

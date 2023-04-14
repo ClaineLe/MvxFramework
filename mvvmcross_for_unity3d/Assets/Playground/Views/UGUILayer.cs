@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace Playground.Views
 {
-    
     [RequireComponent(typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster))]
     public class MvxUnityLayer : UIBehaviour, IMvxUILayer
     {
@@ -26,20 +25,26 @@ namespace Playground.Views
 
         public int sortingLayerID => canvas.sortingLayerID;
 
-        public IMvxUIUnit ParentUI => null;
+        //public IMvxUIUnit ParentUI { get; }
         
-        public void AddWindow(MvxUnityWindow window)
+        //public void AddWindow(MvxUnityWindow window)
+        public void AddView(IMvxUnityView view)
         {
-            var rectTransform = window.transform as RectTransform;
-            if(rectTransform == null)
-                return;;
-            rectTransform.SetParent(this.transform);
-            rectTransform.anchorMin = Vector2.zero;
-            rectTransform.anchorMax = Vector2.one;
-            rectTransform.localScale = Vector3.one;
-            rectTransform.anchoredPosition3D = Vector3.zero;
-            rectTransform.sizeDelta = Vector2.zero;
-            window.SetLayer(this);
+            if (view is MvxUnityViewController viewController)
+            //if (window is MvxUnityWindow viewController)
+            {
+                var rectTransform = viewController.transform as RectTransform;
+                if (rectTransform == null)
+                    return;
+                
+                rectTransform.SetParent(this.transform);
+                rectTransform.anchorMin = Vector2.zero;
+                rectTransform.anchorMax = Vector2.one;
+                rectTransform.localScale = Vector3.one;
+                rectTransform.anchoredPosition3D = Vector3.zero;
+                rectTransform.sizeDelta = Vector2.zero;
+                //window.SetLayer(this);
+            }
         }
 
     }

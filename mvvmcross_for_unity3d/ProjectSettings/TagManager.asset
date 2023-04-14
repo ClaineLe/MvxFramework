@@ -41,21 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Normal
+  - name: BackGround
     uniqueID: 1479591027
     locked: 0
-  - name: Plot
+  - name: 3DLayer
     uniqueID: 1457634819
     locked: 0
-  - name: Guide
+  - name: 2DLayer
     uniqueID: 601703675
     locked: 0
-  - name: Top
+  - name: TopLayer
     uniqueID: 1550935881
-    locked: 0
-  - name: Loading
-    uniqueID: 2449000141
-    locked: 0
-  - name: System
-    uniqueID: 1391925731
     locked: 0
