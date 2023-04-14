@@ -36,8 +36,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
         protected bool TryGetTexture(object value, out Texture sprite)
         {
             string assetPath = $"Icon/{value}";
-            MvxLogHost.GetLog<MvxUGUIImageTextureTargetBinding>()?
-                .LogInformation($"assetPath:{assetPath}");
+            //MvxLogHost.GetLog<MvxUGUIImageTextureTargetBinding>()?.LogInformation($"assetPath:{assetPath}");
             sprite = Resources.Load<Texture>(assetPath);
             return sprite != null;
         }

@@ -27,8 +27,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
             }
             catch (Exception ex)
             {
-                MvxLogHost.GetLog<MvxUGUIImageSpriteTargetBinding>()?
-                    .Log(LogLevel.Error, ex, "Failed to set bitmap on ImageView");
+                MvxLogHost.GetLog<MvxUGUIImageSpriteTargetBinding>()?.Log(LogLevel.Error, ex, "Failed to set bitmap on ImageView");
                 throw;
             }
         }
@@ -36,8 +35,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
         protected bool TryGetSprite(object value, out Sprite sprite)
         {
             string assetPath = $"Icon/{value}";
-            MvxLogHost.GetLog<MvxUGUIImageSpriteTargetBinding>()?
-                .LogInformation($"assetPath:{assetPath}");
+            //MvxLogHost.GetLog<MvxUGUIImageSpriteTargetBinding>()?.LogInformation($"assetPath:{assetPath}");
             sprite = Resources.Load<Sprite>(assetPath);
             return sprite != null;
         }
