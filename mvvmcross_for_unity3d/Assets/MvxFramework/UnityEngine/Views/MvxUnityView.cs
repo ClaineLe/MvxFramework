@@ -1,12 +1,9 @@
-using System.Collections.Generic;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
-using UnityEngine;
-using UnityEngine.UI;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public abstract class MvxUnityView<TViewModel> : MvxUnityViewController<TViewModel>
-        where TViewModel : class, IMvxViewModel
+    public abstract class MvxUnityView : MvxUnityViewController, IMvxUnityView
     {
         protected sealed override void ViewDidLoad()
         {
@@ -65,41 +62,18 @@ namespace MvxFramework.UnityEngine.Views
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    public abstract class MvxListView<TViewModel> : MvxUnityViewController<TViewModel>
+    public abstract class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>
         where TViewModel : class, IMvxViewModel
     {
-        public ScrollRect scrollRect; // 滚动区域
-        public VerticalLayoutGroup layoutGroup; // 垂直布局组
-        public GameObject itemPrefab; // 列表项预制件
-
-        private List<GameObject> itemList = new List<GameObject>(); // 列表项列表
-
-        // 添加新的列表项
-        public void AddItem(string label)
+        public new TViewModel ViewModel
         {
-            // 实例化新的列表项并设置父级和文本
-            GameObject newItem = Instantiate(itemPrefab);
-            newItem.transform.SetParent(layoutGroup.transform, false);
-            newItem.GetComponentInChildren<Text>().text = label;
+            get => base.ViewModel as TViewModel;
+            set => base.ViewModel = value;
+        }
 
-            // 将列表项添加到列表项列表中
-            itemList.Add(newItem);
-
-            // 重新计算滚动视图的大小以容纳全部内容
-            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)scrollRect.content.transform);
-
-            // 将滚动视图定位在底部以显示最新的内容
-            scrollRect.verticalNormalizedPosition = 0f;
+        public MvxFluentBindingDescriptionSet<IMvxUnityView<TViewModel>, TViewModel> CreateBindingSet()
+        {
+            return this.CreateBindingSet<IMvxUnityView<TViewModel>, TViewModel>();
         }
     }
-    
-    
 }
