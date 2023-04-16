@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Playground.Views
+namespace MvxFramework.UnityEngine.Views
 {
     public class MvxUnityCameraLocator : IMvxUnityCameraLocator
     {
