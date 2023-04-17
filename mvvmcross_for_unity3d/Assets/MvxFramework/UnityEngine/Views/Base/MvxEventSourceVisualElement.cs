@@ -3,7 +3,7 @@ using MvvmCross.Base;
 
 namespace MvxFramework.UnityEngine.Views.Base
 {
-    public class MvxEventSourceUnityUIBehaviour : MvxUnityUIBehaviour, IMvxEventSourceUnityUIBehaviour
+    public class MvxEventSourceVisualElement : MvxVisualElement, IMvxEventSourceVisualElement
     {
         public event EventHandler ViewDidLoadCalled;
         public event EventHandler<MvxValueEventArgs<bool>> ViewWillAppearCalled;

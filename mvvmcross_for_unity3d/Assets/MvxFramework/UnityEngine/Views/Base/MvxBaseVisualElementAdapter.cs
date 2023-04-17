@@ -3,21 +3,18 @@ using MvvmCross.Base;
 
 namespace MvxFramework.UnityEngine.Views.Base
 {
-    public class MvxBaseUnityUIBehaviourAdapter
+    public class MvxBaseVisualElementAdapter
     {
-        private readonly IMvxEventSourceUnityUIBehaviour _eventSource;
+        private readonly IMvxEventSourceVisualElement _eventSource;
 
-        protected MvxUnityUIBehaviour ViewController
-        {
-            get { return _eventSource as MvxUnityUIBehaviour; }
-        }
+        protected MvxVisualElement VisualElement => _eventSource as MvxVisualElement;
 
-        public MvxBaseUnityUIBehaviourAdapter(IMvxEventSourceUnityUIBehaviour eventSource)
+        public MvxBaseVisualElementAdapter(IMvxEventSourceVisualElement eventSource)
         {
             if (eventSource == null)
                 throw new ArgumentException("eventSource - eventSource should not be null");
 
-            if (!(eventSource is MvxUnityUIBehaviour))
+            if (!(eventSource is MvxVisualElement))
                 throw new ArgumentException("eventSource - eventSource should be a UIBehaviour");
 
             _eventSource = eventSource;

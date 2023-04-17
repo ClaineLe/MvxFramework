@@ -4,7 +4,7 @@ using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public abstract class MvxUnityViewController : MvxEventSourceUnityUIBehaviour
+    public abstract class MvxUnityViewController : MvxEventSourceVisualElement
     {
         protected sealed override void Awake()
         {

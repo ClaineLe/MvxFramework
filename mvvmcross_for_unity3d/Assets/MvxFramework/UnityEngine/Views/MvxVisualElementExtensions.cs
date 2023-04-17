@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public static class MvxUnityUIBehaviourExtensions
+    public static class MvxVisualElementExtensions
     {
         public static void OnViewCreate(this IMvxUnityView iosView)
         {

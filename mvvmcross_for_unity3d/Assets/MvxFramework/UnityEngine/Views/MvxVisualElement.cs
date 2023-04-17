@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public class MvxUnityUIBehaviour : UIBehaviour, IDisposable
+    public class MvxVisualElement : UIBehaviour, IMvxVisualElement
     {
         private RectTransform _rectTransform;
 
@@ -48,7 +49,7 @@ namespace MvxFramework.UnityEngine.Views
             this.Dispose();
         }
 
-        ~MvxUnityUIBehaviour()
+        ~MvxVisualElement()
         {
             Dispose(false);
         }

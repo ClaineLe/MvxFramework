@@ -4,11 +4,11 @@ using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public class MvxUnityUIBehaviourAdapter : MvxBaseUnityUIBehaviourAdapter
+    public class MvxVisualElementAdapter : MvxBaseVisualElementAdapter
     {
-        protected IMvxUnityView UnityView => base.ViewController as IMvxUnityView;
+        protected IMvxUnityView UnityView => base.VisualElement as IMvxUnityView;
 
-        public MvxUnityUIBehaviourAdapter(IMvxEventSourceUnityUIBehaviour eventSource)
+        public MvxVisualElementAdapter(IMvxEventSourceVisualElement eventSource)
             : base(eventSource)
         {
             if (eventSource is not IMvxUnityView)
