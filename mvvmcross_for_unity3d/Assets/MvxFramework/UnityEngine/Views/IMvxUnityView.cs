@@ -1,6 +1,7 @@
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
+using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -10,6 +11,8 @@ namespace MvxFramework.UnityEngine.Views
             , IMvxBindingContextOwner
     {
         MvxViewModelRequest Request { get; set; }
+
+        RectTransform rectTransform { get; }
     }
     public interface IMvxUnityView<TViewModel> : IMvxUnityView, IMvxView<TViewModel> where
         TViewModel : class, IMvxViewModel

@@ -22,6 +22,7 @@ namespace MvxFramework.UnityEngine.Presenters
 
         protected IMvxUnityLayerLocator layerLocator => _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
+        
 
         public override void RegisterAttributeTypes()
         {
@@ -40,13 +41,27 @@ namespace MvxFramework.UnityEngine.Presenters
             return attribute;
         }
 
+        private IMvxUnityWindow currentWindow;
         protected virtual async Task<bool> ShowWindow(MvxViewModelRequest request, MvxWindowPresentationAttribute attribute)
         {
             var view = viewCreator.CreateView(request);
+            if (view is IMvxUnityWindow window)
+            {
+                currentWindow = window;
+                layerLocator.AddWindow(window);
+                window.rectTransform.gameObject.SetActive(true);
+                return true;
+            }
+
+            if(currentWindow == null)
+                throw new ArgumentNullException(nameof(currentWindow));
+
+            currentWindow.AddChild(view);
+            
             //var view = viewCreator.CreateView(request) as MvxUnityWindow;
             //_windowDict.Add(view.ViewModel, view);
-            var layer = layerLocator.GetLayer(attribute.layerName);
-            layer.AddView(view);
+            //var layer = layerLocator.GetLayer(attribute.layerName);
+            //layer.AddView(view);
             //layer.AddWindow(view);
             //await view.Show();
             return true;

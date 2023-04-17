@@ -4,5 +4,7 @@ namespace MvxFramework.UnityEngine.Views
     {
         string GetDefaultSortingLayerName();
         IMvxUILayer GetLayer(string layerName);
+
+        void AddWindow(IMvxUnityWindow window);
     }
 }

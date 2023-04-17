@@ -1,10 +1,23 @@
 using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Views
 {
     public class MvxUnityUIBehaviour : UIBehaviour, IDisposable
     {
+        private RectTransform _rectTransform;
+
+        public RectTransform rectTransform
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _rectTransform ??= transform as RectTransform;
+            }
+        }
+
         protected virtual void Start()
         {
             this.ViewDidLoad();

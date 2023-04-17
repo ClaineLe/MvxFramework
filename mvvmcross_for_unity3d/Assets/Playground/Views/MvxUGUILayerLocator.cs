@@ -15,10 +15,11 @@ namespace Playground.Views
             this.cameraLocator = cameraLocator;
             this.eventSystem = layerRootInstance.AddComponent<EventSystem>();
             this.standaloneInputModule = layerRootInstance.AddComponent<StandaloneInputModule>();
-            RegisterLayer<MvxUnityLayer>(UILayer.BackGround);
-            RegisterLayer<MvxUnityLayer>(UILayer.ThreeD);
-            RegisterLayer<MvxUnityTwoDLayer>(UILayer.TwoD);
-            RegisterLayer<MvxUnityLayer>(UILayer.Top);
+            
+            //RegisterLayer<MvxUnityLayer>(UILayer.BackGround);
+            //RegisterLayer<MvxUnityLayer>(UILayer.ThreeD);
+            //RegisterLayer<MvxUnityTwoDLayer>(UILayer.TwoD);
+            //RegisterLayer<MvxUnityLayer>(UILayer.Top);
         }
 
         public override string GetDefaultSortingLayerName() => UILayer.TwoD;
@@ -30,5 +31,7 @@ namespace Playground.Views
             layer.Initialize(this.cameraLocator);
             return layer;
         }
+        
+        
     }
 }

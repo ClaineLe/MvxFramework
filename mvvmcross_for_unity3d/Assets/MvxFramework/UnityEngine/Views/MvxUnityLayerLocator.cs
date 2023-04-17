@@ -34,5 +34,17 @@ namespace MvxFramework.UnityEngine.Views
         {
             return _layerDict.TryGetValue(layerName, out var layer) ? layer : null;
         }
+
+        public void AddWindow(IMvxUnityWindow window)
+        {
+            Debug.Log("AddWindow:" + window);
+            window.rectTransform.SetParent(this.layerRootInstance.transform);
+            
+            window.rectTransform.anchorMin = Vector2.zero;
+            window.rectTransform.anchorMax = Vector2.one;
+            window.rectTransform.localScale = Vector3.one;
+            window.rectTransform.anchoredPosition3D = Vector3.zero;
+            window.rectTransform.sizeDelta = Vector2.zero;
+        }
     }
 }

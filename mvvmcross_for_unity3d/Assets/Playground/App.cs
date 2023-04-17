@@ -18,7 +18,7 @@ namespace Playground
                 .RegisterAsLazySingleton();
             
             InitializeText();
-            RegisterAppStart<SplashScreeViewModel>();
+            RegisterAppStart<SplashScreeWindowModel>();
         }
         
         

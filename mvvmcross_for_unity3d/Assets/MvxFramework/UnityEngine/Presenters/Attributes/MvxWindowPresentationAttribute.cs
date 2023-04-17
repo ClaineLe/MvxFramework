@@ -4,12 +4,12 @@ namespace MvxFramework.UnityEngine.Presenters.Attributes
 {
     public class MvxWindowPresentationAttribute : MvxBasePresentationAttribute
     {
-        public string layerName { get; }
+        public string Identifier { get; }
         public int priority { get; }
 
-        public MvxWindowPresentationAttribute(string layerName, int priority = 0)
+        public MvxWindowPresentationAttribute(string Identifier, int priority = 0)
         {
-            this.layerName = layerName;
+            this.Identifier = Identifier;
             this.priority = priority;
         }
     }

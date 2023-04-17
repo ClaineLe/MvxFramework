@@ -27,5 +27,36 @@ namespace MvxFramework.UnityEngine.Views
         public MvxViewModelRequest Request { get; set; }
 
         public IMvxBindingContext BindingContext { get; set; }
+        
+        protected override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+            ViewModel?.ViewCreated();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+            ViewModel?.ViewAppearing();
+        }
+
+        public override void ViewDidAppear(bool animated)
+        {
+            base.ViewDidAppear(animated);
+            ViewModel?.ViewAppeared();
+        }
+
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+            ViewModel?.ViewDisappearing();
+        }
+
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+            ViewModel?.ViewDisappeared();
+        } 
+        
     }
 }

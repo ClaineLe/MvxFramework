@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Localization;
+using MvvmCross.Navigation;
 using MvvmCross.Plugin.JsonLocalization;
 using MvvmCross.ViewModels;
 using Playground.Core;
@@ -9,9 +10,26 @@ using UnityEngine;
 
 namespace Playground.ViewModels
 {
-    public class UnityViewModel : MvxViewModel
+    public class UnityViewModel : MvxNavigationViewModel
     {
         public IMvxLanguageBinder TextSource => new MvxLanguageBinder(Constants.GeneralNamespace, GetType().Name);
+
+        public UnityViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
+        {
+        }
+    }
+    public class SplashScreeWindowModel : UnityViewModel
+    {
+        public IMvxCommand ClickButtonCommand { get; }
+
+        public SplashScreeWindowModel(ILoggerFactory logFactory,IMvxNavigationService navigationService) : base(logFactory, navigationService)
+        {
+            ClickButtonCommand = new MvxCommand(() =>
+            {
+                navigationService.Navigate<SplashScreeViewModel>();
+            });
+
+        }
     }
 
     public class SplashScreeViewModel : UnityViewModel
@@ -39,7 +57,7 @@ namespace Playground.ViewModels
             set => SetProperty(ref _rawImageAssetKey, value);
         }
 
-        public SplashScreeViewModel()
+        public SplashScreeViewModel(ILoggerFactory logFactory,IMvxNavigationService navigationService) : base(logFactory, navigationService)
         {
             Debug.Log("SplashScreeViewModel");
             BtnRefreshCommand = new MvxCommand(() => RaisePropertyChanged(() => TextSource));
