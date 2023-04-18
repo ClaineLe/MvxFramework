@@ -15,6 +15,11 @@ namespace MvxFramework.UnityEngine.Views
             view.rectTransform.localScale = Vector3.one;
             view.rectTransform.anchoredPosition3D = Vector3.zero;
             view.rectTransform.sizeDelta = Vector2.zero;
+            this.OnAddChild(view);
+        }
+
+        protected virtual void OnAddChild(IMvxUnityView view)
+        {
         }
     }
 
