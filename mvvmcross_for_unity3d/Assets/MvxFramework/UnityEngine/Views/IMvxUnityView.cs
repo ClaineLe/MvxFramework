@@ -9,10 +9,9 @@ namespace MvxFramework.UnityEngine.Views
         : IMvxView
             , IMvxCanCreateUnityView
             , IMvxBindingContextOwner
+            , IMvxVisualElement
     {
         MvxViewModelRequest Request { get; set; }
-
-        RectTransform rectTransform { get; }
     }
     public interface IMvxUnityView<TViewModel> : IMvxUnityView, IMvxView<TViewModel> where
         TViewModel : class, IMvxViewModel

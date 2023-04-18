@@ -5,6 +5,6 @@ namespace MvxFramework.UnityEngine.Views
         //string GetDefaultSortingLayerName();
         //IMvxUILayer GetLayer(string layerName);
 
-        void AddWindow(MvxUnityWindow window, string cameraName, string layerName);
+        void AddWindow(IMvxUnityWindow window, string cameraName, string layerName);
     }
 }

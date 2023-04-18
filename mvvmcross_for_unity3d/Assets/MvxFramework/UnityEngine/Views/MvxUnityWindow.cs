@@ -8,13 +8,14 @@ namespace MvxFramework.UnityEngine.Views
     {
         public void AddChild(IMvxUnityView view)
         {
-            view.rectTransform.SetParent(this.rectTransform);
-            view.rectTransform.gameObject.SetActive(true);
-            view.rectTransform.anchorMin = Vector2.zero;
-            view.rectTransform.anchorMax = Vector2.one;
-            view.rectTransform.localScale = Vector3.one;
-            view.rectTransform.anchoredPosition3D = Vector3.zero;
-            view.rectTransform.sizeDelta = Vector2.zero;
+            var childRectTransform = view.rectTransform;
+            childRectTransform.SetParent(this.rectTransform);
+            childRectTransform.gameObject.SetActive(true);
+            childRectTransform.anchorMin = Vector2.zero;
+            childRectTransform.anchorMax = Vector2.one;
+            childRectTransform.localScale = Vector3.one;
+            childRectTransform.anchoredPosition3D = Vector3.zero;
+            childRectTransform.sizeDelta = Vector2.zero;
             this.OnAddChild(view);
         }
 

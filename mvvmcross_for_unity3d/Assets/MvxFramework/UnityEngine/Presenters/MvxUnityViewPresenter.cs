@@ -48,7 +48,7 @@ namespace MvxFramework.UnityEngine.Presenters
             MvxWindowPresentationAttribute attribute)
         {
             var view = viewCreator.CreateView(request);
-            if (view is MvxUnityWindow window)
+            if (view is IMvxUnityWindow window)
             {
                 currentWindow = window;
                 layerLocator.AddWindow(window, attribute.CameraName, attribute.LayerName);

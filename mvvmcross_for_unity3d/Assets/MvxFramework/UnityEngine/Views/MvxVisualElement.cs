@@ -1,13 +1,17 @@
 using System;
-using System.ComponentModel.Design;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace MvxFramework.UnityEngine.Views
 {
+    [RequireComponent(typeof(Canvas), typeof(CanvasGroup), typeof(GraphicRaycaster))]
     public class MvxVisualElement : UIBehaviour, IMvxVisualElement
     {
         private RectTransform _rectTransform;
+        private Canvas _canvas;
+        private CanvasGroup _canvasGroup;
+        private GraphicRaycaster _graphicRaycaster;
 
         public RectTransform rectTransform
         {
@@ -19,8 +23,6 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
 
-        private Canvas _canvas;
-
         public Canvas canvas
         {
             get
@@ -28,6 +30,26 @@ namespace MvxFramework.UnityEngine.Views
                 if (this.IsDestroyed())
                     return null;
                 return _canvas ??= transform.GetComponent<Canvas>();
+            }
+        }
+
+        public CanvasGroup canvasGroup
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _canvasGroup ??= transform.GetComponent<CanvasGroup>();
+            }
+        }
+
+        public GraphicRaycaster graphicRaycaster
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _graphicRaycaster ??= transform.GetComponent<GraphicRaycaster>();
             }
         }
 
