@@ -19,7 +19,7 @@ namespace Playground.Views
             this.graphicRaycaster = transform.GetComponent<GraphicRaycaster>();
 
             this.canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            this.canvas.worldCamera = cameraLocator.UI2DCamera;
+            //this.canvas.worldCamera = cameraLocator.UI2DCamera;
             this.canvas.sortingLayerName = name;
         }
 

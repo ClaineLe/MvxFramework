@@ -15,14 +15,15 @@ namespace MvxFramework.UnityEngine.Presenters
     public class MvxUnityViewPresenter : MvxAttributeViewPresenter, IMvxUnityViewPresenter
     {
         private IMvxUnityViewCreator _viewCreator;
+
         private IMvxUnityLayerLocator _layerLocator;
         //private readonly Dictionary<IMvxViewModel, IMvxUnityWindow> _windowDict = new ();
 
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
 
-        protected IMvxUnityLayerLocator layerLocator => _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
+        protected IMvxUnityLayerLocator layerLocator =>
+            _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
-        
 
         public override void RegisterAttributeTypes()
         {
@@ -33,7 +34,7 @@ namespace MvxFramework.UnityEngine.Presenters
 
         public override MvxBasePresentationAttribute CreatePresentationAttribute(Type viewModelType, Type viewType)
         {
-            var attribute = new MvxWindowPresentationAttribute(layerLocator.GetDefaultSortingLayerName())
+            var attribute = new MvxWindowPresentationAttribute(MvxUIDefine.CAM.twoD, MvxUIDefine.LAYER.normal)
             {
                 ViewModelType = viewModelType,
                 ViewType = viewType
@@ -42,22 +43,24 @@ namespace MvxFramework.UnityEngine.Presenters
         }
 
         private IMvxUnityWindow currentWindow;
-        protected virtual async Task<bool> ShowWindow(MvxViewModelRequest request, MvxWindowPresentationAttribute attribute)
+
+        protected virtual async Task<bool> ShowWindow(MvxViewModelRequest request,
+            MvxWindowPresentationAttribute attribute)
         {
             var view = viewCreator.CreateView(request);
-            if (view is IMvxUnityWindow window)
+            if (view is MvxUnityWindow window)
             {
                 currentWindow = window;
-                layerLocator.AddWindow(window);
-                window.rectTransform.gameObject.SetActive(true);
+                layerLocator.AddWindow(window, attribute.CameraName, attribute.LayerName);
+                //window.rectTransform.gameObject.SetActive(true);
                 return true;
             }
 
-            if(currentWindow == null)
+            if (currentWindow == null)
                 throw new ArgumentNullException(nameof(currentWindow));
 
             currentWindow.AddChild(view);
-            
+
             //var view = viewCreator.CreateView(request) as MvxUnityWindow;
             //_windowDict.Add(view.ViewModel, view);
             //var layer = layerLocator.GetLayer(attribute.layerName);
@@ -66,8 +69,8 @@ namespace MvxFramework.UnityEngine.Presenters
             //await view.Show();
             return true;
         }
-        
-        
+
+
         protected virtual async Task<bool> CloseWindow(IMvxViewModel toClose)
         {
             /*
@@ -80,7 +83,7 @@ namespace MvxFramework.UnityEngine.Presenters
             */
             return true;
         }
-        
+
         private static void ValidateArguments(Type viewModelType, Type viewType)
         {
             if (viewModelType == null)

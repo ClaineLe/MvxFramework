@@ -19,6 +19,19 @@ namespace MvxFramework.UnityEngine.Views
             }
         }
 
+        private Canvas _canvas;
+
+        public Canvas canvas
+        {
+            get
+            {
+                if (this.IsDestroyed())
+                    return null;
+                return _canvas ??= transform.GetComponent<Canvas>();
+            }
+        }
+
+
         protected virtual void Start()
         {
             this.ViewDidLoad();

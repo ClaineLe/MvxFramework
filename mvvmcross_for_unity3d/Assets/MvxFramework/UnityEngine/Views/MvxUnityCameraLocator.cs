@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
@@ -5,13 +6,9 @@ namespace MvxFramework.UnityEngine.Views
     public class MvxUnityCameraLocator : IMvxUnityCameraLocator
     {
         protected GameObject cameraRootInstance;
-        
 
-        public Camera GameCamera { get; protected set; }
-        public Camera UIBGCamera { get; protected set; }
-        public Camera UI3DCamera { get; protected set; }
-        public Camera UI2DCamera { get; protected set; }
-        
+        private Dictionary<string, Camera> _cameraDict = new Dictionary<string, Camera>();
+
         public MvxUnityCameraLocator()
         {
             const string ASSET_NAME = "CameraRoot"; 
@@ -21,11 +18,22 @@ namespace MvxFramework.UnityEngine.Views
             GameObject.DontDestroyOnLoad(instance);
             cameraRootInstance = instance;
 
-            GameCamera = instance.transform.Find("GameCamera").GetComponent<Camera>();
-            UIBGCamera = instance.transform.Find("UIBGCamera").GetComponent<Camera>();
-            UI3DCamera = instance.transform.Find("UI3DCamera").GetComponent<Camera>();
-            UI2DCamera = instance.transform.Find("UI2DCamera").GetComponent<Camera>();
+            RegisterCamera(MvxUIDefine.CAM.game);
+            RegisterCamera(MvxUIDefine.CAM.backGround);
+            RegisterCamera(MvxUIDefine.CAM.threeD);
+            RegisterCamera(MvxUIDefine.CAM.twoD);
+        }
 
+        private void RegisterCamera(string cameraName)
+        {
+            _cameraDict.Add(cameraName, cameraRootInstance.transform.Find(cameraName).GetComponent<Camera>());
+        }
+
+        public Camera ResolveCamera(string cameraName)
+        {
+            if (_cameraDict.TryGetValue(cameraName, out var camera) == false)
+                return null;
+            return camera;
         }
     }
 }

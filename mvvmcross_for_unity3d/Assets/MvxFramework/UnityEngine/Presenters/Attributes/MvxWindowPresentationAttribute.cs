@@ -4,13 +4,16 @@ namespace MvxFramework.UnityEngine.Presenters.Attributes
 {
     public class MvxWindowPresentationAttribute : MvxBasePresentationAttribute
     {
-        public string Identifier { get; }
-        public int priority { get; }
+        //public string Identifier { get; }
+        //public int priority { get; }
+        public string CameraName { get; }
 
-        public MvxWindowPresentationAttribute(string Identifier, int priority = 0)
+        public string LayerName { get; }
+
+        public MvxWindowPresentationAttribute(string cameraName, string layerName)
         {
-            this.Identifier = Identifier;
-            this.priority = priority;
+            CameraName = cameraName;
+            LayerName = layerName;
         }
     }
 }

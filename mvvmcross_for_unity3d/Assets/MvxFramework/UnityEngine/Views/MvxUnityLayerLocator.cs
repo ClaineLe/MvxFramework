@@ -1,50 +1,38 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public abstract class MvxUnityLayerLocator : IMvxUnityLayerLocator
+    public class MvxUnityLayerLocator : IMvxUnityLayerLocator
     {
-        protected virtual string LayerRootName => "LayerRoot";
+        protected virtual string LayerRootName => "UIRoot";
+        
         protected readonly GameObject layerRootInstance;
+        protected IMvxUnityCameraLocator cameraLocator;
 
-        private readonly Dictionary<string, IMvxUILayer> _layerDict;
+        protected EventSystem eventSystem;
+        protected StandaloneInputModule standaloneInputModule;
 
-        public abstract string GetDefaultSortingLayerName();
 
-        protected abstract IMvxUILayer CreateLayer<TLayer>(string layerName, Transform layerRoot)
-            where TLayer : UIBehaviour, IMvxUILayer;
-
-        protected MvxUnityLayerLocator()
+        public MvxUnityLayerLocator(IMvxUnityCameraLocator cameraLocator)
         {
-            _layerDict = new Dictionary<string, IMvxUILayer>();
+            Debug.Log("MvxUnityLayerLocator-ctor");
+            this.cameraLocator = cameraLocator;
 
-            layerRootInstance = new GameObject(LayerRootName);
+            layerRootInstance = new GameObject(LayerRootName, new []{typeof(RectTransform)});
             GameObject.DontDestroyOnLoad(layerRootInstance);
+
+            this.eventSystem = layerRootInstance.AddComponent<EventSystem>();
+            this.standaloneInputModule = layerRootInstance.AddComponent<StandaloneInputModule>();
         }
 
-        protected virtual void RegisterLayer<TLayer>(string layerName)where TLayer : UIBehaviour, IMvxUILayer
+        public void AddWindow(MvxUnityWindow window, string cameraName, string layerName)
         {
-            var layer = CreateLayer<TLayer>(layerName, layerRootInstance.transform);
-            _layerDict.Add(layerName, layer);
-        }
-
-        public IMvxUILayer GetLayer(string layerName)
-        {
-            return _layerDict.TryGetValue(layerName, out var layer) ? layer : null;
-        }
-
-        public void AddWindow(IMvxUnityWindow window)
-        {
-            Debug.Log("AddWindow:" + window);
             window.rectTransform.SetParent(this.layerRootInstance.transform);
-            
-            window.rectTransform.anchorMin = Vector2.zero;
-            window.rectTransform.anchorMax = Vector2.one;
-            window.rectTransform.localScale = Vector3.one;
-            window.rectTransform.anchoredPosition3D = Vector3.zero;
-            window.rectTransform.sizeDelta = Vector2.zero;
+            window.canvas.renderMode = RenderMode.ScreenSpaceCamera;
+            window.canvas.worldCamera = this.cameraLocator.ResolveCamera(cameraName);
+            window.canvas.sortingLayerName = layerName;
         }
     }
 }

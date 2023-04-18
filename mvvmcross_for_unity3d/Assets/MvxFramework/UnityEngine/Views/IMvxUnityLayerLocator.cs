@@ -2,9 +2,9 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityLayerLocator
     {
-        string GetDefaultSortingLayerName();
-        IMvxUILayer GetLayer(string layerName);
+        //string GetDefaultSortingLayerName();
+        //IMvxUILayer GetLayer(string layerName);
 
-        void AddWindow(IMvxUnityWindow window);
+        void AddWindow(MvxUnityWindow window, string cameraName, string layerName);
     }
 }
