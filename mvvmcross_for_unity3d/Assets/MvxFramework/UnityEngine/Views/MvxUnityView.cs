@@ -1,10 +1,35 @@
+using System.Threading.Tasks;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
+using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityView : MvxUnityViewController, IMvxUnityView
     {
+        public virtual async Task<bool> Activate(bool animated)
+        {
+            Debug.Log("Activate");
+            if (Activated == false)
+                Activated = true;
+            
+            if (Visible == false)
+                Visible = true;
+
+            return true;
+        }
+
+        public virtual async Task<bool> Passivate(bool animated)
+        {
+            return true;
+        }
+
+        public virtual async Task<bool> Dismiss(bool animated)
+        {
+            Activated = true;
+            return true;
+        }
+
         protected sealed override void ViewDidLoad()
         {
             base.ViewDidLoad();

@@ -1,14 +1,23 @@
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxVisualElement : IDisposable
     {
         public RectTransform rectTransform { get; }
-        public Canvas canvas{ get; }
-        public CanvasGroup canvasGroup{ get; }
-        public GraphicRaycaster graphicRaycaster{ get; }
+
+        public float Alpha { get; set; }
+
+        public bool Visible { get; set; }
+
+        public bool Activated { get;}
+
+        public bool Interactable { get; set; }
+
+        void SetCanvasRenderMode(RenderMode renderMode);
+        void SetCanvasCamera(Camera camera);
+        void SetCanvasSortingLayer(string layerName);
+
     }
 }

@@ -1,7 +1,7 @@
+using System.Threading.Tasks;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
-using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -12,6 +12,11 @@ namespace MvxFramework.UnityEngine.Views
             , IMvxVisualElement
     {
         MvxViewModelRequest Request { get; set; }
+        
+        Task<bool> Activate(bool animated);
+        Task<bool> Passivate(bool animated);
+        Task<bool> Dismiss(bool animated);
+        
     }
     public interface IMvxUnityView<TViewModel> : IMvxUnityView, IMvxView<TViewModel> where
         TViewModel : class, IMvxViewModel

@@ -12,7 +12,6 @@ namespace MvxFramework.UnityEngine.Views
     {
         public static void OnViewCreate(this IMvxUnityView iosView)
         {
-            Debug.Log("OnViewCreate");
             iosView.OnViewCreate(iosView.LoadViewModel);
         }
 

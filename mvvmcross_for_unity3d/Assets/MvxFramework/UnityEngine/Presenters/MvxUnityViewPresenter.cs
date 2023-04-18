@@ -52,15 +52,13 @@ namespace MvxFramework.UnityEngine.Presenters
             {
                 currentWindow = window;
                 layerLocator.AddWindow(window, attribute.CameraName, attribute.LayerName);
-                //window.rectTransform.gameObject.SetActive(true);
-                return true;
+                return await window.Activate(true);
             }
 
             if (currentWindow == null)
                 throw new ArgumentNullException(nameof(currentWindow));
 
             currentWindow.AddChild(view);
-
             //var view = viewCreator.CreateView(request) as MvxUnityWindow;
             //_windowDict.Add(view.ViewModel, view);
             //var layer = layerLocator.GetLayer(attribute.layerName);

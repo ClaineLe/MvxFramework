@@ -26,9 +26,9 @@ namespace MvxFramework.UnityEngine.Views
         public void AddWindow(IMvxUnityWindow window, string cameraName, string layerName)
         {
             window.rectTransform.SetParent(this._layerRootInstance.transform);
-            window.canvas.renderMode = RenderMode.ScreenSpaceCamera;
-            window.canvas.worldCamera = this.cameraLocator.ResolveCamera(cameraName);
-            window.canvas.sortingLayerName = layerName;
+            window.SetCanvasRenderMode(RenderMode.ScreenSpaceCamera);
+            window.SetCanvasCamera(this.cameraLocator.ResolveCamera(cameraName));
+            window.SetCanvasSortingLayer(layerName);
         }
     }
 }

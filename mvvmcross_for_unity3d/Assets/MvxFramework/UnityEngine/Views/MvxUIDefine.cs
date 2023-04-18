@@ -22,5 +22,12 @@ namespace MvxFramework.UnityEngine.Views
             public const string system = "System";
         }
         
+        public class ANIM
+        {
+            public const string activate = "Activate";
+            public const string passivate = "Passivate";
+            public const string dismiss = "Dismiss";
+        }
+        
     }
 }
