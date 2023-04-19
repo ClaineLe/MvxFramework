@@ -49,8 +49,8 @@ namespace MvxFramework.UnityEngine.Presenters
         {
             if (viewType.IsSubclassOf(typeof(MvxUnityWindow)))
             {
-                MvxLogHost.Default?.Log(LogLevel.Trace, "PresentationAttribute not found for {ViewTypeName}. " +
-                                                        "Assuming window presentation", viewType.Name);
+                MvxLogHost.Default?.LogInformation(
+                    $"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
                 return new MvxWindowPresentationAttribute(MvxUIDefine.CAM.twoD, MvxUIDefine.LAYER.normal)
                 {
                     ViewModelType = viewModelType,
@@ -58,8 +58,8 @@ namespace MvxFramework.UnityEngine.Presenters
                 };
             }
 
-            MvxLogHost.Default?.Log(LogLevel.Trace, "PresentationAttribute not found for {ViewTypeName}. " +
-                                                    "Assuming content presentation", viewType.Name);
+            MvxLogHost.Default?.LogInformation(
+                $"PresentationAttribute not found for {viewType.Name}. Assuming content presentation");
             return new MvxContentPresentationAttribute { ViewType = viewType, ViewModelType = viewModelType };
         }
 
@@ -84,6 +84,7 @@ namespace MvxFramework.UnityEngine.Presenters
                 Debug.LogError($"没有找到TopWindow");
                 return Task.FromResult(false);
             }
+
             return topWindow.Dismiss(true);
         }
 
