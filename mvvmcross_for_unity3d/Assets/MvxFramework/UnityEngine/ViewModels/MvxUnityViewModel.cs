@@ -1,12 +1,16 @@
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using MvvmCross.Localization;
+using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 
 namespace MvxFramework.UnityEngine.ViewModels
 {
-    public abstract class MvxUnityViewModel : MvxViewModel, IMvxUnityViewModel
+    public abstract class MvxUnityViewModel : MvxNavigationViewModel
     {
-        public Task<bool> Show(bool animated) => Task.FromResult(true);
 
-        public Task<bool> Hide(bool animated) => Task.FromResult(true);
+        public MvxUnityViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
+        {
+        }
     }
+    
 }
