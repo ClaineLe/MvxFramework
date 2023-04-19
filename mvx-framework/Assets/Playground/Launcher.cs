@@ -28,7 +28,7 @@ namespace Playground
 
         protected virtual async Task RunAppStart(object hint = null)
         {
-            if (Mvx.IoCProvider?.TryResolve(out IMvxAppStart startup) == true && !startup.IsStarted)
+            if (Mvx.IoCProvider.TryResolve(out IMvxAppStart startup) == true && !startup.IsStarted)
             {
                 await startup.StartAsync(GetAppStartHint(hint));
             }

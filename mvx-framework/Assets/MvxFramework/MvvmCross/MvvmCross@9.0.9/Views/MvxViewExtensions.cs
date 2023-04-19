@@ -43,7 +43,7 @@ namespace MvvmCross.Views
             if (view == null)
                 throw new ArgumentNullException(nameof(view));
 
-            if (Mvx.IoCProvider?.TryResolve(out IMvxViewModelTypeFinder associatedTypeFinder) == true)
+            if (Mvx.IoCProvider.TryResolve(out IMvxViewModelTypeFinder associatedTypeFinder) == true)
                 return associatedTypeFinder.FindTypeOrNull(view.GetType());
 
             MvxLogHost.Default?.Log(LogLevel.Trace,
