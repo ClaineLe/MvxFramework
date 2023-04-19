@@ -22,7 +22,7 @@ namespace MvxFramework.UnityEngine.Core
 #nullable enable
     public abstract class MvxUnitySetup : MvxSetup, IMvxUnitySetup
     {
-        protected SynchronizationContext unitySynchronizationContext;
+        protected SynchronizationContext? unitySynchronizationContext;
 
         private IMvxUnityViewPresenter? _presenter;
 
