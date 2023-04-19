@@ -35,18 +35,18 @@ namespace Playground.ViewModels
 
         public SplashScreeViewModel(ILoggerFactory logFactory,IMvxNavigationService navigationService) : base(logFactory, navigationService)
         {
-            Debug.Log("SplashScreeViewModel");
+            //Debug.Log("SplashScreeViewModel");
             BtnRefreshCommand = new MvxCommand(() => RaisePropertyChanged(() => TextSource));
             BtnChineseCommand = new MvxCommand(() => PickLanguage(string.Empty));
             BtnEnglishCommand = new MvxCommand(() => PickLanguage("English"));
             BtnSpriteCommand = new MvxCommand(NextSprite);
             BtnTextureCommand = new MvxCommand(NextTexture);
-            Debug.Log("BtnChineseCommand:"+ BtnChineseCommand.CanExecute());
+            //Debug.Log("BtnChineseCommand:"+ BtnChineseCommand.CanExecute());
         }
  
         private void PickLanguage(string which)
         {
-            Debug.Log($"PickLanguage:{which}");
+            //Debug.Log($"PickLanguage:{which}");
             builder.LoadResources(which);
             BtnRefreshCommand.Execute();
         }

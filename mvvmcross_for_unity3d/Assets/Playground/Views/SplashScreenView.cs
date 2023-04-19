@@ -23,7 +23,7 @@ namespace Playground.Views
  
         protected override void OnViewLoaded()
         {
-            Debug.Log("ViewDidLoad");
+            //Debug.Log("ViewDidLoad");
             var setter = CreateBindingSet();
             setter.Bind(this.BtnChinese).To(vm => vm.BtnChineseCommand);
             setter.Bind(this.BtnEnglish).To(vm => vm.BtnEnglishCommand);
