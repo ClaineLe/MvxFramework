@@ -4,7 +4,7 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityViewCreator : IMvxCurrentRequest
     {
-        IMvxUnityView CreateView(MvxViewModelRequest request);
-        IMvxUnityView CreateView(IMvxViewModel viewModel);
+        IMvxVisualElement CreateView(MvxViewModelRequest request);
+        IMvxVisualElement CreateView(IMvxViewModel viewModel);
     }
 }

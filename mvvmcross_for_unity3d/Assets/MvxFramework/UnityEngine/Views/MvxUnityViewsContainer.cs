@@ -11,7 +11,7 @@ namespace MvxFramework.UnityEngine.Views
     {
         public MvxViewModelRequest CurrentRequest { get; private set; }
 
-        public virtual IMvxUnityView CreateView(MvxViewModelRequest request)
+        public virtual IMvxVisualElement CreateView(MvxViewModelRequest request)
         {
             try
             {
@@ -41,11 +41,10 @@ namespace MvxFramework.UnityEngine.Views
             return view;
         }
 
-        public virtual IMvxUnityView CreateView(IMvxViewModel viewModel)
+        public virtual IMvxVisualElement CreateView(IMvxViewModel viewModel)
         {
             var request = new MvxViewModelInstanceRequest(viewModel);
-            var view = CreateView(request);
-            return view;
+            return CreateView(request);
         }
     }
 }

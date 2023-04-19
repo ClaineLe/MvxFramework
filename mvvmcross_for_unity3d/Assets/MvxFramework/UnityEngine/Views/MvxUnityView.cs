@@ -1,33 +1,48 @@
 using System.Threading.Tasks;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
+using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityView : MvxUnityViewController, IMvxUnityView
     {
+        protected virtual string ActivateAnimationName => "Activate";
+        protected virtual string PassivateAnimationName => "Passivate";
+        protected virtual string DismissAnimationName => PassivateAnimationName; //"Dismiss";
+
         public virtual async Task<bool> Activate(bool animated)
         {
             if (Activated == false)
                 Activated = true;
-            
+
             if (Visible == false)
                 Visible = true;
 
+            //Debug.Log("Activate - animated:" + animated + ", canPlay:" + CanPlayAnimation());
+            if (animated && CanPlayAnimation())
+                await PlayAnimation(ActivateAnimationName);
             return true;
         }
 
         public virtual async Task<bool> Passivate(bool animated)
         {
+            //Debug.Log("Passivate - animated:" + animated + ", canPlay:" + CanPlayAnimation());
+            if (animated && CanPlayAnimation())
+                await PlayAnimation(PassivateAnimationName);
             return true;
         }
 
         public virtual async Task<bool> Dismiss(bool animated)
         {
+            //Debug.Log("Dismiss - animated:" + animated + ", canPlay:" + CanPlayAnimation());
             Activated = true;
+            if (animated && CanPlayAnimation())
+                await PlayAnimation(DismissAnimationName);
+            GameObject.Destroy(gameObject);
             return true;
-        }
-
+        }    
+        
         protected sealed override void ViewDidLoad()
         {
             base.ViewDidLoad();

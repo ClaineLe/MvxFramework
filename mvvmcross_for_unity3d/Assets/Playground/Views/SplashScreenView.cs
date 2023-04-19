@@ -11,7 +11,7 @@ namespace Playground.Views
     {
         public Button BtnChinese;
         public Button BtnEnglish;
-        public Button BtnRefresh;
+        public Button BtnClose;
         public Button BtnTexture;
         public Button BtnSprite;
 
@@ -27,7 +27,7 @@ namespace Playground.Views
             var setter = CreateBindingSet();
             setter.Bind(this.BtnChinese).To(vm => vm.BtnChineseCommand);
             setter.Bind(this.BtnEnglish).To(vm => vm.BtnEnglishCommand);
-            setter.Bind(this.BtnRefresh).To(vm => vm.BtnRefreshCommand);
+            setter.Bind(this.BtnClose).To(vm => vm.BtnCloseCommand);
             
             setter.Bind(this.BtnTexture).To(vm => vm.BtnTextureCommand);
             setter.Bind(this.BtnSprite).To(vm => vm.BtnSpriteCommand);

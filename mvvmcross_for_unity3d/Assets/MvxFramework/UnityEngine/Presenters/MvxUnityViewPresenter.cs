@@ -1,14 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using MvvmCross;
+using MvvmCross.Logging;
 using MvvmCross.Presenters;
 using MvvmCross.Presenters.Attributes;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Presenters.Attributes;
 using MvxFramework.UnityEngine.Views;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace MvxFramework.UnityEngine.Presenters
 {
@@ -17,96 +17,106 @@ namespace MvxFramework.UnityEngine.Presenters
         private IMvxUnityViewCreator _viewCreator;
 
         private IMvxUnityLayerLocator _layerLocator;
-        //private readonly Dictionary<IMvxViewModel, IMvxUnityWindow> _windowDict = new ();
+        //private IMvxUnityWindow currentWindow;
 
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
 
         protected IMvxUnityLayerLocator layerLocator =>
             _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
+        protected MvxLinkedStack<IMvxUnityWindow> LinkedStack = new();
 
         public override void RegisterAttributeTypes()
         {
+            AttributeTypesToActionsDictionary.Register<MvxContentPresentationAttribute>(
+                (_, attribute, request) =>
+                {
+                    var visualElement = viewCreator.CreateView(request);
+                    return ShowContent(visualElement, attribute);
+                },
+                (viewModel, _) => CloseContent(viewModel));
+
             AttributeTypesToActionsDictionary.Register<MvxWindowPresentationAttribute>(
-                async (_, attribute, request) => await ShowWindow(request, attribute),
-                async (viewModel, _) => await CloseWindow(viewModel));
+                (_, attribute, request) =>
+                {
+                    var visualElement = viewCreator.CreateView(request);
+                    return ShowWindow(visualElement, attribute);
+                },
+                (viewModel, _) => CloseWindow(viewModel));
         }
 
         public override MvxBasePresentationAttribute CreatePresentationAttribute(Type viewModelType, Type viewType)
         {
-            var attribute = new MvxWindowPresentationAttribute(MvxUIDefine.CAM.twoD, MvxUIDefine.LAYER.normal)
+            if (viewType.IsSubclassOf(typeof(MvxUnityWindow)))
             {
-                ViewModelType = viewModelType,
-                ViewType = viewType
-            };
-            return attribute;
+                MvxLogHost.Default?.Log(LogLevel.Trace, "PresentationAttribute not found for {ViewTypeName}. " +
+                                                        "Assuming window presentation", viewType.Name);
+                return new MvxWindowPresentationAttribute(MvxUIDefine.CAM.twoD, MvxUIDefine.LAYER.normal)
+                {
+                    ViewModelType = viewModelType,
+                    ViewType = viewType
+                };
+            }
+
+            MvxLogHost.Default?.Log(LogLevel.Trace, "PresentationAttribute not found for {ViewTypeName}. " +
+                                                    "Assuming content presentation", viewType.Name);
+            return new MvxContentPresentationAttribute { ViewType = viewType, ViewModelType = viewModelType };
         }
 
-        private IMvxUnityWindow currentWindow;
 
-        protected virtual async Task<bool> ShowWindow(MvxViewModelRequest request,
+        protected virtual Task<bool> ShowWindow(IMvxVisualElement visualElement,
             MvxWindowPresentationAttribute attribute)
         {
-            var view = viewCreator.CreateView(request);
-            if (view is IMvxUnityWindow window)
+            Debug.Log("ShowWindow");
+            if (visualElement is not IMvxUnityWindow window)
+                return Task.FromResult(false);
+
+            LinkedStack.Push(window);
+            layerLocator.AddWindow(window, attribute.CameraName, attribute.LayerName);
+            return window.Activate(true);
+        }
+
+        protected virtual Task<bool> CloseWindow(IMvxViewModel windowModel)
+        {
+            var topWindow = LinkedStack.Peek();
+            if (topWindow == null)
             {
-                currentWindow = window;
-                layerLocator.AddWindow(window, attribute.CameraName, attribute.LayerName);
-                return await window.Activate(true);
+                Debug.LogError($"没有找到TopWindow");
+                return Task.FromResult(false);
+            }
+            return topWindow.Dismiss(true);
+        }
+
+        protected virtual Task<bool> ShowContent(IMvxVisualElement visualElement,
+            MvxContentPresentationAttribute attribute)
+        {
+            if (visualElement is not IMvxUnityView view)
+                return Task.FromResult(false);
+
+            var window = LinkedStack.Peek();
+            window.AddChild(view);
+            return view.Activate(true);
+        }
+
+        protected virtual Task<bool> CloseContent(IMvxViewModel viewModel)
+        {
+            var topWindow = LinkedStack.Peek();
+            if (topWindow == null)
+            {
+                Debug.LogError($"没有找到TopWindow");
+                return Task.FromResult(false);
             }
 
-            if (currentWindow == null)
-                throw new ArgumentNullException(nameof(currentWindow));
-
-            currentWindow.AddChild(view);
-            //var view = viewCreator.CreateView(request) as MvxUnityWindow;
-            //_windowDict.Add(view.ViewModel, view);
-            //var layer = layerLocator.GetLayer(attribute.layerName);
-            //layer.AddView(view);
-            //layer.AddWindow(view);
-            //await view.Show();
-            return true;
-        }
-
-
-        protected virtual async Task<bool> CloseWindow(IMvxViewModel toClose)
-        {
-            /*
-            if(_windowDict.TryGetValue(toClose, out var window) == false)
+            var viewList = topWindow.LinkedStack.FindAll(a => a.ViewModel == viewModel);
+            if (viewList.Count != 1)
             {
-                Debug.LogError($"无法关闭当前窗口.destVM:{toClose}");
-                return false;
+                Debug.LogError($"找寻窗口出错：windowList.Count = {viewList.Count}");
+                return Task.FromResult(false);
             }
-            window.Dismiss(true);
-            */
-            return true;
-        }
 
-        private static void ValidateArguments(Type viewModelType, Type viewType)
-        {
-            if (viewModelType == null)
-                throw new ArgumentNullException(nameof(viewModelType));
-
-            if (viewType == null)
-                throw new ArgumentNullException(nameof(viewType));
-        }
-
-        private static void ValidateArguments(UIBehaviour viewController, MvxBasePresentationAttribute attribute)
-        {
-            if (viewController == null)
-                throw new ArgumentNullException(nameof(viewController));
-
-            if (attribute == null)
-                throw new ArgumentNullException(nameof(attribute));
-        }
-
-        private static void ValidateArguments(IMvxViewModel viewModel, MvxBasePresentationAttribute attribute)
-        {
-            if (viewModel == null)
-                throw new ArgumentNullException(nameof(viewModel));
-
-            if (attribute == null)
-                throw new ArgumentNullException(nameof(attribute));
+            var view = viewList[0];
+            topWindow.RemoveChild(view);
+            return view.Dismiss(true);
         }
     }
 }

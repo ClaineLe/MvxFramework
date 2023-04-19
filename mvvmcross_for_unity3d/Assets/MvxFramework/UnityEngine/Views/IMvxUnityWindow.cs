@@ -4,7 +4,10 @@ namespace MvxFramework.UnityEngine.Views
 {
     public interface IMvxUnityWindow : IMvxUnityView
     {
+        MvxLinkedStack<IMvxUnityView> LinkedStack { get; }
+
         void AddChild(IMvxUnityView view);
+        void RemoveChild(IMvxUnityView view);
     }
 
     public interface IMvxUnityWindow<TViewModel> : IMvxUnityWindow, IMvxUnityView<TViewModel>

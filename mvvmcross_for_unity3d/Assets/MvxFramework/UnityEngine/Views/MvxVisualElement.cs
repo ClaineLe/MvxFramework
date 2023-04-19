@@ -123,7 +123,7 @@ namespace MvxFramework.UnityEngine.Views
         }
 
 
-        protected virtual void Start()
+        protected override void Start()
         {
             this.ViewDidLoad();
         }
@@ -148,7 +148,7 @@ namespace MvxFramework.UnityEngine.Views
         {
         }
 
-        protected virtual void OnDestroy()
+        protected override void OnDestroy()
         {
             this.Dispose();
         }
