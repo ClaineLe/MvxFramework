@@ -8,23 +8,22 @@ using MvvmCross.Presenters.Attributes;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Presenters.Attributes;
 using MvxFramework.UnityEngine.Views;
-using UnityEngine;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace MvxFramework.UnityEngine.Presenters
 {
     public class MvxUnityViewPresenter : MvxAttributeViewPresenter, IMvxUnityViewPresenter
     {
+        private readonly ILogger? _log = MvxLogHost.GetLog<MvxUnityViewPresenter>();
+
         private IMvxUnityViewCreator _viewCreator;
 
         private IMvxUnityLayerLocator _layerLocator;
-        //private IMvxUnityWindow currentWindow;
 
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
+        protected IMvxUnityLayerLocator layerLocator => _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
-        protected IMvxUnityLayerLocator layerLocator =>
-            _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
-
-        protected MvxLinkedStack<IMvxUnityWindow> LinkedStack = new();
+        private readonly MvxLinkedStack<IMvxUnityWindow> _linkedStack = new();
 
         public override void RegisterAttributeTypes()
         {
@@ -49,8 +48,7 @@ namespace MvxFramework.UnityEngine.Presenters
         {
             if (viewType.IsSubclassOf(typeof(MvxUnityWindow)))
             {
-                MvxLogHost.Default?.LogInformation(
-                    $"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
+                _log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
                 return new MvxWindowPresentationAttribute(MvxUIDefine.CAM.twoD, MvxUIDefine.LAYER.normal)
                 {
                     ViewModelType = viewModelType,
@@ -58,8 +56,7 @@ namespace MvxFramework.UnityEngine.Presenters
                 };
             }
 
-            MvxLogHost.Default?.LogInformation(
-                $"PresentationAttribute not found for {viewType.Name}. Assuming content presentation");
+            _log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming content presentation");
             return new MvxContentPresentationAttribute { ViewType = viewType, ViewModelType = viewModelType };
         }
 
@@ -67,51 +64,55 @@ namespace MvxFramework.UnityEngine.Presenters
         protected virtual Task<bool> ShowWindow(IMvxVisualElement visualElement,
             MvxWindowPresentationAttribute attribute)
         {
-            Debug.Log("ShowWindow");
             if (visualElement is not IMvxUnityWindow window)
                 return Task.FromResult(false);
 
-            LinkedStack.Push(window);
+            _linkedStack.Push(window);
             layerLocator.AddWindow(window, attribute.CameraName, attribute.LayerName);
             return window.Activate(true);
         }
 
         protected virtual Task<bool> CloseWindow(IMvxViewModel windowModel)
         {
-            var topWindow = LinkedStack.Peek();
+            var topWindow = _linkedStack.Peek();
             if (topWindow == null)
             {
-                Debug.LogError($"没有找到TopWindow");
+                _log?.LogError($"没有找到TopWindow");
+                return Task.FromResult(false);
+            }
+
+            if (topWindow.ViewModel != windowModel)
+            {
+                _log?.LogWarning($"Could not close ViewModel type {windowModel.GetType().Name}");
                 return Task.FromResult(false);
             }
 
             return topWindow.Dismiss(true);
         }
 
-        protected virtual Task<bool> ShowContent(IMvxVisualElement visualElement,
-            MvxContentPresentationAttribute attribute)
+        protected virtual Task<bool> ShowContent(IMvxVisualElement visualElement, MvxContentPresentationAttribute attribute)
         {
             if (visualElement is not IMvxUnityView view)
                 return Task.FromResult(false);
 
-            var window = LinkedStack.Peek();
+            var window = _linkedStack.Peek();
             window.AddChild(view);
             return view.Activate(true);
         }
 
         protected virtual Task<bool> CloseContent(IMvxViewModel viewModel)
         {
-            var topWindow = LinkedStack.Peek();
+            var topWindow = _linkedStack.Peek();
             if (topWindow == null)
             {
-                Debug.LogError($"没有找到TopWindow");
+                _log?.LogError($"没有找到TopWindow");
                 return Task.FromResult(false);
             }
 
             var viewList = topWindow.LinkedStack.FindAll(a => a.ViewModel == viewModel);
             if (viewList.Count != 1)
             {
-                Debug.LogError($"找寻窗口出错：windowList.Count = {viewList.Count}");
+                _log?.LogError($"找寻窗口出错：windowList.Count = {viewList.Count}");
                 return Task.FromResult(false);
             }
 
