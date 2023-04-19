@@ -32,7 +32,6 @@ namespace Playground.Views
 
         protected override void OnViewLoaded()
         {
-            Debug.Log("OnViewLoaded");
             var setter = CreateBindingSet();
             setter.Bind(this.ClickButton).To(vm => vm.ClickButtonCommand);
             setter.Bind(this.AnimButton).To(vm => vm.SwitchAnimCommand);
