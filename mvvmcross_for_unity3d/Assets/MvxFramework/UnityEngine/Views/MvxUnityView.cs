@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
-using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Views
 {
@@ -9,7 +8,6 @@ namespace MvxFramework.UnityEngine.Views
     {
         public virtual async Task<bool> Activate(bool animated)
         {
-            Debug.Log("Activate");
             if (Activated == false)
                 Activated = true;
             

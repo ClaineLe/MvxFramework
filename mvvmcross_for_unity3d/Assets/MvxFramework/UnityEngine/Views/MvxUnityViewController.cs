@@ -1,10 +1,9 @@
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
-using MvxFramework.UnityEngine.Views.Base;
 
 namespace MvxFramework.UnityEngine.Views
 {
-    public abstract class MvxUnityViewController : MvxEventSourceVisualElement
+    public abstract class MvxUnityViewController : MvxUnityAnimationView
     {
         protected sealed override void Awake()
         {
@@ -27,7 +26,7 @@ namespace MvxFramework.UnityEngine.Views
         public MvxViewModelRequest Request { get; set; }
 
         public IMvxBindingContext BindingContext { get; set; }
-        
+
         protected override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -56,7 +55,6 @@ namespace MvxFramework.UnityEngine.Views
         {
             base.ViewDidDisappear(animated);
             ViewModel?.ViewDisappeared();
-        } 
-        
+        }
     }
 }
