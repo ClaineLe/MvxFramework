@@ -1,0 +1,16 @@
+{
+    "name": "MvvmCross.Plugin.Json",
+    "rootNamespace": "",
+    "references": [
+        "GUID:ff7bb542c24c9428ba7934f73c54077a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}
