@@ -9,12 +9,11 @@ namespace MvxFramework.UnityEngine.Views
 
         private Dictionary<string, Camera> _cameraDict = new Dictionary<string, Camera>();
 
-        public MvxUnityCameraLocator()
+        public MvxUnityCameraLocator(string assetPath = "CameraRoot")
         {
-            const string ASSET_NAME = "CameraRoot"; 
-            var asset = Resources.Load<GameObject>(ASSET_NAME);
+            var asset = Resources.Load<GameObject>(assetPath);
             var instance = GameObject.Instantiate(asset);
-            instance.name = ASSET_NAME;
+            instance.name = System.IO.Path.GetFileNameWithoutExtension(assetPath);
             GameObject.DontDestroyOnLoad(instance);
             cameraRootInstance = instance;
 

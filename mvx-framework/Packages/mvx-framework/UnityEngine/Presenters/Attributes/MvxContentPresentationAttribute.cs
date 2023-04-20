@@ -1,10 +1,8 @@
-using MvvmCross.Presenters.Attributes;
-
 namespace MvxFramework.UnityEngine.Presenters.Attributes
 {
-    public class MvxContentPresentationAttribute : MvxBasePresentationAttribute
+    public class MvxContentPresentationAttribute : MvxUnityBasePresentationAttribute
     {
-        public MvxContentPresentationAttribute()
+        public MvxContentPresentationAttribute(string assetPath, bool resourceModel = false ) : base(assetPath, resourceModel)
         {
         }
     }

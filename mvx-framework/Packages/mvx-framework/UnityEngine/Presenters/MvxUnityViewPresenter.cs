@@ -14,6 +14,9 @@ namespace MvxFramework.UnityEngine.Presenters
 {
     public class MvxUnityViewPresenter : MvxAttributeViewPresenter, IMvxUnityViewPresenter
     {
+        private bool ResourceMode { get; }
+        private string DefAssetPath { get; }
+
         private readonly ILogger? _log = MvxLogHost.GetLog<MvxUnityViewPresenter>();
 
         private IMvxUnityViewCreator _viewCreator;
@@ -21,25 +24,33 @@ namespace MvxFramework.UnityEngine.Presenters
         private IMvxUnityLayerLocator _layerLocator;
 
         protected IMvxUnityViewCreator viewCreator => _viewCreator ??= Mvx.IoCProvider.Resolve<IMvxUnityViewCreator>();
-        protected IMvxUnityLayerLocator layerLocator => _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
+
+        protected IMvxUnityLayerLocator layerLocator =>
+            _layerLocator ??= Mvx.IoCProvider.Resolve<IMvxUnityLayerLocator>();
 
         private readonly MvxLinkedStack<IMvxUnityWindow> _linkedStack = new();
+
+        public MvxUnityViewPresenter(bool resourceMode = true, string defAssetPath = "")
+        {
+            this.ResourceMode = resourceMode;
+            this.DefAssetPath = defAssetPath;
+        }
 
         public override void RegisterAttributeTypes()
         {
             AttributeTypesToActionsDictionary.Register<MvxContentPresentationAttribute>(
-                (_, attribute, request) =>
+                async (_, attribute, request) =>
                 {
-                    var visualElement = viewCreator.CreateView(request);
-                    return ShowContent(visualElement, attribute);
+                    var visualElement = await viewCreator.CreateViewAsync(request, attribute);
+                    return await ShowContent(visualElement, attribute);
                 },
                 (viewModel, _) => CloseContent(viewModel));
 
             AttributeTypesToActionsDictionary.Register<MvxWindowPresentationAttribute>(
-                (_, attribute, request) =>
+                async (_, attribute, request) =>
                 {
-                    var visualElement = viewCreator.CreateView(request);
-                    return ShowWindow(visualElement, attribute);
+                    var visualElement = await viewCreator.CreateViewAsync(request, attribute);
+                    return await ShowWindow(visualElement, attribute);
                 },
                 (viewModel, _) => CloseWindow(viewModel));
         }
@@ -48,8 +59,9 @@ namespace MvxFramework.UnityEngine.Presenters
         {
             if (viewType.IsSubclassOf(typeof(MvxUnityWindow)))
             {
-                _log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
-                return new MvxWindowPresentationAttribute(MvxUIDefine.CAM.twoD, MvxUIDefine.LAYER.normal)
+                _log?.LogInformation(
+                    $"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
+                return new MvxWindowPresentationAttribute(DefAssetPath, resourceModel: true)
                 {
                     ViewModelType = viewModelType,
                     ViewType = viewType
@@ -57,7 +69,11 @@ namespace MvxFramework.UnityEngine.Presenters
             }
 
             _log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming content presentation");
-            return new MvxContentPresentationAttribute { ViewType = viewType, ViewModelType = viewModelType };
+            return new MvxContentPresentationAttribute(DefAssetPath, true)
+            {
+                ViewType = viewType,
+                ViewModelType = viewModelType
+            };
         }
 
 
@@ -90,7 +106,8 @@ namespace MvxFramework.UnityEngine.Presenters
             return topWindow.Dismiss(true);
         }
 
-        protected virtual Task<bool> ShowContent(IMvxVisualElement visualElement, MvxContentPresentationAttribute attribute)
+        protected virtual Task<bool> ShowContent(IMvxVisualElement visualElement,
+            MvxContentPresentationAttribute attribute)
         {
             if (visualElement is not IMvxUnityView view)
                 return Task.FromResult(false);
