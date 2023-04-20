@@ -4,7 +4,7 @@ using MvvmCross.Binding.Binders;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.Converters;
-using MvxFramework.UnityEngine.Binding.Target;
+using MvxFramework.UnityEngine.Binding.Target.UGUI;
 using MvxFramework.UnityEngine.Binding.ValueConverters;
 using UnityEngine.UI;
 
@@ -40,27 +40,46 @@ namespace MvxFramework.UnityEngine.Binding
                 MvxUGUIPropertyBinding.Button_onClick,
                 view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
             */
- 
+            
+            
+            
+            /*
+                       registry.RegisterCustomBindingFactory<Button>(
+                           MvxUGUIPropertyBinding.Button_onClick,
+                           view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
+                           
+                       registry.RegisterCustomBindingFactory<InputField>(
+                           MvxUGUIPropertyBinding.InputField_onEndEdit,
+                           view => new MvxUGUIInputFieldTargetBinding(view, MvxUGUIPropertyBinding.InputField_onEndEdit));
+           
+                       registry.RegisterCustomBindingFactory<InputField>(
+                           MvxUGUIPropertyBinding.InputField_onValueChanged,
+                           view => new MvxUGUIInputFieldTargetBinding(view, MvxUGUIPropertyBinding.InputField_onValueChanged));
+                       
+                       
+              */
+            
+            
             registry.RegisterCustomBindingFactory<Button>(
                 MvxUGUIPropertyBinding.Button_onClick,
-                view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
-
-            registry.RegisterCustomBindingFactory<InputField>(
-                MvxUGUIPropertyBinding.InputField_onEndEdit,
-                view => new MvxUGUIInputFieldTargetBinding(view, MvxUGUIPropertyBinding.InputField_onEndEdit));
+                view => new MvxButtonTargetBinding(view,MvxUGUIPropertyBinding.Button_onClick));
 
             registry.RegisterCustomBindingFactory<InputField>(
                 MvxUGUIPropertyBinding.InputField_onValueChanged,
-                view => new MvxUGUIInputFieldTargetBinding(view, MvxUGUIPropertyBinding.InputField_onValueChanged));
-            
+                view => new MvxInputFieldTargetBinding(view,MvxUGUIPropertyBinding.InputField_onValueChanged));
+
+            registry.RegisterCustomBindingFactory<InputField>(
+                MvxUGUIPropertyBinding.InputField_onEndEdit,
+                view => new MvxInputFieldTargetBinding(view,MvxUGUIPropertyBinding.InputField_onEndEdit));
+
             registry.RegisterCustomBindingFactory<Image>(
                 MvxUGUIPropertyBinding.Image_sprite,
-                image => new MvxUGUIImageTargetBinding(image));
-            
+                image => new MvxImageTargetBinding(image));
+
             registry.RegisterCustomBindingFactory<RawImage>(
                 MvxUGUIPropertyBinding.RawImage_texture,
-                rawImage => new MvxUGUIRawImageTargetBinding(rawImage));
-            
+                rawImage => new MvxRawImageTargetBinding(rawImage));
+
             /*
             registry.RegisterCustomBindingFactory<UIControl>(
                 MvxIosPropertyBinding.UIControl_TouchDown,
