@@ -30,7 +30,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
             var view = Control;
             if (view == null) return;
 
-            view.enabled = _command?.CanExecute(null) ?? false;
+            view.enabled = _command?.CanExecute(null) ?? true;
         }
 
         protected void ControlEvent()
@@ -73,7 +73,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
             var view = Control;
             if (view == null) return;
 
-            view.enabled = _command?.CanExecute(default) ?? false;
+            view.enabled = _command?.CanExecute(default) ?? true;
         }
 
         protected MvxUnityEventTargetBinding(TBehaviour control, string controlEvent) : base(control, controlEvent)
