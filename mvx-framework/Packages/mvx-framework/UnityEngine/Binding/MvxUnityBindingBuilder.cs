@@ -55,11 +55,11 @@ namespace MvxFramework.UnityEngine.Binding
             
             registry.RegisterCustomBindingFactory<Image>(
                 MvxUGUIPropertyBinding.Image_sprite,
-                image => new MvxUGUIImageSpriteTargetBinding(image));
+                image => new MvxUGUIImageTargetBinding(image));
             
             registry.RegisterCustomBindingFactory<RawImage>(
                 MvxUGUIPropertyBinding.RawImage_texture,
-                rawImage => new MvxUGUIImageTextureTargetBinding(rawImage));
+                rawImage => new MvxUGUIRawImageTargetBinding(rawImage));
             
             /*
             registry.RegisterCustomBindingFactory<UIControl>(
