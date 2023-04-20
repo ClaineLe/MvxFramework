@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 namespace MvxFramework.UnityEngine.Binding.Target
 {
-    public class MvxUGUIImageSpriteTargetBinding : MvxConvertingTargetBinding
+    public class MvxUGUIImageTargetBinding : MvxConvertingTargetBinding
     {
-        public MvxUGUIImageSpriteTargetBinding(Image image) : base(image)
+        public MvxUGUIImageTargetBinding(Image image) : base(image)
         {
         }
 
@@ -27,7 +27,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
             }
             catch (Exception ex)
             {
-                MvxLogHost.GetLog<MvxUGUIImageSpriteTargetBinding>()?.Log(LogLevel.Error, ex, "Failed to set bitmap on ImageView");
+                MvxLogHost.GetLog<MvxUGUIImageTargetBinding>()?.Log(LogLevel.Error, ex, "Failed to set bitmap on ImageView");
                 throw;
             }
         }

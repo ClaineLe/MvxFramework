@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 namespace MvxFramework.UnityEngine.Binding.Target
 {
-    public class MvxUGUIImageTextureTargetBinding : MvxConvertingTargetBinding
+    public class MvxUGUIRawImageTargetBinding : MvxConvertingTargetBinding
     {
-        public MvxUGUIImageTextureTargetBinding(RawImage rawImage) : base(rawImage)
+        public MvxUGUIRawImageTargetBinding(RawImage rawImage) : base(rawImage)
         {
         }
 
@@ -27,7 +27,7 @@ namespace MvxFramework.UnityEngine.Binding.Target
             }
             catch (Exception ex)
             {
-                MvxLogHost.GetLog<MvxUGUIImageTextureTargetBinding>()?
+                MvxLogHost.GetLog<MvxUGUIRawImageTargetBinding>()?
                     .Log(LogLevel.Error, ex, "Failed to set bitmap on ImageView");
                 throw;
             }
