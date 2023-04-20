@@ -35,10 +35,24 @@ namespace MvxFramework.UnityEngine.Binding
         {
             base.FillTargetFactories(registry);
 
+            /*
             registry.RegisterCustomBindingFactory<Button>(
                 MvxUGUIPropertyBinding.Button_onClick,
                 view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
+            */
  
+            registry.RegisterCustomBindingFactory<Button>(
+                MvxUGUIPropertyBinding.Button_onClick,
+                view => new MvxUGUIButtonTargetBinding(view, MvxUGUIPropertyBinding.Button_onClick));
+
+            registry.RegisterCustomBindingFactory<InputField>(
+                MvxUGUIPropertyBinding.InputField_onEndEdit,
+                view => new MvxUGUIInputFieldTargetBinding(view, MvxUGUIPropertyBinding.InputField_onEndEdit));
+
+            registry.RegisterCustomBindingFactory<InputField>(
+                MvxUGUIPropertyBinding.InputField_onValueChanged,
+                view => new MvxUGUIInputFieldTargetBinding(view, MvxUGUIPropertyBinding.InputField_onValueChanged));
+            
             registry.RegisterCustomBindingFactory<Image>(
                 MvxUGUIPropertyBinding.Image_sprite,
                 image => new MvxUGUIImageSpriteTargetBinding(image));
@@ -258,6 +272,7 @@ namespace MvxFramework.UnityEngine.Binding
         {
             base.FillDefaultBindingNames(registry);
             registry.AddOrOverwrite(typeof(Button), MvxUGUIPropertyBinding.Button_onClick);
+            registry.AddOrOverwrite(typeof(InputField), MvxUGUIPropertyBinding.InputField_onValueChanged);
             registry.AddOrOverwrite(typeof(RawImage), MvxUGUIPropertyBinding.RawImage_texture);
             registry.AddOrOverwrite(typeof(Image), MvxUGUIPropertyBinding.Image_sprite);
 
