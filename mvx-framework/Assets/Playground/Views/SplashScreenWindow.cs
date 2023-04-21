@@ -1,5 +1,7 @@
 using System;
 using MvvmCross.Base;
+using MvvmCross.Binding;
+using MvvmCross.Binding.BindingContext;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.Views;
 using Playground.ViewModels;
@@ -13,7 +15,8 @@ namespace Playground.Views
         public Button ClickButton;
         public Button AnimButton;
 
-        public Image BackGround;
+        public Text LanguageTextOneWay;
+        public Text LanguageTextOneTime;
 
         private IMvxInteraction<string> _interaction;
 
@@ -36,6 +39,10 @@ namespace Playground.Views
             setter.Bind(this.ClickButton).To(vm => vm.ClickButtonCommand);
             setter.Bind(this.AnimButton).To(vm => vm.SwitchAnimCommand);
             setter.Bind(this).For(view => view.Interaction).To(viewModel => viewModel.Interaction).OneWay();
+            
+            this.BindLanguage(LanguageTextOneTime, "text", "ExampleText");
+            this.BindLanguage(LanguageTextOneWay, "text", "ExampleText", bindingMode: MvxBindingMode.OneWay);
+            
             setter.Apply();
         }
 

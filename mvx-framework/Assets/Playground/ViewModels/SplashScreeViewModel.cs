@@ -2,16 +2,13 @@ using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
-using MvvmCross.Plugin.JsonLocalization;
-using UnityEngine;
+using MvxFramework.UnityEngine.ViewModels;
+using UnityEngine.Services.LocalizeService;
 
 namespace Playground.ViewModels
 {
-    public class SplashScreeViewModel : MvxUnityLanguageViewModel
+    public class SplashScreeViewModel : MvxUnityViewModel
     {
-        private IMvxTextProviderBuilder _builder;
-        private IMvxTextProviderBuilder builder => _builder ??= Mvx.IoCProvider.Resolve<IMvxTextProviderBuilder>();
-
         public IMvxCommand BtnChineseCommand { get; }
         public IMvxCommand BtnEnglishCommand { get; }
         public IMvxCommand BtnCloseCommand { get; }
@@ -38,21 +35,15 @@ namespace Playground.ViewModels
             logFactory, navigationService)
         {
             //Debug.Log("SplashScreeViewModel");
+            var localizeSvr = Mvx.IoCProvider.Resolve<IMvxLocalizeService>();
             BtnCloseCommand = new MvxCommand(CloseSelf);
-            BtnChineseCommand = new MvxCommand(() => PickLanguage(string.Empty));
-            BtnEnglishCommand = new MvxCommand(() => PickLanguage("English"));
+            BtnChineseCommand = new MvxCommand(() => localizeSvr.SetLanguage(LANG.zh_CN));
+            BtnEnglishCommand = new MvxCommand(() => localizeSvr.SetLanguage(LANG.en_GB));
             BtnSpriteCommand = new MvxCommand(NextSprite);
             BtnTextureCommand = new MvxCommand(NextTexture);
             //Debug.Log("BtnChineseCommand:"+ BtnChineseCommand.CanExecute());
         }
-
-        private void PickLanguage(string which)
-        {
-            //Debug.Log($"PickLanguage:{which}");
-            builder.LoadResources(which);
-            RaisePropertyChanged(() => TextSource);
-        }
-
+        
         private int imageIndex = 1;
 
         private void NextSprite()

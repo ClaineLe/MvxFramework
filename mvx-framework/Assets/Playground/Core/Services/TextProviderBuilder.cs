@@ -1,31 +1,24 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using MvvmCross.IoC;
+using MvvmCross;
 using MvvmCross.Plugin.JsonLocalization;
+using UnityEngine.Services.LocalizeService;
 
 namespace Playground.Core.Services
 {
     public class TextProviderBuilder
         : MvxTextProviderBuilder
     {
-        public TextProviderBuilder() : base(Constants.GeneralNamespace, Constants.RootFolderForResources)
+        private string currentLanguage => Mvx.IoCProvider.Resolve<IMvxLocalizeService>().GetCurrentLanguage();
+        public TextProviderBuilder(string generalNamespace, string rootFolderForResources) : base(generalNamespace, rootFolderForResources)
         {
         }
 
-        protected override IDictionary<string, string> ResourceFiles
+        protected override IDictionary<string, string> ResourceFiles => new Dictionary<string, string>
         {
-            get
-            {
-                var dictionary = this.GetType()
-                    .GetTypeInfo()
-                    .Assembly
-                    .CreatableTypes()
-                    .Where(t => t.Name.EndsWith("ViewModel"))
-                    .ToDictionary(t => t.Name, t => t.Name);
+            [currentLanguage] = currentLanguage
+        };
 
-                return dictionary;
-            }
-        }
+        protected override string GetResourceFilePath(string whichLocalizationFolder, string whichFile)
+            => $"{_rootFolderForResources}/{whichFile}.json";
     }
 }

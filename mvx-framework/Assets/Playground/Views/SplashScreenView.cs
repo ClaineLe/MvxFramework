@@ -34,7 +34,7 @@ namespace Playground.Views
             
             setter.Bind(this.ImgBoard).To(vm => vm.ImageAssetKey);
             setter.Bind(this.RawImgBoard).To(vm => vm.RawImageAssetKey);
-            this.BindLanguage(TxtContext, "text", "ExampleText");
+            //this.BindLanguage(TxtContext, "text", "ExampleText");
             this.BindLanguage(TxtContext, "text", "ExampleText", bindingMode: MvxBindingMode.OneWay);
             setter.Apply();
         }
