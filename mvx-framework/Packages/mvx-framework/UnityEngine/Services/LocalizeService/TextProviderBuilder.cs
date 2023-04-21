@@ -3,7 +3,7 @@ using MvvmCross;
 using MvvmCross.Plugin.JsonLocalization;
 using UnityEngine.Services.LocalizeService;
 
-namespace Playground.Core.Services
+namespace UnityEngine.Services.LocalizeService
 {
     public class TextProviderBuilder
         : MvxTextProviderBuilder

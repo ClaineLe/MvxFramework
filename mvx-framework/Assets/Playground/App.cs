@@ -3,7 +3,6 @@ using MvvmCross.IoC;
 using MvvmCross.Localization;
 using MvvmCross.Plugin.JsonLocalization;
 using MvvmCross.ViewModels;
-using Playground.Core.Services;
 using Playground.ViewModels;
 using UnityEngine.Services.LocalizeService;
 
