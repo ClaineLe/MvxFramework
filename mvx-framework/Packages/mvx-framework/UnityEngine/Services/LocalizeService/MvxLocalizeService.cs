@@ -5,7 +5,6 @@ using MvvmCross;
 using MvvmCross.Localization;
 using MvvmCross.Plugin.JsonLocalization;
 using MvvmCross.Plugin.Messenger;
-using UnityEngine.Messages;
 
 namespace UnityEngine.Services.LocalizeService
 {
@@ -45,6 +44,8 @@ namespace UnityEngine.Services.LocalizeService
             this.generalNamespace = generalNamespace;
         }
 
+        public EventHandler OnChangedLanguage { get; set; }
+
         public void RegisterLanguage(LANG lang)
         {
             if(_supportedLanguages.TryGetValue(lang, out var _))
@@ -64,8 +65,7 @@ namespace UnityEngine.Services.LocalizeService
 
             currentLanguage = language;
             builder.LoadResources(language.ToString());
-            
-            messenger.Publish(new LanguageChangedMessage(this));
+            OnChangedLanguage?.Invoke(this, null);
         }
 
         public IMvxLanguageBinder GetLanguageBinder()
