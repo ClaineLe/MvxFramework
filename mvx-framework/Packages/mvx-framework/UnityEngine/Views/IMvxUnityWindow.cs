@@ -6,7 +6,7 @@ namespace MvxFramework.UnityEngine.Views
     {
         MvxLinkedStack<IMvxUnityView> LinkedStack { get; }
 
-        void AddChild(IMvxUnityView view);
+        void AddChild(IMvxUnityView view, bool enterStack = true);
         void RemoveChild(IMvxUnityView view);
     }
 

@@ -10,7 +10,7 @@ namespace MvxFramework.UnityEngine.Views
 
         public MvxLinkedStack<IMvxUnityView> LinkedStack => _linkedStack;
 
-        public void AddChild(IMvxUnityView view)
+        public void AddChild(IMvxUnityView view, bool enterStack = true)
         {
             var childRectTransform = view.rectTransform;
             childRectTransform.SetParent(this.rectTransform);
@@ -20,8 +20,9 @@ namespace MvxFramework.UnityEngine.Views
             childRectTransform.localScale = Vector3.one;
             childRectTransform.anchoredPosition3D = Vector3.zero;
             childRectTransform.sizeDelta = Vector2.zero;
-            this.LinkedStack.Push(view);
             this.OnAddChild(view);
+            if(enterStack)
+                this.LinkedStack.Push(view);
         }
 
         public void RemoveChild(IMvxUnityView view)
