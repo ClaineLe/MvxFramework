@@ -4,83 +4,77 @@ using MvvmCross.Binding.Bindings.Target;
 using MvvmCross.Binding.Extensions;
 using UnityEngine.UI;
 
-namespace MvxFramework.UnityEngine.Binding.Target
+namespace MvxFramework.UnityEngine.Binding.Target.UGUI
 {
-    namespace UGUI
+    public class MvxInputFieldTargetBinding : MvxTargetBinding, IMvxEditableTextView
     {
-        public class MvxInputFieldTargetBinding : MvxConvertingTargetBinding, IMvxEditableTextView
-        {
-            protected InputField __inputField;
-            protected InputField _inputField => __inputField ??= Target as InputField;
-            public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;
-            public override Type TargetValueType => typeof(string);
+        
+        protected InputField __inputField;
+        protected InputField _inputField => __inputField ??= Target as InputField;
+        public string CurrentText => _inputField?.text;
 
-            public string CurrentText => _inputField?.text;
 
-            private string _eventName;
+        private string _eventName;
 
-            public MvxInputFieldTargetBinding(InputField target, string eventName) : base(target)
+        public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;
+        public override Type TargetValueType => typeof(string);
+        
+        public MvxInputFieldTargetBinding(InputField target, string eventName) : base(target)
+        { if (_inputField == null)
             {
-                if (_inputField == null)
-                {
-                    MvxBindingLog.Error("Error - UITextField is null in MvxUITextFieldTextTargetBinding");
-                    return;
-                }
+                MvxBindingLog.Error("Error - UITextField is null in MvxUITextFieldTextTargetBinding");
+                return;
+            }
 
-                _eventName = eventName;
-                switch (eventName)
+            _eventName = eventName;
+            switch (eventName)
+            {
+                case MvxUGUIPropertyBinding.InputField_onEndEdit:
+                {
+                    _inputField.onEndEdit.AddListener(HandleValueChanged);
+                    break;
+                }
+                case MvxUGUIPropertyBinding.InputField_onValueChanged:
+                {
+                    _inputField.onValueChanged.AddListener(HandleValueChanged);
+                    break;
+                }
+            }
+        }
+        private void HandleValueChanged(string context)
+        {
+            if (_inputField == null)
+                return;
+            FireValueChanged(_inputField.text);
+        }
+
+        public override void SetValue(object value)
+        {
+            if (_inputField == null)
+                return;
+            _inputField.text = value as string;
+        }
+
+        protected override void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                switch (_eventName)
                 {
                     case MvxUGUIPropertyBinding.InputField_onEndEdit:
                     {
-                        _inputField.onEndEdit.AddListener(HandleValueChanged);
+                        _inputField.onEndEdit.RemoveListener(HandleValueChanged);
                         break;
                     }
                     case MvxUGUIPropertyBinding.InputField_onValueChanged:
                     {
-                        _inputField.onValueChanged.AddListener(HandleValueChanged);
+                        _inputField.onValueChanged.RemoveListener(HandleValueChanged);
                         break;
                     }
                 }
             }
 
-            protected override bool ShouldSkipSetValueForViewSpecificReasons(object target, object value)
-                => this.ShouldSkipSetValueAsHaveNearlyIdenticalNumericText(target, value);
-
-            private void HandleValueChanged(string context)
-            {
-                if (_inputField == null)
-                    return;
-                FireValueChanged(_inputField.text);
-            }
-
-            protected override void SetValueImpl(object target, object value)
-            {
-                if (_inputField == null)
-                    return;
-                _inputField.text = value as string;
-            }
-
-            protected override void Dispose(bool isDisposing)
-            {
-                if (isDisposing)
-                {
-                    switch (_eventName)
-                    {
-                        case MvxUGUIPropertyBinding.InputField_onEndEdit:
-                        {
-                            _inputField.onEndEdit.RemoveListener(HandleValueChanged);
-                            break;
-                        }
-                        case MvxUGUIPropertyBinding.InputField_onValueChanged:
-                        {
-                            _inputField.onValueChanged.RemoveListener(HandleValueChanged);
-                            break;
-                        }
-                    }
-                }
-
-                base.Dispose(isDisposing);
-            }
+            base.Dispose(isDisposing);
         }
     }
 }
