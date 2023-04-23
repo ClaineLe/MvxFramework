@@ -1,3 +1,5 @@
+using System;
+
 namespace MvxFramework.UnityEngine.Binding
 {
     internal static class MvxUGUIPropertyBinding
@@ -9,5 +11,7 @@ namespace MvxFramework.UnityEngine.Binding
         
         public const string Image_sprite = "sprite";
         public const string RawImage_texture = "texture";
+
+        public const string Text_text = "text";
     }
 }

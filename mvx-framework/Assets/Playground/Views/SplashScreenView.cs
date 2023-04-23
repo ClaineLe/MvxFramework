@@ -17,10 +17,10 @@ namespace Playground.Views
 
         public Image ImgBoard;
         public RawImage RawImgBoard;
-        
+
         public Text TxtContext;
 
- 
+
         protected override void OnViewLoaded()
         {
             //Debug.Log("ViewDidLoad");
@@ -28,14 +28,15 @@ namespace Playground.Views
             setter.Bind(this.BtnChinese).To(vm => vm.BtnChineseCommand);
             setter.Bind(this.BtnEnglish).To(vm => vm.BtnEnglishCommand);
             setter.Bind(this.BtnClose).To(vm => vm.BtnCloseCommand);
-            
+
             setter.Bind(this.BtnTexture).To(vm => vm.BtnTextureCommand);
             setter.Bind(this.BtnSprite).To(vm => vm.BtnSpriteCommand);
-            
+
             setter.Bind(this.ImgBoard).To(vm => vm.ImageAssetKey);
             setter.Bind(this.RawImgBoard).To(vm => vm.RawImageAssetKey);
             //this.BindLanguage(TxtContext, "text", "ExampleText");
-            this.BindLanguage(TxtContext, "text", "ExampleText", bindingMode: MvxBindingMode.OneWay);
+            this.BindLanguage(TxtContext, "ExampleText", MvxBindingMode.OneWay);
+            //this.BindLanguage(TxtContext, "text", "ExampleText", bindingMode: MvxBindingMode.OneWay);
             setter.Apply();
         }
     }

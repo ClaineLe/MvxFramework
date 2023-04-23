@@ -79,6 +79,10 @@ namespace MvxFramework.UnityEngine.Binding
             registry.RegisterCustomBindingFactory<RawImage>(
                 MvxUGUIPropertyBinding.RawImage_texture,
                 rawImage => new MvxRawImageTargetBinding(rawImage));
+            
+            registry.RegisterCustomBindingFactory<Text>(
+                MvxUGUIPropertyBinding.Text_text,
+                text => new MvxTextTargetBinding(text));
 
             /*
             registry.RegisterCustomBindingFactory<UIControl>(
@@ -294,7 +298,7 @@ namespace MvxFramework.UnityEngine.Binding
             registry.AddOrOverwrite(typeof(InputField), MvxUGUIPropertyBinding.InputField_onValueChanged);
             registry.AddOrOverwrite(typeof(RawImage), MvxUGUIPropertyBinding.RawImage_texture);
             registry.AddOrOverwrite(typeof(Image), MvxUGUIPropertyBinding.Image_sprite);
-
+            registry.AddOrOverwrite(typeof(Text), MvxUGUIPropertyBinding.Text_text);
             /*
             registry.AddOrOverwrite(typeof(Button), MvxIosPropertyBinding.UIControl_TouchUpInside);
             registry.AddOrOverwrite(typeof(UIBarButtonItem), nameof(UIBarButtonItem.Clicked));

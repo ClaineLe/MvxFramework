@@ -10,17 +10,18 @@ namespace MvxFramework.UnityEngine.Binding.Target
     {
         public class MvxInputFieldTargetBinding : MvxConvertingTargetBinding, IMvxEditableTextView
         {
-            protected InputField View => Target as InputField;
+            protected InputField __inputField;
+            protected InputField _inputField => __inputField ??= Target as InputField;
             public override MvxBindingMode DefaultMode => MvxBindingMode.TwoWay;
             public override Type TargetValueType => typeof(string);
 
-            public string CurrentText => View?.text;
+            public string CurrentText => _inputField?.text;
 
             private string _eventName;
 
             public MvxInputFieldTargetBinding(InputField target, string eventName) : base(target)
             {
-                if (View == null)
+                if (_inputField == null)
                 {
                     MvxBindingLog.Error("Error - UITextField is null in MvxUITextFieldTextTargetBinding");
                     return;
@@ -31,12 +32,12 @@ namespace MvxFramework.UnityEngine.Binding.Target
                 {
                     case MvxUGUIPropertyBinding.InputField_onEndEdit:
                     {
-                        View.onEndEdit.AddListener(HandleValueChanged);
+                        _inputField.onEndEdit.AddListener(HandleValueChanged);
                         break;
                     }
                     case MvxUGUIPropertyBinding.InputField_onValueChanged:
                     {
-                        View.onValueChanged.AddListener(HandleValueChanged);
+                        _inputField.onValueChanged.AddListener(HandleValueChanged);
                         break;
                     }
                 }
@@ -47,18 +48,16 @@ namespace MvxFramework.UnityEngine.Binding.Target
 
             private void HandleValueChanged(string context)
             {
-                var view = View;
-                if (view == null)
+                if (_inputField == null)
                     return;
-                FireValueChanged(view.text);
+                FireValueChanged(_inputField.text);
             }
 
             protected override void SetValueImpl(object target, object value)
             {
-                var view = target as InputField;
-                if (view == null)
+                if (_inputField == null)
                     return;
-                view.text = value as string;
+                _inputField.text = value as string;
             }
 
             protected override void Dispose(bool isDisposing)
@@ -69,12 +68,12 @@ namespace MvxFramework.UnityEngine.Binding.Target
                     {
                         case MvxUGUIPropertyBinding.InputField_onEndEdit:
                         {
-                            View.onEndEdit.RemoveListener(HandleValueChanged);
+                            _inputField.onEndEdit.RemoveListener(HandleValueChanged);
                             break;
                         }
                         case MvxUGUIPropertyBinding.InputField_onValueChanged:
                         {
-                            View.onValueChanged.RemoveListener(HandleValueChanged);
+                            _inputField.onValueChanged.RemoveListener(HandleValueChanged);
                             break;
                         }
                     }

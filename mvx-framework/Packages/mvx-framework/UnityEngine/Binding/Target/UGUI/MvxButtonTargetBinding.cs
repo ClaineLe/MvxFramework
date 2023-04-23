@@ -10,7 +10,8 @@ namespace MvxFramework.UnityEngine.Binding.Target
     {
         public class MvxButtonTargetBinding : MvxTargetBinding
         {
-            private Button _button => Target as Button;
+            private Button __button;
+            private Button _button => __button ??= Target as Button;
             private IMvxCommand _command;
             private string _eventName;
 

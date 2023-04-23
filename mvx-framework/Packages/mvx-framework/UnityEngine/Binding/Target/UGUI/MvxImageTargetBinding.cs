@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Binding;
 using MvvmCross.Binding.Bindings.Target;
 using MvvmCross.Logging;
 using UnityEngine;
@@ -9,23 +10,26 @@ namespace MvxFramework.UnityEngine.Binding.Target
 {
     namespace UGUI
     {
-        public class MvxImageTargetBinding : MvxConvertingTargetBinding
+        public class MvxImageTargetBinding : MvxTargetBinding
         {
+            private Image __image;
+            private Image _image => __image ??= Target as Image;
+            
             public MvxImageTargetBinding(Image image) : base(image)
             {
             }
 
             public override Type TargetValueType => typeof(Sprite);
+            
+            public override MvxBindingMode DefaultMode => MvxBindingMode.OneWay;
 
-            protected override void SetValueImpl(object target, object value)
+            public override void SetValue(object value)
             {
-                var image = (Image)target;
-
                 try
                 {
                     if (TryGetSprite(value, out var sprite) == false)
                         return;
-                    image.sprite = sprite;
+                    _image.sprite = sprite;
                 }
                 catch (Exception ex)
                 {

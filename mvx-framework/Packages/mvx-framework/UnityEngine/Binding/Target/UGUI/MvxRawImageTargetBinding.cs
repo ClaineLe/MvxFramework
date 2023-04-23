@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Extensions.Logging;
+using MvvmCross.Binding;
 using MvvmCross.Binding.Bindings.Target;
 using MvvmCross.Logging;
 using UnityEngine;
@@ -9,23 +10,25 @@ namespace MvxFramework.UnityEngine.Binding.Target
 {
     namespace UGUI
     {
-        public class MvxRawImageTargetBinding : MvxConvertingTargetBinding
+        public class MvxRawImageTargetBinding : MvxTargetBinding
         {
+            private RawImage __rawImage;
+            private RawImage _rawImage => __rawImage ??= Target as RawImage; 
+
+            public override Type TargetValueType => typeof(Texture);
+            public override MvxBindingMode DefaultMode => MvxBindingMode.OneWay;
+            
             public MvxRawImageTargetBinding(RawImage rawImage) : base(rawImage)
             {
             }
 
-            public override Type TargetValueType => typeof(Texture);
-
-            protected override void SetValueImpl(object target, object value)
+            public override void SetValue(object value)
             {
-                var rawImage = (RawImage)target;
-
                 try
                 {
                     if (TryGetTexture(value, out var texture) == false)
                         return;
-                    rawImage.texture = texture;
+                    _rawImage.texture = texture;
                 }
                 catch (Exception ex)
                 {
@@ -38,7 +41,6 @@ namespace MvxFramework.UnityEngine.Binding.Target
             protected bool TryGetTexture(object value, out Texture sprite)
             {
                 string assetPath = $"Icon/{value}";
-                //MvxLogHost.GetLog<MvxUGUIImageTextureTargetBinding>()?.LogInformation($"assetPath:{assetPath}");
                 sprite = Resources.Load<Texture>(assetPath);
                 return sprite != null;
             }
