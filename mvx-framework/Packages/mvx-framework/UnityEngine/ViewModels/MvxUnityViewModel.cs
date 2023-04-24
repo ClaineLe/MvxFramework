@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Localization;
-using MvvmCross.Logging;
 using MvvmCross.Navigation;
 using MvvmCross.Plugin.Messenger;
 using MvvmCross.ViewModels;
@@ -94,5 +93,14 @@ namespace MvxFramework.UnityEngine.ViewModels
                 _disposables.Clear();
             }
         }
+    }
+
+    public abstract class MvxUnityViewModel<TParameter> : MvxUnityViewModel, IMvxUnityViewModel<TParameter>
+    {
+        protected MvxUnityViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
+        {
+        }
+
+        public abstract void Prepare(TParameter parameter);
     }
 }

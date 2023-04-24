@@ -34,7 +34,11 @@ namespace Playground.ViewModels
         {
             ClickButtonCommand = new MvxCommand(() => { navigationService.Navigate<SplashScreeViewModel>(); });
 
-            ToastButtonCommand = new MvxCommand(() => { Debug.Log("Toast"); });
+            ToastButtonCommand = new MvxCommand(() =>
+            {
+                Debug.Log("Toast");
+                navigationService.Navigate<ToastViewModel>();
+            });
             DialogButtonCommand = new MvxCommand(() => { Debug.Log("Dialog");});
             LoadingButtonCommand = new MvxCommand(() => { Debug.Log("Loading");});
             
