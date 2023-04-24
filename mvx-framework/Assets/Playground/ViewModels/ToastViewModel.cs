@@ -7,6 +7,9 @@ namespace Playground.ViewModels
 {
     public class ToastParameter
     {
+        public ushort Sequence;
+        public string Content;
+        public int Duration;
     }
 
     public class ToastViewModel : MvxUnityViewModel<ToastParameter>
