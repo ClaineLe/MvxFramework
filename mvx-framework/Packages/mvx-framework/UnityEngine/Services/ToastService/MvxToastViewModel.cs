@@ -4,7 +4,7 @@ using MvxFramework.UnityEngine.ViewModels;
 
 namespace MvxFramework.UnityEngine.Services
 {
-    public class MvxToastViewModel : MvxUnityViewModel<ToastParameter>
+    public abstract class MvxToastViewModel : MvxUnityViewModel<ToastParameter>
     {
         protected ToastParameter parameter;
         public MvxToastViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
