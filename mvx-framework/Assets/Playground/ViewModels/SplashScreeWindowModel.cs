@@ -39,7 +39,7 @@ namespace Playground.ViewModels
             ToastButtonCommand = new MvxCommand(() =>
             {
                 var toastService = Mvx.IoCProvider.Resolve<IMvxToastService>();
-                toastService.ShowToast<ToastViewModel>("", 1000);
+                toastService.ShowToast<ToastViewModel>("ClaineLe", 5000);
             });
             DialogButtonCommand = new MvxCommand(() => { Debug.Log("Dialog");});
             LoadingButtonCommand = new MvxCommand(() => { Debug.Log("Loading");});

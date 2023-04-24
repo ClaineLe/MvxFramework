@@ -1,18 +1,10 @@
 using Microsoft.Extensions.Logging;
 using MvvmCross.Navigation;
-using MvxFramework.UnityEngine.ViewModels;
-using UnityEngine;
+using MvxFramework.UnityEngine.Services;
 
 namespace Playground.ViewModels
 {
-    public class ToastParameter
-    {
-        public ushort Sequence;
-        public string Content;
-        public int Duration;
-    }
-
-    public class ToastViewModel : MvxUnityViewModel<ToastParameter>
+    public class ToastViewModel : MvxToastViewModel
     {
         public string _context;
 
@@ -24,11 +16,13 @@ namespace Playground.ViewModels
         
         public ToastViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
         {
+            
         }
 
         public override void Prepare(ToastParameter parameter)
         {
-            Context = "Prepare";
+            base.Prepare(parameter);
+            _context = base.parameter.Content;
         }
     }
 }

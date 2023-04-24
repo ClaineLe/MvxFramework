@@ -5,6 +5,8 @@ namespace MvxFramework.UnityEngine.Services
 {
     public interface IMvxToastService
     {
-        public Task<bool> ShowToast<TViewModel>(string message, int duration) where TViewModel : MvxUnityViewModel;
+        Task<bool> ShowToast<TViewModel>(string message, int duration)
+            where TViewModel : MvxToastViewModel;
+        //public Task<bool> ShowToast<TViewModel>(string message, int duration) where TViewModel : MvxUnityViewModel;
     }
 }
