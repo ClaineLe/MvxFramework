@@ -41,7 +41,12 @@ namespace Playground.ViewModels
                 var toastService = Mvx.IoCProvider.Resolve<IMvxToastService>();
                 toastService.ShowToast<ToastViewModel>("ClaineLe", 5000);
             });
-            DialogButtonCommand = new MvxCommand(() => { Debug.Log("Dialog");});
+            DialogButtonCommand = new MvxAsyncCommand(async () =>
+            {
+                var dialogService = Mvx.IoCProvider.Resolve<IMvxDialogService>();
+                var result = await dialogService.ConfirmAsync<DialogViewModel>("内容描述", "会话框", "确认", "取消");
+                Debug.Log($"Dialog.Result:{result}");
+            });
             LoadingButtonCommand = new MvxCommand(() => { Debug.Log("Loading");});
             
             SwitchAnimCommand = new MvxCommand(() =>

@@ -26,7 +26,7 @@ namespace Playground
             var iocProvider = Mvx.IoCProvider;
 
             iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
-            //iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
+            iocProvider.RegisterSingleton<IMvxDialogService>(new MvxDialogService());
             //iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
 
 
