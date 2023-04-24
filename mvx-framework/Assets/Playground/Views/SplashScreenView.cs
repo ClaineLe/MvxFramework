@@ -1,5 +1,8 @@
+using Microsoft.Extensions.Logging;
 using MvvmCross.Binding;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Navigation;
+using MvxFramework.UnityEngine.ViewModels;
 using MvxFramework.UnityEngine.Views;
 using Playground.ViewModels;
 using UnityEngine;

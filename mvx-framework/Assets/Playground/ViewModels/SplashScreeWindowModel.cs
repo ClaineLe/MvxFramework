@@ -3,6 +3,7 @@ using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
 using MvxFramework.UnityEngine.ViewModels;
+using UnityEngine;
 
 namespace Playground.ViewModels
 {
@@ -11,8 +12,10 @@ namespace Playground.ViewModels
         public IMvxCommand ClickButtonCommand { get; }
         public IMvxCommand SwitchAnimCommand { get; }
 
-        public IMvxCommand<string> asdfCommand { get; }
-
+        public IMvxCommand ToastButtonCommand { get; }
+        public IMvxCommand DialogButtonCommand { get; }
+        public IMvxCommand LoadingButtonCommand { get; }
+        
         private MvxInteraction<string> _interaction = new MvxInteraction<string>();
         public IMvxInteraction<string> Interaction => _interaction;
 
@@ -31,6 +34,10 @@ namespace Playground.ViewModels
         {
             ClickButtonCommand = new MvxCommand(() => { navigationService.Navigate<SplashScreeViewModel>(); });
 
+            ToastButtonCommand = new MvxCommand(() => { Debug.Log("Toast"); });
+            DialogButtonCommand = new MvxCommand(() => { Debug.Log("Dialog");});
+            LoadingButtonCommand = new MvxCommand(() => { Debug.Log("Loading");});
+            
             SwitchAnimCommand = new MvxCommand(() =>
             {
                 if (++rawImageIndex >= animNames.Length)
