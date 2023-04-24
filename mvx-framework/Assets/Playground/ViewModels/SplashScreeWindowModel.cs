@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Logging;
+using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.Navigation;
 using MvvmCross.ViewModels;
+using MvxFramework.UnityEngine.Services;
 using MvxFramework.UnityEngine.ViewModels;
 using UnityEngine;
 
@@ -36,8 +38,8 @@ namespace Playground.ViewModels
 
             ToastButtonCommand = new MvxCommand(() =>
             {
-                Debug.Log("Toast");
-                navigationService.Navigate<ToastViewModel>();
+                var toastService = Mvx.IoCProvider.Resolve<IMvxToastService>();
+                toastService.ShowToast<ToastViewModel>("", 1000);
             });
             DialogButtonCommand = new MvxCommand(() => { Debug.Log("Dialog");});
             LoadingButtonCommand = new MvxCommand(() => { Debug.Log("Loading");});

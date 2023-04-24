@@ -1,8 +1,10 @@
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.Localization;
+using MvvmCross.Navigation;
 using MvvmCross.Plugin.JsonLocalization;
 using MvvmCross.ViewModels;
+using MvxFramework.UnityEngine.Services;
 using Playground.ViewModels;
 using UnityEngine.Services.LocalizeService;
 
@@ -14,32 +16,41 @@ namespace Playground
 
         public override void Initialize()
         {
+            /*
             CreatableTypes()
                 .EndingWith("Service")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
+            */
 
-            this.InitializeLocalizeService();
-            this.InitializeText();
-            
+            var iocProvider = Mvx.IoCProvider;
+
+            iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
+            //iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
+            //iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
+
+
+            this.InitializeLocalizeService(iocProvider);
+
+            this.InitializeText(iocProvider);
+
             RegisterAppStart<SplashScreeWindowModel>();
         }
 
-        private void InitializeLocalizeService()
+        private void InitializeLocalizeService(IMvxIoCProvider iocProvider)
         {
             var localizeSvr = new MvxLocalizeService(GeneralNamespace);
             localizeSvr.RegisterLanguage(LANG.en_GB);
             localizeSvr.RegisterLanguage(LANG.zh_CN);
-            Mvx.IoCProvider.RegisterSingleton<IMvxLocalizeService>(localizeSvr);
+            iocProvider.RegisterSingleton<IMvxLocalizeService>(localizeSvr);
         }
-        
-        private void InitializeText()
+
+        private void InitializeText(IMvxIoCProvider iocProvider)
         {
             var rootFolderForResources = "Assets/Resources/Text";
             var builder = new TextProviderBuilder(GeneralNamespace, rootFolderForResources);
-            Mvx.IoCProvider.RegisterSingleton<IMvxTextProviderBuilder>(builder);
-            Mvx.IoCProvider.RegisterSingleton<IMvxTextProvider>(builder.TextProvider);
+            iocProvider.RegisterSingleton<IMvxTextProviderBuilder>(builder);
+            iocProvider.RegisterSingleton<IMvxTextProvider>(builder.TextProvider);
         }
-
     }
 }
