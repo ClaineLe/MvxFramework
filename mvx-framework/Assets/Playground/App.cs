@@ -47,7 +47,7 @@ namespace Playground
 
         private void InitializeText(IMvxIoCProvider iocProvider)
         {
-            var rootFolderForResources = "Assets/Resources/Text";
+            var rootFolderForResources = "Text";
             var builder = new TextProviderBuilder(GeneralNamespace, rootFolderForResources);
             iocProvider.RegisterSingleton<IMvxTextProviderBuilder>(builder);
             iocProvider.RegisterSingleton<IMvxTextProvider>(builder.TextProvider);
