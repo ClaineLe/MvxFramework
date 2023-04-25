@@ -10,6 +10,7 @@ using MvvmCross.Binding.Bindings.Target.Construction;
 using MvvmCross.Converters;
 using MvvmCross.Core;
 using MvvmCross.IoC;
+using MvvmCross.Plugin;
 using MvvmCross.ViewModels;
 using MvvmCross.Views;
 using MvxFramework.UnityEngine.Binding;
@@ -125,6 +126,19 @@ namespace MvxFramework.UnityEngine.Core
             }
         }
         protected virtual List<Type> ValueConverterHolders => new List<Type>();
+
+
+        public override void LoadPlugins(IMvxPluginManager pluginManager)
+        {
+            
+            if (pluginManager == null)
+                throw new ArgumentNullException(nameof(pluginManager));
+
+            pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.Json.Plugin>();
+            pluginManager.EnsurePluginLoaded<MvvmCross.Plugin.Messenger.Plugin>();
+            pluginManager.EnsurePluginLoaded<MvxFramework.UnityEngine.Plugins.ResourceLoader.Plugin>();
+
+        }
     }
 
     public abstract class MvxUnitySetup<TApplication> : MvxUnitySetup where TApplication : class, IMvxApplication, new()
