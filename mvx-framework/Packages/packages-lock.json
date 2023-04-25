@@ -212,7 +212,7 @@
       },
       "url": "https://packages.unity.com"
     },
-    "mvx.framework": {
+    "mvx-framework": {
       "version": "file:mvx-framework",
       "depth": 0,
       "source": "embedded",
