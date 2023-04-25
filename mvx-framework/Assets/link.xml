@@ -1,0 +1,3 @@
+<linker>
+  <assembly fullname="MvxFramework.MvvmCross" preserve="all"/>
+</linker>
