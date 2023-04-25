@@ -59,8 +59,7 @@ namespace MvxFramework.UnityEngine.Presenters
         {
             if (viewType.IsSubclassOf(typeof(MvxUnityWindow)))
             {
-                _log?.LogInformation(
-                    $"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
+                //_log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming window presentation");
                 return new MvxWindowPresentationAttribute(DefAssetPath, resourceModel: true)
                 {
                     ViewModelType = viewModelType,
@@ -68,7 +67,7 @@ namespace MvxFramework.UnityEngine.Presenters
                 };
             }
 
-            _log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming content presentation");
+            //_log?.LogInformation($"PresentationAttribute not found for {viewType.Name}. Assuming content presentation");
             return new MvxContentPresentationAttribute(DefAssetPath, true)
             {
                 ViewType = viewType,
