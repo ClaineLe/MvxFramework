@@ -3,6 +3,7 @@ using System.IO;
 using MvvmCross;
 using MvvmCross.Exceptions;
 using MvvmCross.Plugin.ResourceLoader;
+using UnityEngine;
 
 namespace MvxFramework.UnityEngine.Plugins.ResourceLoader
 {
@@ -11,14 +12,15 @@ namespace MvxFramework.UnityEngine.Plugins.ResourceLoader
     {
         public override void GetResourceStream(string resourcePath, Action<Stream> streamAction)
         {
-            if (!System.IO.File.Exists(resourcePath))
+            var textAsset = Resources.Load<TextAsset>(resourcePath);
+            if (textAsset == null)
             {
                 throw new MvxException("Failed to read file {0}", resourcePath);
             }
 
-            using (var fileStream = System.IO.File.Open(resourcePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (var memStream = new MemoryStream(textAsset.bytes))
             {
-                streamAction?.Invoke(fileStream);
+                streamAction?.Invoke(memStream);
             }
         }
     }

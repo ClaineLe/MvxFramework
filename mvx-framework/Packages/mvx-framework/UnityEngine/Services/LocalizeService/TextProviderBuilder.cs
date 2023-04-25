@@ -19,6 +19,6 @@ namespace UnityEngine.Services.LocalizeService
         };
 
         protected override string GetResourceFilePath(string whichLocalizationFolder, string whichFile)
-            => $"{_rootFolderForResources}/{whichFile}.json";
+            => $"{_rootFolderForResources}/{whichFile}";
     }
 }
