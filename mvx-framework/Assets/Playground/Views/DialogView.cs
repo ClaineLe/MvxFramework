@@ -1,4 +1,3 @@
-using MvxFramework.UnityEngine.Services;
 using MvxFramework.UnityEngine.Views;
 using Playground.ViewModels;
 using UnityEngine.UI;

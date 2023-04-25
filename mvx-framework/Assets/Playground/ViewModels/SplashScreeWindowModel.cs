@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MvvmCross;
 using MvvmCross.Commands;
@@ -41,13 +42,31 @@ namespace Playground.ViewModels
                 var toastService = Mvx.IoCProvider.Resolve<IMvxToastService>();
                 toastService.ShowToast<ToastViewModel>("ClaineLe", 5000);
             });
+            
             DialogButtonCommand = new MvxAsyncCommand(async () =>
             {
                 var dialogService = Mvx.IoCProvider.Resolve<IMvxDialogService>();
                 var result = await dialogService.ConfirmAsync<DialogViewModel>("内容描述", "会话框", "确认", "取消");
                 Debug.Log($"Dialog.Result:{result}");
             });
-            LoadingButtonCommand = new MvxCommand(() => { Debug.Log("Loading");});
+            
+            LoadingButtonCommand = new MvxAsyncCommand(async () =>
+            {
+                var loadingService = Mvx.IoCProvider.Resolve<IMvxLoadingService>();
+                await loadingService.ShowLoading<LoadingViewModel>();
+                
+                await Task.Run(async () =>
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        loadingService.SetProgress(i * 0.01f);
+                        await Task.Delay(17);
+                    }
+                    loadingService.SetProgress(1.0f);
+                });
+                
+                await loadingService.HideLoading();
+            });
             
             SwitchAnimCommand = new MvxCommand(() =>
             {

@@ -27,7 +27,7 @@ namespace Playground
 
             iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
             iocProvider.RegisterSingleton<IMvxDialogService>(new MvxDialogService());
-            //iocProvider.RegisterSingleton<IMvxToastService>(new MvxToastService());
+            iocProvider.RegisterSingleton<IMvxLoadingService>(new MvxLoadingService());
 
 
             this.InitializeLocalizeService(iocProvider);
