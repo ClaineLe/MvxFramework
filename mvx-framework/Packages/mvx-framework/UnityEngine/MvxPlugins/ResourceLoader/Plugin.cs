@@ -1,6 +1,9 @@
+using MvvmCross;
 using MvvmCross.Base;
+using MvvmCross.Plugin;
 
-namespace MvvmCross.Plugin.ResourceLoader.Platforms.UnityEngine
+
+namespace MvxFramework.UnityEngine.Plugins.ResourceLoader
 {
     [MvxPlugin]
     [Preserve(AllMembers = true)]

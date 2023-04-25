@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using MvvmCross;
 using MvvmCross.Exceptions;
+using MvvmCross.Plugin.ResourceLoader;
 
-namespace MvvmCross.Plugin.ResourceLoader.Platforms.UnityEngine
+namespace MvxFramework.UnityEngine.Plugins.ResourceLoader
 {
     [Preserve(AllMembers = true)]
     public class MvxUnityResourceLoader : MvxResourceLoader
