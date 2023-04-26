@@ -18,7 +18,7 @@ namespace MvxFramework.UnityEngine.ViewModels
 
         protected virtual ILoggerFactory LoggerFactory { get; }
 
-        protected virtual ILogger Log => _log ??= LoggerFactory.CreateLogger(GetType().Name);
+        protected virtual ILogger log => _log ??= LoggerFactory.CreateLogger(GetType().Name);
 
 
         private IMvxLocalizeService localizeSvr => Mvx.IoCProvider.Resolve<IMvxLocalizeService>();

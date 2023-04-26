@@ -38,18 +38,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
+  - name: BackGround
     uniqueID: 0
     locked: 0
-  - name: BackGround
-    uniqueID: 1479591027
+  - name: Game3D
+    uniqueID: 0
     locked: 0
-  - name: 3DLayer
-    uniqueID: 1457634819
+  - name: Normal
+    uniqueID: 0
     locked: 0
-  - name: 2DLayer
-    uniqueID: 601703675
+  - name: Plot
+    uniqueID: 0
     locked: 0
-  - name: TopLayer
-    uniqueID: 1550935881
+  - name: Guide
+    uniqueID: 0
+    locked: 0
+  - name: Top
+    uniqueID: 0
+    locked: 0
+  - name: Loading
+    uniqueID: 0
+    locked: 0
+  - name: System
+    uniqueID: 0
     locked: 0
