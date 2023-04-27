@@ -32,10 +32,13 @@ namespace Playground.ViewModels
             "",
         };
 
-        public SplashScreeWindowModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(
-            logFactory, navigationService)
+        public SplashScreeWindowModel()
         {
-            ClickButtonCommand = new MvxCommand(() => { navigationService.Navigate<SplashScreeViewModel>(); });
+            ClickButtonCommand = new MvxCommand(() =>
+            {
+                var navigationService = Mvx.IoCProvider.Resolve<IMvxNavigationService>();
+                navigationService.Navigate<SplashScreeViewModel>();
+            });
 
             ToastButtonCommand = new MvxCommand(() =>
             {

@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging;
-using MvvmCross.Navigation;
 using MvxFramework.UnityEngine.ViewModels;
 
 namespace MvxFramework.UnityEngine.Services
@@ -11,10 +9,6 @@ namespace MvxFramework.UnityEngine.Services
 
         protected DialogParameter parameter;
     
-        public MvxDialogViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
-        {
-        }
-
         public override void Prepare(DialogParameter parameter)
         {
             this.parameter = parameter;

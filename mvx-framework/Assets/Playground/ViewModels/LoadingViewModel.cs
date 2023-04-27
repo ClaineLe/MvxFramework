@@ -33,10 +33,6 @@ namespace Playground.ViewModels
             get => _content;
             set => SetProperty(ref _content, value);
         } 
-        
-        public LoadingViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
-        {
-        }
  
         public override void Prepare(LoadingParameter parameter)
         {

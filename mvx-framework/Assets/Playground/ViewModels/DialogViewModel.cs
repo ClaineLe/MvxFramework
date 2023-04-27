@@ -40,8 +40,7 @@ namespace Playground.ViewModels
         public IMvxCommand ConfirmCommand { get; }
         public IMvxCommand CancelCommand { get; }
 
-        public DialogViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory,
-            navigationService)
+        public DialogViewModel()
         {
             ConfirmCommand = new MvxCommand(() =>
             {

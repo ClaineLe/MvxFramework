@@ -12,14 +12,8 @@ namespace MvxFramework.UnityEngine.ViewModels
 {
     public abstract class MvxUnityViewModel : MvxViewModel, IMvxUnityViewModel
     {
-        private ILogger? _log;
-
-        protected virtual IMvxNavigationService NavigationService { get; }
-
-        protected virtual ILoggerFactory LoggerFactory { get; }
-
-        protected virtual ILogger log => _log ??= LoggerFactory.CreateLogger(GetType().Name);
-
+        private ILogger _log;
+        protected ILogger log => _log ??= Mvx.IoCProvider.Resolve<ILoggerFactory>().CreateLogger(GetType().Name);
 
         private IMvxLocalizeService localizeSvr => Mvx.IoCProvider.Resolve<IMvxLocalizeService>();
 
@@ -28,10 +22,8 @@ namespace MvxFramework.UnityEngine.ViewModels
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
         private Lazy<IMvxMessenger> _messenger => new(() => Mvx.Resolve<IMvxMessenger>());
 
-        public MvxUnityViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService)
+        public MvxUnityViewModel()
         {
-            LoggerFactory = logFactory;
-            NavigationService = navigationService;
             localizeSvr.OnChangedLanguage += OnChangedLanguage;
         }
 
@@ -68,7 +60,7 @@ namespace MvxFramework.UnityEngine.ViewModels
 
         public void CloseSelf()
         {
-            this.NavigationService.Close(this);
+            Mvx.IoCProvider.Resolve<IMvxNavigationService>().Close(this);
         }
 
         ~MvxUnityViewModel()
@@ -97,10 +89,6 @@ namespace MvxFramework.UnityEngine.ViewModels
 
     public abstract class MvxUnityViewModel<TParameter> : MvxUnityViewModel, IMvxUnityViewModel<TParameter>
     {
-        protected MvxUnityViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
-        {
-        }
-
         public abstract void Prepare(TParameter parameter);
     }
 }

@@ -13,11 +13,6 @@ namespace Playground.ViewModels
             get => _context;
             set => SetProperty(ref _context, value);
         }
-        
-        public ToastViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(logFactory, navigationService)
-        {
-            
-        }
 
         public override void Prepare(ToastParameter parameter)
         {

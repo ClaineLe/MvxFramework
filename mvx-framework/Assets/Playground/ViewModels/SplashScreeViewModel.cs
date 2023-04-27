@@ -31,8 +31,7 @@ namespace Playground.ViewModels
             set => SetProperty(ref _rawImageAssetKey, value);
         }
 
-        public SplashScreeViewModel(ILoggerFactory logFactory, IMvxNavigationService navigationService) : base(
-            logFactory, navigationService)
+        public SplashScreeViewModel()
         {
             //Debug.Log("SplashScreeViewModel");
             var localizeSvr = Mvx.IoCProvider.Resolve<IMvxLocalizeService>();
