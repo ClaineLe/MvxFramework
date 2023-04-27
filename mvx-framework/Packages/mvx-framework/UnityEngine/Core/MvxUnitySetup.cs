@@ -16,6 +16,7 @@ using MvvmCross.Views;
 using MvxFramework.UnityEngine.Binding;
 using MvxFramework.UnityEngine.Logging;
 using MvxFramework.UnityEngine.Presenters;
+using MvxFramework.UnityEngine.Services;
 using MvxFramework.UnityEngine.Views;
 
 namespace MvxFramework.UnityEngine.Core
@@ -63,18 +64,48 @@ namespace MvxFramework.UnityEngine.Core
         protected virtual IMvxUnityLayerLocator CreateLayerLocator(IMvxUnityCameraLocator cameraLocator)
             => new MvxUnityLayerLocator(cameraLocator);
 
+        protected virtual IMvxToastService CreateToastService()
+            => new MvxToastService();
+        protected virtual IMvxDialogService CreateDialogService()
+            => new MvxDialogService();
+        protected virtual IMvxLoadingService CreateLoadingService()
+            => new MvxLoadingService();
+        
         protected virtual IMvxUnityCameraLocator InitializeCameraLocator(IMvxIoCProvider iocProvider)
         {
             var cameraLocator = CreateCameraLocator();
             iocProvider.RegisterSingleton(cameraLocator);
             return cameraLocator;
         }
+        
         protected override void InitializeFirstChance(IMvxIoCProvider iocProvider)
         {
             base.InitializeFirstChance(iocProvider);
             var cameraLocator = this.InitializeCameraLocator(iocProvider);
             this.InitializeLayerLocator(iocProvider, cameraLocator);
+            this.InitializeToastService(iocProvider);
+            this.InitializeDialogService(iocProvider);
+            this.InitializeLoadingService(iocProvider);
         }
+
+        protected virtual void InitializeToastService(IMvxIoCProvider iocProvider)
+        {
+            var toastService = CreateToastService();
+            iocProvider.RegisterSingleton(toastService);
+        }       
+        
+        protected virtual void InitializeDialogService(IMvxIoCProvider iocProvider)
+        {
+            var dialogService = CreateDialogService();
+            iocProvider.RegisterSingleton(dialogService);
+        }    
+        
+        protected virtual void InitializeLoadingService(IMvxIoCProvider iocProvider)
+        {
+            var loadingService = CreateLoadingService();
+            iocProvider.RegisterSingleton(loadingService);
+        }
+
         protected virtual void InitializeLayerLocator(IMvxIoCProvider iocProvider, IMvxUnityCameraLocator cameraLocator)
         {
             var layerLocator = CreateLayerLocator(cameraLocator);
