@@ -1,12 +1,17 @@
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 using UnityEngine;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityView : MvxUnityViewController, IMvxUnityView
     {
+        private ILogger _log;
+        protected ILogger log => _log ??= MvxLogHost.GetLog(this.GetType().Name);
         protected virtual string ActivateAnimationName => "Activate";
         protected virtual string PassivateAnimationName => "Passivate";
         protected virtual string DismissAnimationName => PassivateAnimationName; //"Dismiss";
@@ -20,16 +25,20 @@ namespace MvxFramework.UnityEngine.Views
                 Visible = true;
 
             //Debug.Log("Activate - animated:" + animated + ", canPlay:" + CanPlayAnimation());
+            this.ViewWillAppear(animated);
             if (animated && CanPlayAnimation())
                 await PlayAnimation(ActivateAnimationName);
+            this.ViewDidAppear(animated);
             return true;
         }
 
         public virtual async Task<bool> Passivate(bool animated)
         {
             //Debug.Log("Passivate - animated:" + animated + ", canPlay:" + CanPlayAnimation());
+            this.ViewWillDisappear(animated);
             if (animated && CanPlayAnimation())
                 await PlayAnimation(PassivateAnimationName);
+            this.ViewDidDisappear(animated);
             return true;
         }
 
@@ -37,8 +46,10 @@ namespace MvxFramework.UnityEngine.Views
         {
             //Debug.Log("Dismiss - animated:" + animated + ", canPlay:" + CanPlayAnimation());
             Activated = true;
+            this.ViewWillDisappear(animated);
             if (animated && CanPlayAnimation())
                 await PlayAnimation(DismissAnimationName);
+            this.ViewDidDisappear(animated);
             GameObject.Destroy(gameObject);
             return true;
         }    
@@ -83,22 +94,27 @@ namespace MvxFramework.UnityEngine.Views
 
         protected virtual void OnViewWillDisappear()
         {
+            log.LogInformation("OnViewWillDisappear");
         }
 
         protected virtual void OnViewDidAppear()
         {
+            log.LogInformation("OnViewDidAppear");
         }
 
         protected virtual void OnViewWillAppear()
         {
+            log.LogInformation("OnViewWillAppear");
         }
 
         protected virtual void OnViewDidDisappear()
         {
+            log.LogInformation("OnViewDidDisappear");
         }
 
         protected virtual void OnDispose()
         {
+            log.LogInformation("OnDispose");
         }
     }
 

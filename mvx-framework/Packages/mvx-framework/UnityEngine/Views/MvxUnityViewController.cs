@@ -56,5 +56,11 @@ namespace MvxFramework.UnityEngine.Views
             base.ViewDidDisappear(animated);
             ViewModel?.ViewDisappeared();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            ViewModel?.ViewDestroy();
+        }
     }
 }

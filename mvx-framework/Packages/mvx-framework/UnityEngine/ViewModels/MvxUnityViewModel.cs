@@ -6,7 +6,9 @@ using MvvmCross.Localization;
 using MvvmCross.Navigation;
 using MvvmCross.Plugin.Messenger;
 using MvvmCross.ViewModels;
+using UnityEngine;
 using UnityEngine.Services.LocalizeService;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace MvxFramework.UnityEngine.ViewModels
 {
@@ -67,7 +69,43 @@ namespace MvxFramework.UnityEngine.ViewModels
         {
             Dispose(false);
         }
+        
+        public override void ViewCreated()
+        {
+            base.ViewCreated();
+            log.LogInformation("[VM] - ViewCreated");
+        }
 
+        public override void ViewAppearing()
+        {
+            base.ViewAppearing();
+            log.LogInformation("[VM] - ViewAppearing");
+        }
+
+        public override void ViewAppeared()
+        {
+            base.ViewAppeared();
+            log.LogInformation("[VM] - ViewAppeared");
+        }
+
+        public override void ViewDisappearing()
+        {
+            base.ViewDisappearing();
+            log.LogInformation("[VM] - ViewDisappearing");
+        }
+
+        public override void ViewDisappeared()
+        {
+            base.ViewDisappeared();
+            log.LogInformation("[VM] - ViewDisappeared");
+        }
+
+        public override void ViewDestroy(bool viewFinishing = true)
+        {
+            base.ViewDestroy(viewFinishing);
+            log.LogInformation($"[VM] - ViewDestroy{viewFinishing}");
+        }
+        
         public void Dispose()
         {
             Dispose(true);
