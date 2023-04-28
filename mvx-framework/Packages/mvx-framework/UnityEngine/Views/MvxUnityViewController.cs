@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
+using MvvmCross;
 using MvvmCross.Binding.BindingContext;
 using MvvmCross.Logging;
+using MvvmCross.Plugin.Messenger;
 using MvvmCross.ViewModels;
 
 namespace MvxFramework.UnityEngine.Views
@@ -9,7 +13,10 @@ namespace MvxFramework.UnityEngine.Views
     {
         private ILogger _log;
         protected ILogger log => _log ??= MvxLogHost.GetLog(this.GetType().Name);
+        private Lazy<IMvxMessenger> _messenger => new(() => Mvx.Resolve<IMvxMessenger>());
         
+        private readonly List<IDisposable> _disposables = new List<IDisposable>();
+
         protected sealed override void Awake()
         {
             this.AdaptForBinding();
@@ -99,6 +106,34 @@ namespace MvxFramework.UnityEngine.Views
         protected virtual void OnDispose()
         {
             log.LogInformation("OnDispose");
+        }
+        
+        protected void AddDisposable(IDisposable disposable) => _disposables.Add(disposable);
+
+        protected void RemoveDisposable(IDisposable disposable) => _disposables.Remove(disposable);
+
+        public void Publish(MvxMessage message) => _messenger.Value.Publish(message);
+
+        public MvxSubscriptionToken Subscribe<TMessage>(Action<TMessage> action, string tag = null)
+            where TMessage : MvxMessage
+        {
+            var token = _messenger.Value.Subscribe<TMessage>(action, MvxReference.Weak, tag);
+            AddDisposable(token);
+            return token;
+        }
+
+        public MvxSubscriptionToken SubscribeOnMainThread<TMessage>(Action<TMessage> action, string tag = null)
+            where TMessage : MvxMessage
+        {
+            var token = _messenger.Value.SubscribeOnMainThread<TMessage>(action, MvxReference.Weak, tag);
+            AddDisposable(token);
+            return token;
+        }
+
+        public void Unsubscribe(MvxSubscriptionToken token)
+        {
+            RemoveDisposable(token);
+            token.Dispose();
         }
     }
 }

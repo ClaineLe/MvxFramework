@@ -1,10 +1,7 @@
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using MvvmCross.Binding.BindingContext;
-using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 using UnityEngine;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace MvxFramework.UnityEngine.Views
 {
