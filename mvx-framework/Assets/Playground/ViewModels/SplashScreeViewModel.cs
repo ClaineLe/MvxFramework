@@ -35,7 +35,7 @@ namespace Playground.ViewModels
         {
             //Debug.Log("SplashScreeViewModel");
             var localizeSvr = Mvx.IoCProvider.Resolve<IMvxLocalizeService>();
-            BtnCloseCommand = new MvxCommand(CloseSelf);
+            BtnCloseCommand = new MvxCommand(DismissView);
             BtnChineseCommand = new MvxCommand(() => localizeSvr.SetLanguage(LANG.zh_CN));
             BtnEnglishCommand = new MvxCommand(() => localizeSvr.SetLanguage(LANG.en_GB));
             BtnSpriteCommand = new MvxCommand(NextSprite);
