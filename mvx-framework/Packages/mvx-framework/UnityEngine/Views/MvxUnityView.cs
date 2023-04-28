@@ -10,8 +10,6 @@ namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityView : MvxUnityViewController, IMvxUnityView
     {
-        private ILogger _log;
-        protected ILogger log => _log ??= MvxLogHost.GetLog(this.GetType().Name);
         protected virtual string ActivateAnimationName => "Activate";
         protected virtual string PassivateAnimationName => "Passivate";
         protected virtual string DismissAnimationName => PassivateAnimationName; //"Dismiss";
@@ -53,69 +51,6 @@ namespace MvxFramework.UnityEngine.Views
             GameObject.Destroy(gameObject);
             return true;
         }    
-        
-        protected sealed override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-            this.OnViewLoaded();
-        }
-
-        public sealed override void ViewWillDisappear(bool animated)
-        {
-            base.ViewWillDisappear(animated);
-            this.OnViewWillDisappear();
-        }
-
-        public sealed override void ViewDidAppear(bool animated)
-        {
-            base.ViewDidAppear(animated);
-            this.OnViewDidAppear();
-        }
-
-        public sealed override void ViewWillAppear(bool animated)
-        {
-            base.ViewWillAppear(animated);
-            this.OnViewWillAppear();
-        }
-
-        public sealed override void ViewDidDisappear(bool animated)
-        {
-            base.ViewDidDisappear(animated);
-            this.OnViewDidDisappear();
-        }
-
-        protected sealed override void Dispose(bool disposing)
-        {
-            base.Dispose(disposing);
-            this.OnDispose();
-        }
-
-        protected abstract void OnViewLoaded();
-
-        protected virtual void OnViewWillDisappear()
-        {
-            log.LogInformation("OnViewWillDisappear");
-        }
-
-        protected virtual void OnViewDidAppear()
-        {
-            log.LogInformation("OnViewDidAppear");
-        }
-
-        protected virtual void OnViewWillAppear()
-        {
-            log.LogInformation("OnViewWillAppear");
-        }
-
-        protected virtual void OnViewDidDisappear()
-        {
-            log.LogInformation("OnViewDidDisappear");
-        }
-
-        protected virtual void OnDispose()
-        {
-            log.LogInformation("OnDispose");
-        }
     }
 
     public abstract class MvxUnityView<TViewModel> : MvxUnityView, IMvxUnityView<TViewModel>

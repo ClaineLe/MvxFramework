@@ -1,10 +1,15 @@
+using Microsoft.Extensions.Logging;
 using MvvmCross.Binding.BindingContext;
+using MvvmCross.Logging;
 using MvvmCross.ViewModels;
 
 namespace MvxFramework.UnityEngine.Views
 {
     public abstract class MvxUnityViewController : MvxUnityAnimationView
     {
+        private ILogger _log;
+        protected ILogger log => _log ??= MvxLogHost.GetLog(this.GetType().Name);
+        
         protected sealed override void Awake()
         {
             this.AdaptForBinding();
@@ -26,41 +31,74 @@ namespace MvxFramework.UnityEngine.Views
         public MvxViewModelRequest Request { get; set; }
 
         public IMvxBindingContext BindingContext { get; set; }
+        protected abstract void OnViewLoaded();
 
-        protected override void ViewDidLoad()
+        protected sealed override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            this.OnViewLoaded();
             ViewModel?.ViewCreated();
         }
 
-        public override void ViewWillAppear(bool animated)
+        public sealed override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
+            this.OnViewWillAppear();
             ViewModel?.ViewAppearing();
         }
 
-        public override void ViewDidAppear(bool animated)
+        public sealed override void ViewDidAppear(bool animated)
         {
             base.ViewDidAppear(animated);
+            this.OnViewDidAppear();
             ViewModel?.ViewAppeared();
         }
 
-        public override void ViewWillDisappear(bool animated)
+        public sealed override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
+            this.OnViewWillDisappear();
             ViewModel?.ViewDisappearing();
         }
 
-        public override void ViewDidDisappear(bool animated)
+        public sealed override void ViewDidDisappear(bool animated)
         {
             base.ViewDidDisappear(animated);
+            this.OnViewDidDisappear();
             ViewModel?.ViewDisappeared();
         }
 
-        protected override void Dispose(bool disposing)
+        protected sealed override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+            this.OnDispose();
             ViewModel?.ViewDestroy();
+        }
+        
+        
+        protected virtual void OnViewWillDisappear()
+        {
+            log.LogInformation("OnViewWillDisappear");
+        }
+
+        protected virtual void OnViewDidAppear()
+        {
+            log.LogInformation("OnViewDidAppear");
+        }
+
+        protected virtual void OnViewWillAppear()
+        {
+            log.LogInformation("OnViewWillAppear");
+        }
+
+        protected virtual void OnViewDidDisappear()
+        {
+            log.LogInformation("OnViewDidDisappear");
+        }
+
+        protected virtual void OnDispose()
+        {
+            log.LogInformation("OnDispose");
         }
     }
 }
