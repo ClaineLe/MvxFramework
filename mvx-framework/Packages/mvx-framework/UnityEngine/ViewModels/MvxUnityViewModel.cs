@@ -12,8 +12,7 @@ namespace MvxFramework.UnityEngine.ViewModels
 {
     public abstract class MvxUnityViewModel : MvxViewModel, IMvxUnityViewModel
     {
-        private ILogger _log;
-        protected ILogger log => _log ??= Mvx.IoCProvider.Resolve<ILoggerFactory>().CreateLogger(GetType().Name);
+        protected ILogger log { get; }
 
         private IMvxLocalizeService localizeSvr => Mvx.IoCProvider.Resolve<IMvxLocalizeService>();
 
@@ -22,8 +21,9 @@ namespace MvxFramework.UnityEngine.ViewModels
         private readonly List<IDisposable> _disposables = new List<IDisposable>();
         private Lazy<IMvxMessenger> _messenger => new(() => Mvx.Resolve<IMvxMessenger>());
 
-        public MvxUnityViewModel()
+        protected MvxUnityViewModel()
         {
+            log = Mvx.IoCProvider.Resolve<ILoggerFactory>().CreateLogger(GetType().Name);
             localizeSvr.OnChangedLanguage += OnChangedLanguage;
         }
 
@@ -74,10 +74,13 @@ namespace MvxFramework.UnityEngine.ViewModels
             GC.SuppressFinalize(this);
         }
 
+        private bool disposed = false;
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+
+            if (disposed == false)
             {
+                disposed = true;
                 localizeSvr.OnChangedLanguage -= OnChangedLanguage;
 
                 foreach (var disposable in _disposables)
