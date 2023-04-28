@@ -104,6 +104,7 @@ namespace MvxFramework.UnityEngine.ViewModels
         {
             base.ViewDestroy(viewFinishing);
             log.LogInformation($"[VM] - ViewDestroy{viewFinishing}");
+            this.Dispose();
         }
         
         public void Dispose()
