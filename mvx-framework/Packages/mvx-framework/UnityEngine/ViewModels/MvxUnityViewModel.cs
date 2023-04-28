@@ -60,7 +60,7 @@ namespace MvxFramework.UnityEngine.ViewModels
             token.Dispose();
         }
 
-        public void CloseSelf()
+        public void DismissView()
         {
             Mvx.IoCProvider.Resolve<IMvxNavigationService>().Close(this);
         }

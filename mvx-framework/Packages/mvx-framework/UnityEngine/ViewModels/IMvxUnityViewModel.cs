@@ -4,7 +4,7 @@ namespace MvxFramework.UnityEngine.ViewModels
 {
     public interface IMvxUnityViewModel : IMvxViewModel
     {
-        void CloseSelf();
+        void DismissView();
     }
 
     public interface IMvxUnityViewModel<in TParameter> : IMvxUnityViewModel, IMvxViewModel<TParameter>
